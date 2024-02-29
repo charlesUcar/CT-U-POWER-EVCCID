@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "76da9477-d80f-4598-bc87-3d37a676a494"
+      }
+    },
+    "owner": "charlesx19"
   }
 }
