@@ -2,6 +2,12 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
+  NavigationAction,
+  NavigationContainer,
+} from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+import {
   Keyboard,
   StyleSheet,
   Text,
@@ -14,8 +20,9 @@ import {
   Alert,
 } from "react-native";
 import images from "./app/images";
+import HomeScreen from "./app/containers/home/Home";
 
-export default function App() {
+function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [password, setPassword] = useState("");
@@ -35,19 +42,21 @@ export default function App() {
   };
 
   const handleSubmit = () => {
-    if (email && isValidEmail && password && isValidPassword) {
-      // 在這裡處理提交邏輯
-      console.log("Email submitted:", email);
-    } else if (!email || !isValidEmail) {
-      alert("Please enter a valid email address.");
-      return;
-    } else if (!password || !isValidPassword) {
-      Alert.alert(
-        "Invalid Password",
-        "Password must be at least 8 characters long."
-      );
-      return;
-    }
+    navigation.push("Home");
+
+    // if (email && isValidEmail && password && isValidPassword) {
+    //   // 在這裡處理提交邏輯
+    //   navigation.push("Home");
+    // } else if (!email || !isValidEmail) {
+    //   alert("Please enter a valid email address.");
+    //   return;
+    // } else if (!password || !isValidPassword) {
+    //   Alert.alert(
+    //     "Invalid Password",
+    //     "Password must be at least 8 characters long."
+    //   );
+    //   return;
+    // }
     return;
   };
 
@@ -128,10 +137,50 @@ export default function App() {
           <TouchableOpacity style={styles.submitBtn} onPress={handleSubmit}>
             <Text style={styles.submitBtnText}>Log in</Text>
           </TouchableOpacity>
+
         </View>
         <StatusBar style="auto" />
       </View>
     </TouchableWithoutFeedback>
+  );
+}
+
+function DetailsScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Text>Details Screen</Text>
+      <Button
+        title="Go to Details... again"
+        onPress={() => navigation.push("Home")}
+      />
+      <Button
+        title="Go to Login"
+        onPress={() => navigation.navigate("Login")}
+      />
+      <Button title="Go back" onPress={() => navigation.goBack()} />
+      <Button
+        title="Go back to first screen in stack"
+        onPress={() => navigation.popToTop()}
+      />
+    </View>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+        initialRouteName="Login"
+      >
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
