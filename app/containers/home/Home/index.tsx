@@ -61,10 +61,12 @@ function HomeScreen({ navigation }) {
           style={styles.createActionBtnBox}
           onPress={() => {
             console.log("Navigation To Scan Screen");
-            // navigation.push('Scan');
+            navigation.push("Scan");
           }}
         >
-          <Text style={styles.createBtnAreaPlusIcon}>+</Text>
+          <View style={styles.createBtnAreaPlusIconBox}>
+            <MaterialIcons name="add" size={24} color="black" />
+          </View>
           <Text style={styles.createBtnAreaPlusText}>開始新增</Text>
         </TouchableOpacity>
       </View>

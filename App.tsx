@@ -21,6 +21,8 @@ import {
 } from "react-native";
 import images from "./app/images";
 import HomeScreen from "./app/containers/home/Home";
+import ScanScreen from "./app/containers/scan/Scan";
+import VinTypingScreen from "./app/containers/vinTyping/VinTyping";
 
 function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -130,14 +132,13 @@ function LoginScreen({ navigation }) {
         <View
           style={{
             width: "100%",
-            paddingLeft: "10%",
-            paddingRight: "10%",
+            paddingLeft: 32,
+            paddingRight: 32,
           }}
         >
           <TouchableOpacity style={styles.submitBtn} onPress={handleSubmit}>
             <Text style={styles.submitBtnText}>Log in</Text>
           </TouchableOpacity>
-
         </View>
         <StatusBar style="auto" />
       </View>
@@ -179,6 +180,8 @@ export default function App() {
       >
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Scan" component={ScanScreen} />
+        <Stack.Screen name="VinTyping" component={VinTypingScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -213,8 +216,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     width: "100%",
     // backgroundColor: "lightgreen",
-    paddingLeft: "10%",
-    paddingRight: "10%",
+    paddingLeft: 32,
+    paddingRight: 32,
     marginBottom: 24,
   },
   passwordContainer: {
@@ -223,8 +226,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     width: "100%",
     // backgroundColor: "lightgreen",
-    paddingLeft: "10%",
-    paddingRight: "10%",
+    paddingLeft: 32,
+    paddingRight: 32,
     marginBottom: 24,
   },
   label: {

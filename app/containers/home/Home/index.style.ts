@@ -108,14 +108,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 4,
   },
-  createBtnAreaPlusIcon: {
-    textAlign: "center",
-    lineHeight: 72,
+  createBtnAreaPlusIconBox: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
     width: 75,
     height: 75,
     backgroundColor: "#FFC200",
     fontSize: 36,
     borderRadius: 50,
+  },
+  createBtnAreaPlusIcon: {
+    transform: [{ rotate: "45deg" }],
+    fontSize: 20,
+    fontWeight: "800",
   },
   createBtnAreaPlusText: {
     fontSize: 10,
