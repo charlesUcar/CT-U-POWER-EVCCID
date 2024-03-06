@@ -182,7 +182,7 @@ function ScanScreen({ navigation }) {
               style={{ width: "100%", height: "100%" }}
               device={device}
               format={format}
-              fps={30}
+              fps={24}
               orientation="portrait"
               codeScanner={codeScanner}
               torch={torch ? "on" : "off"}
@@ -208,13 +208,13 @@ function ScanScreen({ navigation }) {
           <Text style={styles.toggleInputStyleText}>我要自己輸入</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.temp}>
+      {/* <View style={styles.temp}>
         <Text>Scan</Text>
         <Text>Camera state is: {isActive ? "true" : "false"}</Text>
         <Text>{hasPermission ? "相機權限：true" : "相機權限：false"}</Text>
-        {/* <Text>{scannedType}</Text> */}
+        <Text>{scannedType}</Text>
         <Text>{scannedCode}</Text>
-      </View>
+      </View> */}
     </View>
   );
 }

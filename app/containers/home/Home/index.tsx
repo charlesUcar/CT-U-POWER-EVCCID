@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import images from "../../../images";
+import Images from "../../../images";
 import styles from "./index.style";
 import React, { useState } from "react";
 
@@ -35,7 +35,7 @@ function HomeScreen({ navigation }) {
         <View style={styles.topArea}>
           <View style={styles.logoTypographyImageBox}>
             <Image
-              source={images.LogoTypography}
+              source={Images.LogoTypography}
               style={styles.logoTypographyImage}
             />
           </View>

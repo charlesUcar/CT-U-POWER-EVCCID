@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { MaterialIcons } from "@expo/vector-icons";
+import Toast from "react-native-toast-message";
 import {
   Text,
   View,
@@ -17,15 +18,21 @@ import styles from "./index.style";
 import React, { useEffect, useRef, useState } from "react";
 
 function FinalConfirmScreen({ route, navigation }) {
-  const { vin } = route.params;
+  const { vin, vehicleId, evccId } = route.params;
 
-  const handleSubmitUserInputVin = () => {
+  const handleSubmitBinding = () => {
     // 7J3ZZ56T7834500003, JS3TD62V1Y4107896
-    Alert.alert("V.I.N 已送出");
+    // Alert.alert("V.I.N 已送出");
+    Toast.show({
+      type: "success",
+      text1: "Hello",
+      text2: "This is some something 👋",
+      position: "bottom",
+    });
   };
 
   const handleUserCancle = () => {
-    navigation.navigate("Scan");
+    navigation.navigate("Home");
   };
 
   return (
@@ -33,12 +40,20 @@ function FinalConfirmScreen({ route, navigation }) {
       <View style={styles.mainContainer}>
         <Text style={styles.title}>建立車輛與 EVCCID 綁定</Text>
         <View style={styles.confirmInfoContainer}>
-          {/* <Text style={styles.infoTitle}>V.I.N</Text> */}
-          <Text style={styles.infoText}>{vin}</Text>
+          <View style={styles.confirmInfos}>
+            <View style={styles.confirmInfoBox}>
+              <Text style={styles.confirmInfoTitle}>V.I.N</Text>
+              <Text style={[styles.confirmInfoTitle]}>{vin}</Text>
+            </View>
+            <View style={styles.confirmInfoBox}>
+              <Text style={styles.confirmInfoTitle}>EVCCID</Text>
+              <Text style={[styles.confirmInfoTitle]}>{evccId}</Text>
+            </View>
+          </View>
           <View style={styles.submitBtnContainer}>
             <TouchableOpacity
               style={styles.submitUserInputVinBtn}
-              onPress={handleSubmitUserInputVin}
+              onPress={handleSubmitBinding}
             >
               <Text style={styles.submitUserInputVinBtnText}>確認送出</Text>
             </TouchableOpacity>

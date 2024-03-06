@@ -30,16 +30,6 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#fff",
   },
-  // cameraContainer
-  actionContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
-  // inputFormContainer
   confirmInfoContainer: {
     flex: 0,
     alignItems: "center",
@@ -48,6 +38,27 @@ const styles = StyleSheet.create({
     // backgroundColor: "lightgreen",
     paddingLeft: 16,
     paddingRight: 16,
+  },
+  confirmInfos: {
+    width: "100%",
+    borderTopWidth: 2,
+    borderColor: "#FFF",
+    // backgroundColor: "red",
+  },
+  confirmInfoBox: {
+    flex: 0,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    paddingVertical: 24,
+    borderBottomWidth: 2,
+    borderColor: "#FFF",
+    // backgroundColor: "gray",
+  },
+  confirmInfoTitle: {
+    fontSize: 16,
+    fontWeight: "400",
+    color: "#FFF",
   },
   infoTitle: {
     marginBottom: 12, // 調整標籤和輸入框之間的間距

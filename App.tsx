@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
+import Toast from "react-native-toast-message";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   NavigationAction,
@@ -168,6 +169,7 @@ export default function App() {
         <Stack.Screen name="PlugIn" component={PlugInScreen} />
         <Stack.Screen name="FinalConfirm" component={FinalConfirmScreen} />
       </Stack.Navigator>
+      <Toast />
     </NavigationContainer>
   );
 }
