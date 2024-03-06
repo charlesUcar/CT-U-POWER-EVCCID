@@ -33,7 +33,7 @@ function VinTypingScreen({ navigation }) {
       setIsUserInputVinError(true);
       return;
     }
-    Alert.alert("V.I.N 已送出");
+    navigation.navigate("VinConfirm");
   };
 
   const isValidVin = (vin: string) => {
@@ -56,7 +56,7 @@ function VinTypingScreen({ navigation }) {
   };
 
   const handleToggleInputStyle = () => {
-    navigation.navigate("Scan");
+    navigation.goBack();
   };
 
   const handleClickCloseBtn = () => {

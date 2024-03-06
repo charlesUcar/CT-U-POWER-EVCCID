@@ -1,51 +1,123 @@
-import { Text, View, TouchableOpacity, AppState, Alert } from "react-native";
-import styles from "./index.style";
-import React, { useEffect, useRef, useState } from "react";
+import { StatusBar } from "expo-status-bar";
+import { MaterialIcons } from "@expo/vector-icons";
 import {
+  Text,
+  View,
+  Button,
+  TouchableWithoutFeedback,
+  Keyboard,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  AppState,
+  Alert,
+  Linking,
+  AlertButton,
+} from "react-native";
+import images from "../../../images";
+import styles from "./index.style";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import {
+  Code,
   Camera,
   useCameraDevice,
   useCameraFormat,
   useCameraPermission,
   useCodeScanner,
 } from "react-native-vision-camera";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsForeground } from "../../../hooks/useIsForeground";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+
+const showCodeAlert = (value: string, onDismissed: () => void): void => {
+  const buttons: AlertButton[] = [
+    {
+      text: "Close",
+      style: "cancel",
+      onPress: onDismissed,
+    },
+  ];
+  if (value.startsWith("http")) {
+    buttons.push({
+      text: "Open URL",
+      onPress: () => {
+        Linking.openURL(value);
+        onDismissed();
+      },
+    });
+  }
+  Alert.alert("Scanned Code", value, buttons);
+};
 
 function ScanScreen({ navigation }) {
   const { hasPermission, requestPermission } = useCameraPermission();
-  const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
+  // const appState = useRef(AppState.currentState);
+  // const [appStateVisible, setAppStateVisible] = useState(appState.current);
+  // const [isScanMode, setIsScanMode] = useState<boolean>(true);
   const [scannedType, setScannedType] = useState<string>("");
   const [scannedCode, setScannedCode] = useState<string>("");
-  const isFocused = useIsFocused();
+  const [userInputCode, setUserInputCode] = useState<string>("");
 
-  const [isActive, setIsActive] = useState<boolean>(
-    isFocused && appStateVisible === "active"
-  );
-  // const devices = Camera.getAvailableCameraDevices();
+  // 1. Use a simple default back camera
   const device = useCameraDevice("back");
-  const format = useCameraFormat(device, [{ videoResolution: "max" }]);
+
+  // 2. Only activate Camera when the app is focused and this screen is currently opened
+  const isFocused = useIsFocused();
+  const isForeground = useIsForeground();
+  const [isActive, setIsActive] = useState<boolean>(isFocused && isForeground);
+
+  // 3. (Optional) enable a torch setting
+  const [torch, setTorch] = useState(false);
+
+  // 4. On code scanned, we show an aler to the user
+  const isShowingAlert = useRef(false);
+  const onCodeScanned = useCallback((codes: Code[]) => {
+    // console.log(`Scanned ${codes.length} codes:`, codes);
+    const type = codes[0]?.type;
+    const value = codes[0]?.value;
+    if (value == null) return;
+    if (value.length !== 17) return;
+    // if (isShowingAlert.current) return;
+    // showCodeAlert(value, () => {
+    //   isShowingAlert.current = false;
+    // });
+    // isShowingAlert.current = true;
+
+    setScannedType(type);
+    setScannedCode(value);
+
+    if (isValidVin(value)) {
+      setIsActive(false);
+      // Alert.alert("GET VIN", value);
+      console.log(value);
+      navigation.navigate("VinConfirm", {
+        vin: value,
+      });
+    }
+  }, []);
+
+  // 5. Initialize the Code Scanner to scan QR codes and Barcodes
   const codeScanner = useCodeScanner({
     codeTypes: ["qr", "code-39"],
-    onCodeScanned: (codes: any) => {
-      setScannedType(codes[0].type);
-      setScannedCode(codes[0].value);
-      if (codes[0].value.length === 17) {
-        if (isValidVin(codes[0].value)) {
-          Alert.alert("GET V.I.N", codes[0].value);
-          console.log(codes[0].value);
-          setIsActive(false);
-        }
-      }
-    },
+    onCodeScanned: onCodeScanned,
   });
 
-  const handleToggleInputStyle = () => {
-    navigation.navigate("VinTyping");
-  };
-
-  const handleClickCloseBtn = () => {
-    navigation.navigate("Home");
-  };
+  const format = useCameraFormat(device, [{ videoResolution: "max" }]);
+  // const codeScanner = useCodeScanner({
+  //   codeTypes: ["qr", "ean-13", "code-39"],
+  //   onCodeScanned: (codes: any) => {
+  //     setScannedType(codes[0].type);
+  //     setScannedCode(codes[0].value);
+  //     if (codes[0].value.length === 17) {
+  //       if (isValidVin(codes[0].value)) {
+  //         Alert.alert("GET VIN", codes[0].value);
+  //         console.log(codes[0].value);
+  //         setIsActive(false);
+  //       }
+  //     }
+  //     // console.log(`Scanned ${codes.length} codes!`)
+  //     // console.log(codes);
+  //   },
+  // });
 
   const isValidVin = (vin: string) => {
     // 檢查是否有17個字符
@@ -66,21 +138,34 @@ function ScanScreen({ navigation }) {
     return true;
   };
 
+  const handleToggleInputStyle = () => {
+    navigation.push("VinTyping");
+  };
+
+  const handleClickCloseBtn = () => {
+    navigation.navigate("Home");
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      setIsActive(true);
+
+      return () => {
+        setIsActive(false);
+      };
+    }, [])
+  );
+
   useEffect(() => {
-    console.log(navigation);
     requestPermission();
+  }, []);
 
-    return () => {
-      setIsActive(false);
-    };
-  }, [navigation]);
-
-  if (device == null)
-    return (
-      <View>
-        <Text>ERROR</Text>
-      </View>
-    );
+  // if (device == null)
+  //   return (
+  //     <View>
+  //       <Text>ERROR</Text>
+  //     </View>
+  //   );
   return (
     <View style={styles.container}>
       <View style={styles.mainContainer}>
@@ -92,7 +177,7 @@ function ScanScreen({ navigation }) {
         <Text style={styles.title}>QR & Barcode</Text>
 
         <View style={styles.cameraContainer}>
-          {hasPermission && (
+          {hasPermission && device != null && (
             <Camera
               style={{ width: "100%", height: "100%" }}
               device={device}
@@ -100,6 +185,7 @@ function ScanScreen({ navigation }) {
               fps={30}
               orientation="portrait"
               codeScanner={codeScanner}
+              torch={torch ? "on" : "off"}
               isActive={isActive}
             />
           )}
@@ -122,14 +208,13 @@ function ScanScreen({ navigation }) {
           <Text style={styles.toggleInputStyleText}>我要自己輸入</Text>
         </TouchableOpacity>
       </View>
-      {/* <View style={styles.temp}>
+      <View style={styles.temp}>
         <Text>Scan</Text>
-        <Text>Current state is: {appStateVisible}</Text>
         <Text>Camera state is: {isActive ? "true" : "false"}</Text>
         <Text>{hasPermission ? "相機權限：true" : "相機權限：false"}</Text>
-        <Text>{scannedType}</Text>
+        {/* <Text>{scannedType}</Text> */}
         <Text>{scannedCode}</Text>
-      </View> */}
+      </View>
     </View>
   );
 }

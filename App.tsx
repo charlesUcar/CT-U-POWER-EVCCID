@@ -23,6 +23,9 @@ import images from "./app/images";
 import HomeScreen from "./app/containers/home/Home";
 import ScanScreen from "./app/containers/scan/Scan";
 import VinTypingScreen from "./app/containers/vinTyping/VinTyping";
+import VinConfirmScreen from "./app/containers/binding/VinConfirm";
+import PlugInScreen from "./app/containers/binding/PlugIn";
+import FinalConfirmScreen from "./app/containers/binding/FinalConfirm";
 
 function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -146,27 +149,6 @@ function LoginScreen({ navigation }) {
   );
 }
 
-function DetailsScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Details Screen</Text>
-      <Button
-        title="Go to Details... again"
-        onPress={() => navigation.push("Home")}
-      />
-      <Button
-        title="Go to Login"
-        onPress={() => navigation.navigate("Login")}
-      />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-      <Button
-        title="Go back to first screen in stack"
-        onPress={() => navigation.popToTop()}
-      />
-    </View>
-  );
-}
-
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -182,6 +164,9 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Scan" component={ScanScreen} />
         <Stack.Screen name="VinTyping" component={VinTypingScreen} />
+        <Stack.Screen name="VinConfirm" component={VinConfirmScreen} />
+        <Stack.Screen name="PlugIn" component={PlugInScreen} />
+        <Stack.Screen name="FinalConfirm" component={FinalConfirmScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
