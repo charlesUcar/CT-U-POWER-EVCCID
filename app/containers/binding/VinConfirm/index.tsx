@@ -64,13 +64,14 @@ function VinConfirmScreen({ route, navigation }) {
       vin: "JS3TD62V1Y4107896",
       vehicleId: "8a6e1db5-6f4b-4c8c-90de-b74fcca49e49",
     });
-    setIsLoading(false);
   };
 
   useFocusEffect(
     useCallback(() => {
+      // 進入頁面前
+      setIsLoading(false);
       return () => {
-        setIsLoading(false);
+        // 離開頁面前
       };
     }, [])
   );
@@ -91,9 +92,13 @@ function VinConfirmScreen({ route, navigation }) {
               style={styles.submitUserInputVinBtn}
               onPress={handleSubmitUserInputVin}
             >
-              <Text style={styles.submitUserInputVinBtnText}>
-                {isLoading ? "送出中，請稍後" : "正確，下一步"}
-              </Text>
+              {isLoading ? (
+                <Loading />
+              ) : (
+                <Text style={styles.submitUserInputVinBtnText}>
+                  正確，下一步
+                </Text>
+              )}
             </TouchableOpacity>
           </View>
           <View style={styles.cancleBtnContainer}>

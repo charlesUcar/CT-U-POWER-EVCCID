@@ -16,7 +16,7 @@ import {
 } from "react-native";
 import images from "../../../images";
 import styles from "./index.style";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import {
   Code,
   Camera,
@@ -27,6 +27,8 @@ import {
 } from "react-native-vision-camera";
 import { useIsForeground } from "../../../hooks/useIsForeground";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import AppContext from "../../../context/AppContext";
+
 
 const showCodeAlert = (value: string, onDismissed: () => void): void => {
   const buttons: AlertButton[] = [
@@ -49,6 +51,7 @@ const showCodeAlert = (value: string, onDismissed: () => void): void => {
 };
 
 function ScanScreen({ navigation }) {
+  const {globalVariable} = useContext(AppContext);
   const { hasPermission, requestPermission } = useCameraPermission();
   // const appState = useRef(AppState.currentState);
   // const [appStateVisible, setAppStateVisible] = useState(appState.current);
@@ -56,6 +59,8 @@ function ScanScreen({ navigation }) {
   const [scannedType, setScannedType] = useState<string>("");
   const [scannedCode, setScannedCode] = useState<string>("");
   const [userInputCode, setUserInputCode] = useState<string>("");
+
+  const { setGlobalBackgroundColor } = useContext(AppContext);
 
   // 1. Use a simple default back camera
   const device = useCameraDevice("back");
@@ -149,7 +154,7 @@ function ScanScreen({ navigation }) {
   useFocusEffect(
     useCallback(() => {
       setIsActive(true);
-
+      setGlobalBackgroundColor("#2C333F");
       return () => {
         setIsActive(false);
       };

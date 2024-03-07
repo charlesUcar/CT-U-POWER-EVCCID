@@ -66,7 +66,11 @@ const styles = StyleSheet.create({
     color: "#FFF",
   },
   submitBtnContainer: {
+    flex: 0,
+    justifyContent: "center",
+    alignItems: "center",
     width: "100%",
+    minHeight: 60,
     marginTop: 32,
     paddingTop: 19,
     paddingBottom: 19,

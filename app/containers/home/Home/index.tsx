@@ -12,10 +12,21 @@ import {
 } from "react-native";
 import Images from "../../../images";
 import styles from "./index.style";
-import React, { useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
+import AppContext from "../../../context/AppContext";
+import { useFocusEffect } from "@react-navigation/native";
 
 function HomeScreen({ navigation }) {
   const [isListOpen, setIsListOpen] = useState<boolean>(false);
+  const { setGlobalBackgroundColor } = useContext(AppContext);
+
+  useFocusEffect(
+    useCallback(() => {
+      // 進入Home頁面將全域背景換成#C1DFE2
+      setGlobalBackgroundColor("#C1DFE2");
+      return () => {};
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
@@ -60,7 +71,7 @@ function HomeScreen({ navigation }) {
         <TouchableOpacity
           style={styles.createActionBtnBox}
           onPress={() => {
-            console.log("Navigation To Scan Screen");
+            setGlobalBackgroundColor("#2C333F");
             navigation.push("Scan");
           }}
         >
