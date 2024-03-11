@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "lightgreen",
   },
+
   mainContainer: {
     flex: 4,
     alignItems: "center",
@@ -35,19 +36,25 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 32,
     backgroundColor: "#2C333F",
   },
-  closeBtnBox: {
-    width: "100%",
+  header: {
     flex: 0,
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
+    width: "100%",
+    // backgroundColor: "red",
   },
+  closeBtnBox: {},
   closeBtn: {
     padding: 16,
     // marginBottom: 33,
     // width: "100%",
     fontSize: 24,
     color: "#fff",
+  },
+  torchBox: {},
+  torchIcon: {
+    padding: 16,
   },
   title: {
     marginBottom: 33,
@@ -60,8 +67,10 @@ const styles = StyleSheet.create({
     flex: 0,
     alignItems: "center",
     justifyContent: "center",
-    width: "100%",
+    width: "95%",
     height: 300,
+    borderRadius: 32,
+    overflow: "hidden",
     // backgroundColor: "red",
   },
   cameraBorderContainer: {
@@ -188,7 +197,7 @@ const styles = StyleSheet.create({
   },
   submitUserInputVinBtnText: {
     fontSize: 15,
-    fontWeight: '600',
+    fontWeight: "600",
     textAlign: "center",
     color: "#FFC200",
   },

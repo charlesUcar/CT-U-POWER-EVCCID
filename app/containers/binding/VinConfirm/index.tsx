@@ -18,6 +18,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import Loading from "../../../components/animate/Loading";
 import { create } from "apisauce";
 import { useFocusEffect } from "@react-navigation/native";
+import { createVehicleByVin, getVehicle } from "../../../services/Api";
 
 export type vehicle = {
   code: String;
@@ -49,21 +50,35 @@ function VinConfirmScreen({ route, navigation }) {
   const handleSubmitUserInputVin = async () => {
     // 7J3ZZ56T7834500003, JS3TD62V1Y4107896
     setIsLoading(true);
-    // const { headers } = await api.post("/vehicle", {
-    //   vin,
-    // });
+    // 上傳VIN，伺服器會創建新的vehicle物件並帶入VIN
+    // 創建後的vehicle物件location會在headers裡
+    const headers = await createVehicleByVin(vin);
 
-    // const { data } = await api.get(headers?.location.substring(1) as string);
+    if (headers) {
+      const url = headers.location;
+      const params = new URLSearchParams(url.split("?")[1]);
+      const vehicleId = params.get("vehicleid");
+      if (vehicleId) {
+        const { data } = await getVehicle(vehicleId);
+        navigation.navigate("PlugIn", {
+          vin,
+          vehicleId: data[0].vehicleId,
+        });
 
-    // navigation.navigate("PlugIn", {
-    //   vin,
-    //   vehicleId: (data as vehicle).data[0].vehicleId,
-    // });
-
-    navigation.navigate("PlugIn", {
-      vin: "JS3TD62V1Y4107896",
-      vehicleId: "8a6e1db5-6f4b-4c8c-90de-b74fcca49e49",
-    });
+        // navigation.navigate("PlugIn", {
+        //   vin: "JS3TD62V1Y4107896",
+        //   vehicleId: "8a6e1db5-6f4b-4c8c-90de-b74fcca49e49",
+        // });
+        return;
+      }
+      Alert.alert("取得Vehicle錯誤", "沒有VehicleId");
+      navigation.navigate("Home");
+      return;
+    } else {
+      Alert.alert("發生錯誤");
+      navigation.navigate("Home");
+      return;
+    }
   };
 
   useFocusEffect(

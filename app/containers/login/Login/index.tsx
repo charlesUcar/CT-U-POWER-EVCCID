@@ -14,6 +14,7 @@ import {
 import images from "../../../images";
 import styles from "./index.style";
 
+
 function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(true);
@@ -22,6 +23,7 @@ function LoginScreen({ navigation }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const { setGlobalBackgroundColor } = useContext(AppContext);
+  const apiUrl = process.env.EXPO_PUBLIC_ENV;
 
   const handleEmailChange = (text: string) => {
     setEmail(text);
@@ -90,7 +92,8 @@ function LoginScreen({ navigation }) {
               fontWeight: "400",
             }}
           >
-            Welcome
+            {/* Welcome */}
+            {apiUrl}
           </Text>
         </View>
         <View style={styles.emailContainer}>

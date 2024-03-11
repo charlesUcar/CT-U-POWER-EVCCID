@@ -16,19 +16,34 @@ import {
 import images from "../../../images";
 import styles from "./index.style";
 import React, { useEffect, useRef, useState } from "react";
+import { bindEvccidWithVehicle } from "../../../services/Api";
 
 function FinalConfirmScreen({ route, navigation }) {
-  const { vin, vehicleId, evccId } = route.params;
+  const { vin, vehicleId, evccId, identifier } = route.params;
 
-  const handleSubmitBinding = () => {
+  const handleSubmitBinding = async () => {
     // 7J3ZZ56T7834500003, JS3TD62V1Y4107896
     // Alert.alert("V.I.N 已送出");
-    Toast.show({
-      type: "success",
-      text1: "Hello",
-      text2: "This is some something 👋",
-      position: "bottom",
-    });
+    console.log(vin, vehicleId, evccId, identifier);
+    const status = await bindEvccidWithVehicle(vehicleId, evccId, identifier);
+    console.log(status);
+    if (status && status >= 200 && status <= 299) {
+      Toast.show({
+        type: "success",
+        text1: "綁定成功",
+        position: "bottom",
+      });
+      return true;
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "綁定失敗",
+        text2: `status: ${status}`,
+        position: "bottom",
+      });
+      console.error("API request failed with status:", status);
+      return false;
+    }
   };
 
   const handleUserCancle = () => {

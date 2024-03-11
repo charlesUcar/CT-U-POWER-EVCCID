@@ -6,6 +6,7 @@ import styles from "./index.style";
 import React, { useEffect, useRef, useState } from "react";
 import { create } from "apisauce";
 import Loading from "../../../components/animate/Loading";
+import { getEvccId } from "../../../services/Api";
 
 function PlugInScreen({ route, navigation }) {
   const { vin, vehicleId } = route.params;
@@ -16,18 +17,11 @@ function PlugInScreen({ route, navigation }) {
   });
 
   const fetchEVCCId = async () => {
-    try {
-      const { data, status } = await api.get(
-        `/vehicle/evccid?vehicleid=${vehicleId}`
-      );
-      if (status && status >= 200 && status <= 299) {
-        return data;
-      } else {
-        console.error("API request failed with status:", status);
-        return false;
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
+    const { data, status } = await getEvccId(vehicleId);
+    if (status && status >= 200 && status <= 299) {
+      return data;
+    } else {
+      console.error("API request failed with status:", status);
       return false;
     }
   };
@@ -42,7 +36,8 @@ function PlugInScreen({ route, navigation }) {
         navigation.navigate("FinalConfirm", {
           vin,
           vehicleId,
-          evccId: result.evccId
+          evccId: result.data.evccid,
+          identifier: result.data.identifier,
         });
       } else {
         console.log("not found");
@@ -63,20 +58,20 @@ function PlugInScreen({ route, navigation }) {
         <View style={styles.tipsTextContainer}>
           <Text style={styles.tipsText}>系統與車端連接中，請稍候</Text>
         </View>
-        <View>
+        {/* <View>
           <TouchableOpacity
             onPress={() => {
               clearInterval(timer);
               navigation.navigate("FinalConfirm", {
                 vin,
                 vehicleId,
-                evccId: '1234evccid123456'
+                evccId: "1234evccid123456",
               });
             }}
           >
             <Text style={styles.tipsText}>test to next step</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
     </View>
   );

@@ -16,7 +16,13 @@ import {
 } from "react-native";
 import images from "../../../images";
 import styles from "./index.style";
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Code,
   Camera,
@@ -27,31 +33,30 @@ import {
 } from "react-native-vision-camera";
 import { useIsForeground } from "../../../hooks/useIsForeground";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import AppContext from "../../../context/AppContext";
 
-
-const showCodeAlert = (value: string, onDismissed: () => void): void => {
-  const buttons: AlertButton[] = [
-    {
-      text: "Close",
-      style: "cancel",
-      onPress: onDismissed,
-    },
-  ];
-  if (value.startsWith("http")) {
-    buttons.push({
-      text: "Open URL",
-      onPress: () => {
-        Linking.openURL(value);
-        onDismissed();
-      },
-    });
-  }
-  Alert.alert("Scanned Code", value, buttons);
-};
+// const showCodeAlert = (value: string, onDismissed: () => void): void => {
+//   const buttons: AlertButton[] = [
+//     {
+//       text: "Close",
+//       style: "cancel",
+//       onPress: onDismissed,
+//     },
+//   ];
+//   if (value.startsWith("http")) {
+//     buttons.push({
+//       text: "Open URL",
+//       onPress: () => {
+//         Linking.openURL(value);
+//         onDismissed();
+//       },
+//     });
+//   }
+//   Alert.alert("Scanned Code", value, buttons);
+// };
 
 function ScanScreen({ navigation }) {
-  const {globalVariable} = useContext(AppContext);
   const { hasPermission, requestPermission } = useCameraPermission();
   // const appState = useRef(AppState.currentState);
   // const [appStateVisible, setAppStateVisible] = useState(appState.current);
@@ -174,11 +179,26 @@ function ScanScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.mainContainer}>
-        <View style={styles.closeBtnBox}>
-          <TouchableOpacity onPress={handleClickCloseBtn}>
-            <Text style={styles.closeBtn}>✕</Text>
-          </TouchableOpacity>
+        <View style={styles.header}>
+          <View style={styles.torchBox}>
+            <TouchableOpacity
+              onPress={() => setTorch(!torch)}
+              style={styles.torchIcon}
+            >
+              <Ionicons
+                name={torch ? "flash" : "flash-off"}
+                color="white"
+                size={24}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.closeBtnBox}>
+            <TouchableOpacity onPress={handleClickCloseBtn}>
+              <Text style={styles.closeBtn}>✕</Text>
+            </TouchableOpacity>
+          </View>
         </View>
+
         <Text style={styles.title}>QR & Barcode</Text>
 
         <View style={styles.cameraContainer}>
