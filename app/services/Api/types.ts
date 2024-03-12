@@ -7,7 +7,7 @@ export type GetVehicle = {
   message: string;
   data: {
     vehicleId: string;
-    identifier: string;
+    identifier?: string;
     vin: string;
     evccid: string;
     status: number;

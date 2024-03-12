@@ -1,3 +1,4 @@
+import { StatusBar } from "expo-status-bar";
 import React, { useCallback, useContext, useState } from "react";
 import AppContext from "../../../context/AppContext";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -13,7 +14,6 @@ import {
 } from "react-native";
 import images from "../../../images";
 import styles from "./index.style";
-
 
 function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -149,4 +149,4 @@ function LoginScreen({ navigation }) {
   );
 }
 
-export default LoginScreen
+export default LoginScreen;

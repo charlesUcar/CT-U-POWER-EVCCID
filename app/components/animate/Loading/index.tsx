@@ -1,12 +1,12 @@
-import Images from '../../../images';
-import React, { useState } from 'react';
-import { Animated, Easing, View, StyleSheet } from 'react-native';
+import Images from "../../../images";
+import React, { useState } from "react";
+import { Animated, Easing, View, StyleSheet } from "react-native";
 
-const Loading = () => {
+const Loading = ({ style }: { style?: string }) => {
   const [spinValue] = useState(new Animated.Value(0));
   const spin = spinValue.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
+    outputRange: ["0deg", "360deg"],
   });
 
   Animated.timing(spinValue, {
@@ -30,19 +30,24 @@ const Loading = () => {
 
   return (
     <View style={styles.wrapper}>
-      <Animated.Image style={AnimatedStyle} source={Images.Loading} />
+      {style === "dark" ? (
+        <Animated.Image style={AnimatedStyle} source={Images.Loading_lightPage} />
+      ) : (
+        <Animated.Image
+          style={AnimatedStyle}
+          source={Images.Loading}
+        />
+      )}
     </View>
   );
 };
 
-
 const styles = StyleSheet.create({
   wrapper: {
-    alignSelf: 'center',
+    alignSelf: "center",
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
-})
-
+});
 
 export default Loading;

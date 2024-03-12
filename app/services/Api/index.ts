@@ -18,10 +18,41 @@ const createVehicleByVin = async (vin: CreateVehicleByVin) => {
   }
 };
 
-const getVehicle = async (vehicleId: string): Promise<GetVehicle> => {
+const getVehicle = async ({
+  vehicleId,
+  offset,
+  limit,
+}: {
+  vehicleId?: string;
+  offset?: number;
+  limit?: number;
+}): Promise<GetVehicle | number> => {
+  let search;
+  if (vehicleId) {
+    search = {
+      vehicleId,
+    };
+  }
+  if (offset) {
+    search = {
+      ...search,
+      offset: offset.toString(),
+    };
+  }
+  if (limit) {
+    search = {
+      ...search,
+      limit: limit.toString(),
+    };
+  }
+  const searchParams = new URLSearchParams(search);
   try {
-    const { data } = await api.get(`/vehicle?vehicleid=${vehicleId}`);
-    return data as GetVehicle;
+    const { data, status } = await api.get(`/vehicle?${searchParams}`);
+    if (status && status >= 200 && status <= 299) {
+      return data as GetVehicle;
+    }
+    console.log("Failed to get vehicle, status: " + status);
+    return status as number;
   } catch (error) {
     console.log(error);
     throw new Error("Failed to get vehicle");
@@ -42,7 +73,7 @@ const getEvccId = async (vehicleId: string): Promise<GetEvccId> => {
 const bindEvccidWithVehicle = async (
   vehicleId: string,
   evccId: string,
-  identifier: string,
+  identifier: string
 ): Promise<number> => {
   try {
     const { status } = await api.put(

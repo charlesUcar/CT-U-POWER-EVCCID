@@ -7,7 +7,7 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import { AppProvider } from "./app/context/AppContext";
 import AppContext from "./app/context/AppContext";
 import LoginScreen from "./app/containers/login/Login";
@@ -24,7 +24,7 @@ const Wrapper = () => {
   const { globalBackgroundColor } = useContext(AppContext);
 
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: globalBackgroundColor as string,
@@ -46,9 +46,9 @@ const Wrapper = () => {
           <Stack.Screen name="FinalConfirm" component={FinalConfirmScreen} />
         </Stack.Navigator>
         <Toast />
-        <StatusBar style="auto" />
+        <StatusBar style="dark" />
       </NavigationContainer>
-    </View>
+    </SafeAreaView>
   );
 };
 

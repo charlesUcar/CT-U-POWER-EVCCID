@@ -240,6 +240,7 @@ function ScanScreen({ navigation }) {
         <Text>{scannedType}</Text>
         <Text>{scannedCode}</Text>
       </View> */}
+      <StatusBar style="auto" />
     </View>
   );
 }

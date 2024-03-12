@@ -33,7 +33,7 @@ function VinTypingScreen({ navigation }) {
       setIsUserInputVinError(true);
       return;
     }
-    navigation.navigate("VinConfirm");
+    navigation.navigate("VinConfirm", { vin: userInputVin });
   };
 
   const isValidVin = (vin: string) => {

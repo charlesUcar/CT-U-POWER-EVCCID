@@ -73,22 +73,28 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "600",
   },
-  // listArea
-  listArea: {
-    // flex: 1,
+  // listContainer
+  listContainer: {
+    flex: 1,
     marginTop: 48,
     width: "100%",
     // backgroundColor: "yellow",
   },
-  listAreaIsEmpty: {
+  list: {
+    flex: 1,
+    // marginTop: 48,
+    width: "100%",
+  },
+  listIsEmpty: {
     flex: 0,
     justifyContent: "center",
     alignItems: "center",
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
+    marginTop: "20%",
+    // position: "absolute",
+    // top: 0,
+    // bottom: 0,
+    // left: 0,
+    // right: 0,
     // backgroundColor: "green",
   },
   createActionArea: {
@@ -96,9 +102,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    bottom: 34,
+    bottom: 0,
     left: 0,
     right: 0,
+    paddingTop: 8,
+    paddingBottom: 24,
     // width: "100%",
     // backgroundColor: "red",
   },
