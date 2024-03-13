@@ -2,7 +2,7 @@ export type CreateVehicleByVin = {
   vin: string;
 };
 
-export type GetVehicle = {
+export type GetVehicleResponseBody = {
   code: string;
   message: string;
   data: {

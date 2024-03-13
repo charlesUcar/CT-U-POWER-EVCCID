@@ -22,46 +22,95 @@ import BindingList from "../../../components/binding/BindingList";
 import DateTimePicker from "../../../components/picker/DateTimePicker";
 import { getVehicle } from "../../../services/Api";
 import Loading from "../../../components/animate/Loading";
+import dayjs from "dayjs";
+import { GetVehicleResponseBody } from "../../../services/Api/types";
+import Toast from "react-native-toast-message";
+
+var utc = require("dayjs/plugin/utc");
+dayjs.extend(utc);
 
 function HomeScreen({ navigation }) {
-  const [listStartDate, setListStartDate] = useState<string | null>(null);
-  const [listEndDate, setListEndDate] = useState<string | null>(null);
-  const [listData, setListData] = useState(null);
+  const [listStartTime, setListStartTime] = useState<string | null>(null);
+  const [listEndTime, setListEndTime] = useState<string | null>(null);
+  const [listData, setListData] = useState<
+    GetVehicleResponseBody["data"] | null
+  >(null);
+  const [totalCount, setTotalCount] = useState<string>("");
+
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   const setListTimeRange = ({
-    startDate,
-    endDate,
+    startTime,
+    endTime,
   }: {
-    startDate: string;
-    endDate: string;
+    startTime: string;
+    endTime: string;
   }) => {
-    setListStartDate(startDate);
-    setListEndDate(endDate);
+    // console.log(startTime, endTime);
+
+    setListStartTime(startTime);
+    setListEndTime(endTime);
   };
 
   const handleFetchBindingData = async ({
     offset,
     limit,
+    startTime,
+    endTime,
   }: {
-    offset: number;
-    limit: number;
+    offset: string;
+    limit: string;
+    startTime: string;
+    endTime: string;
   }) => {
-    console.log("fetch");
     setIsLoading(true);
-    const { data } = await getVehicle({ offset, limit });
-    setListData(data);
+    // turn date to UTC before fetch data
+    // set endTime add one day
+    const startTimeUTC = dayjs(startTime).utc().format("YYYY-MM-DDTHH:mm");
+    const endTimeUTC = dayjs(dayjs(endTime).add(1, "day"))
+      .utc()
+      .format("YYYY-MM-DDTHH:mm");
+    //
+    console.log("fetch: " + startTimeUTC + " ~ " + endTimeUTC);
+
+    const result = await getVehicle({
+      offset,
+      limit,
+      startTime: startTimeUTC,
+      endTime: endTimeUTC,
+    });
+
+    // 有Fetch到內容
+    if (result.status && result.status >= 200 && result.status <= 299) {
+      setListData(result.data.data);
+      setTotalCount(result.headers["x-total-count"]);
+      setIsLoading(false);
+      return;
+    }
+    // 沒Fetch到內容，會噴500
+    Toast.show({
+      type: "error",
+      text1: result.data.message,
+      position: "bottom",
+    });
+    setListData(null);
     setIsLoading(false);
+    return;
   };
 
   const { setGlobalBackgroundColor } = useContext(AppContext);
 
   useEffect(() => {
-    if (listStartDate && listEndDate) {
-      handleFetchBindingData({ offset: 0, limit: 100 });
+    if (listStartTime && listEndTime) {
+      handleFetchBindingData({
+        offset: "0",
+        limit: "100",
+        startTime: listStartTime,
+        endTime: listEndTime,
+      });
     }
-  }, [listStartDate, listEndDate]);
+  }, [listStartTime, listEndTime]);
 
   useFocusEffect(
     useCallback(() => {
@@ -92,7 +141,7 @@ function HomeScreen({ navigation }) {
       </TouchableOpacity>
       <Modal
         statusBarTranslucent
-        animationType="fade"
+        animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -122,9 +171,19 @@ function HomeScreen({ navigation }) {
         ) : (
           <View style={styles.listContainer}>
             {listData ? (
-              <View style={styles.list}>
-                <BindingList listData={listData} />
-              </View>
+              <>
+                <View style={styles.listHeadLineArea}>
+                  <Text style={styles.listHeadLineTitle}>
+                    {listStartTime + " ~ " + listEndTime}
+                  </Text>
+                  <Text style={styles.listHeadLineSubtitle}>
+                    共 {totalCount} 筆
+                  </Text>
+                </View>
+                <View style={styles.list}>
+                  <BindingList listData={listData} />
+                </View>
+              </>
             ) : (
               <View style={styles.listIsEmpty}>
                 <Text style={{ textAlign: "center" }}>
@@ -136,11 +195,7 @@ function HomeScreen({ navigation }) {
           </View>
         )}
       </View>
-      <BlurView
-        // experimentalBlurMethod="dimezisBlurView"
-        intensity={20}
-        style={styles.createActionArea}
-      >
+      <View style={styles.createActionArea}>
         <TouchableOpacity
           style={styles.createActionBtnBox}
           onPress={() => {
@@ -149,11 +204,10 @@ function HomeScreen({ navigation }) {
           }}
         >
           <View style={styles.createBtnAreaPlusIconBox}>
-            <MaterialIcons name="add" size={24} color="black" />
+            <Text style={styles.createBtnAreaPlusText}>開始新增</Text>
           </View>
-          <Text style={styles.createBtnAreaPlusText}>開始新增</Text>
         </TouchableOpacity>
-      </BlurView>
+      </View>
       <StatusBar style="dark" />
     </View>
   );

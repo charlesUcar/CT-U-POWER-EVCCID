@@ -80,6 +80,16 @@ const styles = StyleSheet.create({
     width: "100%",
     // backgroundColor: "yellow",
   },
+  listHeadLineArea: {
+    marginBottom: 12,
+  },
+  listHeadLineTitle: {
+    fontSize: 18,
+    fontWeight: "800",
+  },
+  listHeadLineSubtitle: {
+    fontSize: 12,
+  },
   list: {
     flex: 1,
     // marginTop: 48,
@@ -120,19 +130,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    width: 75,
-    height: 75,
+    width: 85,
+    height: 85,
     backgroundColor: "#FFC200",
     fontSize: 36,
     borderRadius: 50,
+    borderWidth: 5,
+    borderColor: "#C1DFE2",
   },
-  createBtnAreaPlusIcon: {
-    transform: [{ rotate: "45deg" }],
-    fontSize: 20,
-    fontWeight: "800",
-  },
+  // createBtnAreaPlusIcon: {
+  //   transform: [{ rotate: "45deg" }],
+  //   fontSize: 20,
+  //   fontWeight: "800",
+  // },
   createBtnAreaPlusText: {
-    fontSize: 10,
+    fontSize: 12,
+    fontWeight: "800",
   },
 });
 

@@ -1,6 +1,6 @@
 import { TIMEOUT, endpoints } from "./config";
 import { create } from "apisauce";
-import { CreateVehicleByVin, GetVehicle, GetEvccId } from "./types";
+import { CreateVehicleByVin, GetVehicleResponseBody, GetEvccId } from "./types";
 
 const api = create({
   baseURL: endpoints.upower,
@@ -18,18 +18,28 @@ const createVehicleByVin = async (vin: CreateVehicleByVin) => {
   }
 };
 
+type GetVehicleParams = {
+  vehicleId?: string;
+  offset?: string;
+  limit?: string;
+  startTime: string;
+  endTime: string;
+};
+
 const getVehicle = async ({
   vehicleId,
   offset,
   limit,
-}: {
-  vehicleId?: string;
-  offset?: number;
-  limit?: number;
-}): Promise<GetVehicle | number> => {
-  let search;
+  startTime,
+  endTime,
+}: GetVehicleParams): Promise<GetVehicleResponseBody | any> => {
+  let search:GetVehicleParams = {
+    startTime,
+    endTime,
+  };
   if (vehicleId) {
     search = {
+      ...search,
       vehicleId,
     };
   }
@@ -47,12 +57,13 @@ const getVehicle = async ({
   }
   const searchParams = new URLSearchParams(search);
   try {
-    const { data, status } = await api.get(`/vehicle?${searchParams}`);
-    if (status && status >= 200 && status <= 299) {
-      return data as GetVehicle;
-    }
-    console.log("Failed to get vehicle, status: " + status);
-    return status as number;
+    const result = await api.get(`/vehicle?${searchParams}`);
+    return result;
+    // if (result.status && result.status >= 200 && result.status <= 299) {
+    //   return { data, headers };
+    // }
+    // console.log("Failed to get vehicle, status: " + result.status);
+    // return false
   } catch (error) {
     console.log(error);
     throw new Error("Failed to get vehicle");
