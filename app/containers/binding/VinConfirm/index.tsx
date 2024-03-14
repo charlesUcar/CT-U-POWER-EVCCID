@@ -16,9 +16,9 @@ import images from "../../../images";
 import styles from "./index.style";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Loading from "../../../components/animate/Loading";
-import { create } from "apisauce";
 import { useFocusEffect } from "@react-navigation/native";
 import { createVehicleByVin, getVehicle } from "../../../services/Api";
+import useVinValidator from "../../../hooks/useVinValidator";
 
 export type vehicle = {
   code: String;
@@ -34,22 +34,17 @@ export type vehicle = {
 
 function VinConfirmScreen({ route, navigation }) {
   const { vin } = route.params;
+  const { checkVinValid } = useVinValidator();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  // define the api
-  const api = create({
-    baseURL: "https://app-upower-testing-vinevccid.azurewebsites.net",
-  });
-
-  // start making calls
-  // api
-  //   .get("/repos/skellock/apisauce/commits")
-  //   .then((response) => response.data[0].commit.message)
-  //   .then(console.log);
 
   const handleSubmitUserInputVin = async () => {
     // 7J3ZZ56T7834500003, JS3TD62V1Y4107896
     setIsLoading(true);
+    if (!checkVinValid(vin)) {
+      Alert.alert("V.I.N 格式錯誤", "請重新掃描並確認 V.I.N");
+      setIsLoading(false);
+      return;
+    }
     // 上傳VIN，伺服器會創建新的vehicle物件並帶入VIN
     // 創建後的vehicle物件location會在headers裡
     const headers = await createVehicleByVin(vin);
@@ -59,16 +54,11 @@ function VinConfirmScreen({ route, navigation }) {
       const params = new URLSearchParams(url.split("?")[1]);
       const vehicleId = params.get("vehicleid");
       if (vehicleId) {
-        const { data } = await getVehicle(vehicleId);
+        const { data } = await getVehicle({vehicleId});
         navigation.navigate("PlugIn", {
           vin,
-          vehicleId: data[0].vehicleId,
+          vehicleId: data.data[0].vehicleId,
         });
-
-        // navigation.navigate("PlugIn", {
-        //   vin: "JS3TD62V1Y4107896",
-        //   vehicleId: "8a6e1db5-6f4b-4c8c-90de-b74fcca49e49",
-        // });
         return;
       }
       Alert.alert("取得Vehicle錯誤", "沒有VehicleId");

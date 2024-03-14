@@ -22,8 +22,8 @@ type GetVehicleParams = {
   vehicleId?: string;
   offset?: string;
   limit?: string;
-  startTime: string;
-  endTime: string;
+  startTime?: string;
+  endTime?: string;
 };
 
 const getVehicle = async ({
@@ -33,11 +33,7 @@ const getVehicle = async ({
   startTime,
   endTime,
 }: GetVehicleParams): Promise<GetVehicleResponseBody | any> => {
-  console.log(offset, limit, startTime, endTime);
-  let search: GetVehicleParams = {
-    startTime,
-    endTime,
-  };
+  let search: GetVehicleParams = {};
   if (vehicleId) {
     search = {
       ...search,
@@ -54,6 +50,18 @@ const getVehicle = async ({
     search = {
       ...search,
       limit: limit.toString(),
+    };
+  }
+  if (startTime) {
+    search = {
+      ...search,
+      startTime,
+    };
+  }
+  if (endTime) {
+    search = {
+      ...search,
+      endTime,
     };
   }
   const searchParams = new URLSearchParams(search);
