@@ -33,7 +33,8 @@ const getVehicle = async ({
   startTime,
   endTime,
 }: GetVehicleParams): Promise<GetVehicleResponseBody | any> => {
-  let search:GetVehicleParams = {
+  console.log(offset, limit, startTime, endTime);
+  let search: GetVehicleParams = {
     startTime,
     endTime,
   };

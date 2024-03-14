@@ -1,17 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { MaterialIcons } from "@expo/vector-icons";
-import { BlurView } from "expo-blur";
 import {
   Text,
   View,
-  Button,
-  TouchableWithoutFeedback,
-  Keyboard,
-  TextInput,
   TouchableOpacity,
   Image,
   Modal,
-  Alert,
 } from "react-native";
 import Images from "../../../images";
 import styles from "./index.style";
@@ -32,6 +26,8 @@ dayjs.extend(utc);
 function HomeScreen({ navigation }) {
   const [listStartTime, setListStartTime] = useState<string | null>(null);
   const [listEndTime, setListEndTime] = useState<string | null>(null);
+  const [listStartTimeUTC, setListStartTimeUTC] = useState<string>("");
+  const [listEndTimeUTC, setListEndTimeUTC] = useState<string>("");
   const [listData, setListData] = useState<
     GetVehicleResponseBody["data"] | null
   >(null);
@@ -47,8 +43,6 @@ function HomeScreen({ navigation }) {
     startTime: string;
     endTime: string;
   }) => {
-    // console.log(startTime, endTime);
-
     setListStartTime(startTime);
     setListEndTime(endTime);
   };
@@ -73,6 +67,8 @@ function HomeScreen({ navigation }) {
       .format("YYYY-MM-DDTHH:mm");
     //
     console.log("fetch: " + startTimeUTC + " ~ " + endTimeUTC);
+    setListStartTimeUTC(startTimeUTC);
+    setListEndTimeUTC(endTimeUTC);
 
     const result = await getVehicle({
       offset,
@@ -105,7 +101,7 @@ function HomeScreen({ navigation }) {
     if (listStartTime && listEndTime) {
       handleFetchBindingData({
         offset: "0",
-        limit: "100",
+        limit: "50",
         startTime: listStartTime,
         endTime: listEndTime,
       });
@@ -181,7 +177,12 @@ function HomeScreen({ navigation }) {
                   </Text>
                 </View>
                 <View style={styles.list}>
-                  <BindingList listData={listData} />
+                  <BindingList
+                    listData={listData}
+                    totalCount={totalCount}
+                    startTimeUTC={listStartTimeUTC}
+                    endTimeUTC={listEndTimeUTC}
+                  />
                 </View>
               </>
             ) : (
