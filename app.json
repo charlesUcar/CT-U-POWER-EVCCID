@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
@@ -24,7 +26,9 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["android.permission.CAMERA"],
+      "permissions": [
+        "android.permission.CAMERA"
+      ],
       "package": "com.u_power_tools_app.development"
     },
     "web": {
@@ -35,7 +39,7 @@
         "projectId": "76da9477-d80f-4598-bc87-3d37a676a494"
       }
     },
-    "owner": "charlesx19",
+    "owner": "u-power-work",
     "plugins": [
       [
         "react-native-vision-camera",
