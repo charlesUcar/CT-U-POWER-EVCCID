@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     flexDirection: "row",
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
     paddingTop: 32,
     paddingBottom: 24,
     width: "100%",
@@ -52,22 +52,21 @@ const styles = StyleSheet.create({
   dateText: {
     paddingTop: 12,
     paddingBottom: 12,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     borderBottomColor: "#2C333F",
     fontSize: 20,
   },
   error: {
-    borderBottomWidth: 3,
-    borderBottomColor: "#d11616",
-    color: "#d11616",
+    borderBottomColor: "#EB4343",
+    color: "#EB4343",
   },
   errorMessage: {
     paddingTop: 12,
-    width: '100%',
+    width: "100%",
     fontSize: 12,
-    fontWeight: "800",
-    textAlign: 'center',
-    color: "#d11616",
+    fontWeight: "300",
+    textAlign: "center",
+    color: "#EB4343",
   },
   submitBtn: {
     width: "100%",
@@ -83,6 +82,10 @@ const styles = StyleSheet.create({
     color: "rgba(44, 51, 63, 0.5)",
     fontSize: 15,
     fontWeight: "bold",
+  },
+  submitBtnActive: {
+    borderColor: "rgb(44, 51, 63)",
+    color: "rgb(44, 51, 63)",
   },
 });
 

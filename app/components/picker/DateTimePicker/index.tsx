@@ -1,6 +1,6 @@
 import { Text, View, TouchableOpacity } from "react-native";
 import styles from "./index.style";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DateTimePicker, {
   DateTimePickerAndroid,
 } from "@react-native-community/datetimepicker";
@@ -23,35 +23,36 @@ interface Props {
 
 function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
   // dateTimePicker
-  const [startDate, setStartDate] = useState<Date>();
-  const [endDate, setEndDate] = useState<Date>();
-  const [startDateString, setStartDateString] = useState<string>("");
-  const [endDateString, setEndDateString] = useState<string>("");
+  const [startTime, setStartTime] = useState<Date>();
+  const [endTime, setEndTime] = useState<Date>();
+  const [startTimeString, setStartTimeString] = useState<string>("");
+  const [endTimeString, setEndTimeString] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   // state
-  const [startDateErrorShow, setStartDateErrorShow] = useState<boolean>(false);
-  const [endDateErrorShow, setEndDateErrorShow] = useState<boolean>(false);
+  const [rangeAllSet, setRangeAllSet] = useState<boolean>(false);
+  const [startTimeErrorShow, setStartTimeErrorShow] = useState<boolean>(false);
+  const [endTimeErrorShow, setEndTimeErrorShow] = useState<boolean>(false);
 
   const onChangeStartDate = (event, selectedDate: Date | undefined) => {
     if (event.type === "dismissed") return;
     const currentDate = selectedDate;
-    currentDate && setStartDate(currentDate);
-    const formattedDate = dayjs(currentDate).format("MM-DD-YYYY");
-    setStartDateString(formattedDate);
+    currentDate && setStartTime(currentDate);
+    const formattedDate = dayjs(currentDate).format("YYYY-MM-DD");
+    setStartTimeString(formattedDate);
   };
 
   const onChangeEndDate = (event, selectedDate: Date | undefined) => {
     if (event.type === "dismissed") return;
     const currentDate = selectedDate;
-    currentDate && setEndDate(currentDate);
-    const formattedDate = dayjs(currentDate).format("MM-DD-YYYY");
-    setEndDateString(formattedDate);
+    currentDate && setEndTime(currentDate);
+    const formattedDate = dayjs(currentDate).format("YYYY-MM-DD");
+    setEndTimeString(formattedDate);
   };
 
   const showStartDateMode = (currentMode) => {
     DateTimePickerAndroid.open({
-      value: startDate ? startDate : new Date(),
+      value: startTime ? startTime : new Date(),
       onChange: onChangeStartDate,
       mode: currentMode,
       is24Hour: true,
@@ -60,7 +61,7 @@ function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
 
   const showEndDateMode = (currentMode) => {
     DateTimePickerAndroid.open({
-      value: endDate ? endDate : new Date(),
+      value: endTime ? endTime : new Date(),
       onChange: onChangeEndDate,
       mode: currentMode,
       is24Hour: true,
@@ -75,11 +76,42 @@ function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
     showEndDateMode("date");
   };
 
+  const checkInputTimeRangeValid = () => {
+    if (!startTime) {
+      setStartTimeErrorShow(true);
+      setErrorMessage("請輸入起訖時間");
+      return false;
+    }
+
+    if (!endTime) {
+      setEndTimeErrorShow(true);
+      setErrorMessage("請輸入起訖時間");
+      return false;
+    }
+
+    if (startTime > endTime) {
+      setStartTimeErrorShow(true);
+      setEndTimeErrorShow(true);
+      setErrorMessage("開始日期不可晚於結束日期");
+      return false;
+    }
+
+    const compareStartDate = dayjs(startTime);
+    const compareEndDate = dayjs(endTime);
+    if (compareEndDate.diff(compareStartDate, "day") > 30) {
+      setStartTimeErrorShow(true);
+      setEndTimeErrorShow(true);
+      setErrorMessage("搜尋期間不可超過30天");
+      return false;
+    }
+    return true;
+  };
+
   const handleSelectDate = (target: number) => {
-    setStartDateErrorShow(false);
-    setEndDateErrorShow(false);
+    setStartTimeErrorShow(false);
+    setEndTimeErrorShow(false);
     setErrorMessage("");
-    // target: 0 是startDate , 1是endDate
+    // target: 0 是startTime , 1是endTime
     if (target === 0) {
       showStartDatePicker();
       return;
@@ -88,40 +120,24 @@ function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
   };
 
   const handleSubmit = () => {
-    if (!startDate) {
-      setStartDateErrorShow(true);
-      setErrorMessage("請輸入起訖時間");
+    if (checkInputTimeRangeValid()) {
+      const startTimeFormat = dayjs(startTime).format("YYYY-MM-DD");
+      const EndTimeFormat = dayjs(endTime).format("YYYY-MM-DD");
+      // 把startTime跟endTime傳到Home組件的setListTimeRange
+      setListTimeRange({ startTime: startTimeFormat, endTime: EndTimeFormat });
+      setModalVisible(false);
       return;
     }
-
-    if (!endDate) {
-      setEndDateErrorShow(true);
-      setErrorMessage("請輸入起訖時間");
-      return;
-    }
-
-    if (startDate > endDate) {
-      setStartDateErrorShow(true);
-      setEndDateErrorShow(true);
-      setErrorMessage("開始日期不可晚於結束日期");
-      return;
-    }
-
-    const compareStartDate = dayjs(startDate);
-    const compareEndDate = dayjs(endDate);
-    if (compareEndDate.diff(compareStartDate, "day") > 30) {
-      setStartDateErrorShow(true);
-      setEndDateErrorShow(true);
-      setErrorMessage("搜尋期間不可超過30天");
-      return;
-    }
-
-    const startTimeFormat = dayjs(startDate).format("YYYY-MM-DD");
-    const EndTimeFormat = dayjs(endDate).format("YYYY-MM-DD");
-    // 把startDate跟endDate傳到Home組件的setListTimeRange
-    setListTimeRange({ startTime: startTimeFormat, endTime: EndTimeFormat });
-    setModalVisible(false);
+    return;
   };
+
+  useEffect(() => {
+    // if (startTime && endTime) {
+    //   setRangeAllSet(true);
+    // }
+    if (!checkInputTimeRangeValid()) return;
+    setRangeAllSet(true);
+  }, [startTime, endTime]);
 
   return (
     <View style={styles.container}>
@@ -145,10 +161,10 @@ function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
               <Text
                 style={[
                   styles.dateText,
-                  startDateErrorShow ? styles.error : null,
+                  startTimeErrorShow ? styles.error : null,
                 ]}
               >
-                {startDateString}
+                {startTimeString}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -161,17 +177,30 @@ function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
               <Text
                 style={[
                   styles.dateText,
-                  endDateErrorShow ? styles.error : null,
+                  endTimeErrorShow ? styles.error : null,
                 ]}
               >
-                {endDateString}
+                {endTimeString}
               </Text>
             </TouchableOpacity>
 
             <Text style={styles.errorMessage}>{errorMessage}</Text>
           </View>
-          <TouchableOpacity style={styles.submitBtn} onPress={handleSubmit}>
-            <Text style={styles.submitBtnText}>確認送出</Text>
+          <TouchableOpacity
+            style={[
+              styles.submitBtn,
+              rangeAllSet ? styles.submitBtnActive : null,
+            ]}
+            onPress={handleSubmit}
+          >
+            <Text
+              style={[
+                styles.submitBtnText,
+                rangeAllSet ? styles.submitBtnActive : null,
+              ]}
+            >
+              確認送出
+            </Text>
           </TouchableOpacity>
         </View>
         {/* <Button onPress={showDatepicker} title="Show date picker!" />
