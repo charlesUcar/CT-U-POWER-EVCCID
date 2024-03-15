@@ -1,12 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { MaterialIcons } from "@expo/vector-icons";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  Modal,
-} from "react-native";
+import { Text, View, TouchableOpacity, Image, Modal } from "react-native";
 import Images from "../../../images";
 import styles from "./index.style";
 import React, { useCallback, useContext, useEffect, useState } from "react";
@@ -86,8 +80,8 @@ function HomeScreen({ navigation }) {
     }
     // 沒Fetch到內容，會噴500
     Toast.show({
-      type: "error",
-      text1: result.data.message,
+      type: "customWarning",
+      text1: '所選區間無資料',
       position: "bottom",
     });
     setListData(null);

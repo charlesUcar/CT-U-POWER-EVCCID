@@ -29,19 +29,20 @@ function FinalConfirmScreen({ route, navigation }) {
     console.log(status);
     if (status && status >= 200 && status <= 299) {
       Toast.show({
-        type: "success",
+        type: "customSuccess",
         text1: "綁定成功",
         position: "bottom",
       });
+      navigation.navigate("Home");
       return true;
     } else {
       Toast.show({
-        type: "error",
-        text1: "綁定失敗",
-        text2: `status: ${status}`,
+        type: "customError",
+        text1: `綁定失敗, status: ${status}`,
         position: "bottom",
       });
       console.error("API request failed with status:", status);
+      navigation.navigate("Home");
       return false;
     }
   };

@@ -1,13 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import Toast from "react-native-toast-message";
+import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 import {
   NavigationAction,
   NavigationContainer,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, View, Text, Image } from "react-native";
 import { AppProvider } from "./app/context/AppContext";
 import AppContext from "./app/context/AppContext";
 import LoginScreen from "./app/containers/login/Login";
@@ -17,8 +17,120 @@ import VinTypingScreen from "./app/containers/vinTyping/VinTyping";
 import VinConfirmScreen from "./app/containers/binding/VinConfirm";
 import PlugInScreen from "./app/containers/binding/PlugIn";
 import FinalConfirmScreen from "./app/containers/binding/FinalConfirm";
+import Images from "./app/images";
 
 const Stack = createNativeStackNavigator();
+
+const toastconfig = {
+  /*
+    Overwrite 'success' type,
+    by modifying the existing `BaseToast` component
+  */
+  success: (props) => (
+    <BaseToast
+      {...props}
+      style={{ borderLeftColor: "pink" }}
+      contentContainerStyle={{ paddingHorizontal: 15 }}
+      text1Style={{
+        fontSize: 15,
+        fontWeight: "400",
+      }}
+    />
+  ),
+  /*
+      Overwrite 'error' type,
+      by modifying the existing `ErrorToast` component
+    */
+  error: (props) => (
+    <ErrorToast
+      {...props}
+      text1Style={{
+        fontSize: 17,
+      }}
+      text2Style={{
+        fontSize: 15,
+      }}
+    />
+  ),
+  customSuccess: ({ text1, props }) => (
+    <View
+      style={{ height: 52, width: "100%", paddingLeft: 24, paddingRight: 24 }}
+    >
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "flex-start",
+          alignItems: "center",
+          flexDirection: "row",
+          gap: 8,
+          height: "100%",
+          width: "100%",
+          backgroundColor: "#1E1E1E",
+          paddingLeft: 24,
+          paddingRight: 24,
+          borderRadius: 12,
+        }}
+      >
+        <Image source={Images.Success_circle_fill} />
+        <Text style={{ color: "#e3e3e3", fontSize: 14, marginBottom: 2 }}>
+          {text1}
+        </Text>
+      </View>
+    </View>
+  ),
+  customWarning: ({ text1, props }) => (
+    <View
+      style={{ height: 52, width: "100%", paddingLeft: 24, paddingRight: 24 }}
+    >
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "flex-start",
+          alignItems: "center",
+          flexDirection: "row",
+          gap: 8,
+          height: "100%",
+          width: "100%",
+          backgroundColor: "#1E1E1E",
+          paddingLeft: 24,
+          paddingRight: 24,
+          borderRadius: 12,
+        }}
+      >
+        <Image source={Images.Warning_circle_fill} />
+        <Text style={{ color: "#e3e3e3", fontSize: 14, marginBottom: 2 }}>
+          {text1}
+        </Text>
+      </View>
+    </View>
+  ),
+  customError: ({ text1, props }) => (
+    <View
+      style={{ height: 52, width: "100%", paddingLeft: 24, paddingRight: 24 }}
+    >
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "flex-start",
+          alignItems: "center",
+          flexDirection: "row",
+          gap: 8,
+          height: "100%",
+          width: "100%",
+          backgroundColor: "#1E1E1E",
+          paddingLeft: 24,
+          paddingRight: 24,
+          borderRadius: 12,
+        }}
+      >
+        <Image source={Images.Error_circle_fill} />
+        <Text style={{ color: "#e3e3e3", fontSize: 14, marginBottom: 2 }}>
+          {text1}
+        </Text>
+      </View>
+    </View>
+  ),
+};
 
 const Wrapper = () => {
   const { globalBackgroundColor } = useContext(AppContext);
@@ -45,7 +157,7 @@ const Wrapper = () => {
           <Stack.Screen name="PlugIn" component={PlugInScreen} />
           <Stack.Screen name="FinalConfirm" component={FinalConfirmScreen} />
         </Stack.Navigator>
-        <Toast />
+        <Toast config={toastconfig} />
         <StatusBar style="dark" />
       </NavigationContainer>
     </SafeAreaView>

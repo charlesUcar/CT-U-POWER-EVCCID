@@ -97,7 +97,6 @@ function BindingList({
         <Text style={styles.order}></Text>
         <Text style={styles.vin}>V.I.N</Text>
         <Text style={styles.evccId}>EVCCID</Text>
-        <Text style={styles.evccId}>{isLoading ? "true" : "false"}</Text>
       </View>
 
       <FlatList
