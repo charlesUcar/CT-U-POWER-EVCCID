@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#C1DFE2"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -22,9 +22,10 @@
       "bundleIdentifier": "com.u-power-tools-app.development"
     },
     "android": {
+      "icon": "./assets/icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#C1DFE2"
       },
       "permissions": [
         "android.permission.CAMERA"
