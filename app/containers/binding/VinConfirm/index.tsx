@@ -39,6 +39,7 @@ function VinConfirmScreen({ route, navigation }) {
 
   const handleSubmitUserInputVin = async () => {
     // 7J3ZZ56T7834500003, JS3TD62V1Y4107896
+    // UU6JA69691D713820
     setIsLoading(true);
     if (!checkVinValid(vin)) {
       Alert.alert("V.I.N 格式錯誤", "請重新掃描並確認 V.I.N");
