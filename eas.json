@@ -1,0 +1,31 @@
+{
+  "cli": {
+    "version": ">= 7.3.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://app-upower-testing-vinevccid.azurewebsites.net"
+      }
+    },
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      },
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://app-upower-testing-vinevccid.azurewebsites.net"
+      }
+    },
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://app-upower-testing-vinevccid.azurewebsites.net"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
