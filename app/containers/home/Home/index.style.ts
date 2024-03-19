@@ -81,14 +81,32 @@ const styles = StyleSheet.create({
     // backgroundColor: "yellow",
   },
   listHeadLineArea: {
+    flex: 0,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
     marginBottom: 12,
   },
+  listHeadLineTitles: {},
   listHeadLineTitle: {
     fontSize: 18,
     fontWeight: "800",
   },
   listHeadLineSubtitle: {
     fontSize: 12,
+  },
+  downloadBtn: {
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    paddingBottom: 6,
+    borderWidth: 1,
+    borderColor: "#2C333F",
+    borderRadius: 50,
+  },
+  downloadBtnText: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#2C333F",
   },
   list: {
     flex: 1,

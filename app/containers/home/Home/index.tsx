@@ -13,6 +13,9 @@ import Loading from "../../../components/animate/Loading";
 import dayjs from "dayjs";
 import { GetVehicleResponseBody } from "../../../services/Api/types";
 import Toast from "react-native-toast-message";
+import * as XLSX from "xlsx";
+import * as FileSystem from "expo-file-system";
+import * as Sharing from "expo-sharing";
 
 var utc = require("dayjs/plugin/utc");
 dayjs.extend(utc);
@@ -28,7 +31,11 @@ function HomeScreen({ navigation }) {
   const [totalCount, setTotalCount] = useState<string>("");
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isDownloadLoading, setIsDownloadLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+
+  // 全域的provider
+  const { setGlobalBackgroundColor } = useContext(AppContext);
 
   const setListTimeRange = ({
     startTime,
@@ -81,7 +88,7 @@ function HomeScreen({ navigation }) {
     // 沒Fetch到內容，會噴500
     Toast.show({
       type: "customWarning",
-      text1: '所選區間無資料',
+      text1: "所選區間無資料",
       position: "bottom",
     });
     setListData(null);
@@ -89,7 +96,57 @@ function HomeScreen({ navigation }) {
     return;
   };
 
-  const { setGlobalBackgroundColor } = useContext(AppContext);
+  const handleDownloadData = async () => {
+    setIsDownloadLoading(true);
+    if (listData && Number(totalCount) > 50) {
+      const result = await getVehicle({
+        offset: "50",
+        limit: "10000",
+        startTime: listStartTimeUTC,
+        endTime: listEndTimeUTC,
+      });
+
+      // 有Fetch到內容
+      if (result.status && result.status >= 200 && result.status <= 299) {
+        // 蒐集用戶所選區間的所有記錄
+        const currentDownloadData: GetVehicleResponseBody["data"] =
+          [...listData, ...result.data.data];
+        generationExcel(currentDownloadData);
+      }
+      return;
+    }
+    listData && generationExcel(listData);
+  };
+
+  const generationExcel = async (
+    currentDownloadData: GetVehicleResponseBody["data"]
+  ) => {
+    // 產生Sheet表
+    let XLSXArray: (string | number)[][] = [["", "VIN", "EVCCID"]];
+    currentDownloadData?.map((item, index) => {
+      XLSXArray.push([index + 1, item.vin, item.evccid ? "已綁定" : ""]);
+    });
+
+    let wb = XLSX.utils.book_new();
+    let ws = XLSX.utils.aoa_to_sheet(XLSXArray);
+
+    XLSX.utils.book_append_sheet(wb, ws, "VIN綁定記錄", true);
+
+    const currentFileName =
+      dayjs(listStartTime).format("YYMMDD") +
+      "-" +
+      dayjs(listEndTime).format("YYMMDD") +
+      "-VIN綁定記錄.xlsx";
+
+    const base64 = XLSX.write(wb, { type: "base64" });
+    const filename = FileSystem.documentDirectory + currentFileName;
+    FileSystem.writeAsStringAsync(filename, base64, {
+      encoding: FileSystem.EncodingType.Base64,
+    }).then(() => {
+      Sharing.shareAsync(filename);
+      setIsDownloadLoading(false);
+    });
+  };
 
   useEffect(() => {
     if (listStartTime && listEndTime) {
@@ -163,12 +220,20 @@ function HomeScreen({ navigation }) {
             {listData ? (
               <>
                 <View style={styles.listHeadLineArea}>
-                  <Text style={styles.listHeadLineTitle}>
-                    {listStartTime + " ~ " + listEndTime}
-                  </Text>
-                  <Text style={styles.listHeadLineSubtitle}>
-                    共 {totalCount} 筆
-                  </Text>
+                  <View style={styles.listHeadLineTitles}>
+                    <Text style={styles.listHeadLineTitle}>
+                      {listStartTime + " ~ " + listEndTime}
+                    </Text>
+                    <Text style={styles.listHeadLineSubtitle}>
+                      共 {totalCount} 筆
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    style={styles.downloadBtn}
+                    onPress={handleDownloadData}
+                  >
+                    <Text style={styles.downloadBtnText}>下載</Text>
+                  </TouchableOpacity>
                 </View>
                 <View style={styles.list}>
                   <BindingList
