@@ -1,6 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Text, View, TouchableOpacity, Image, Modal } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Modal,
+  Platform,
+} from "react-native";
 import Images from "../../../images";
 import styles from "./index.style";
 import React, { useCallback, useContext, useEffect, useState } from "react";
@@ -8,6 +15,7 @@ import AppContext from "../../../context/AppContext";
 import { useFocusEffect } from "@react-navigation/native";
 import BindingList from "../../../components/binding/BindingList";
 import DateTimePicker from "../../../components/picker/DateTimePicker";
+import DateTimePickerIos from "../../../components/picker/DateTimePicker-ios";
 import { getVehicle } from "../../../services/Api";
 import Loading from "../../../components/animate/Loading";
 import dayjs from "dayjs";
@@ -29,6 +37,8 @@ function HomeScreen({ navigation }) {
     GetVehicleResponseBody["data"] | null
   >(null);
   const [totalCount, setTotalCount] = useState<string>("");
+
+  const [platform, setPlatform] = useState<string>("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [isDownloadLoading, setIsDownloadLoading] = useState(false);
@@ -159,6 +169,10 @@ function HomeScreen({ navigation }) {
     }
   }, [listStartTime, listEndTime]);
 
+  useEffect(() => {
+    setPlatform(Platform.OS);
+  }, []);
+
   useFocusEffect(
     useCallback(() => {
       // 進入Home頁面將全域背景換成#C1DFE2
@@ -186,21 +200,39 @@ function HomeScreen({ navigation }) {
           </View>
         )}
       </TouchableOpacity>
-      <Modal
-        statusBarTranslucent
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          // Alert.alert("Modal has been closed.");
-          setModalVisible(false);
-        }}
-      >
-        <DateTimePicker
-          setModalVisible={setModalVisible}
-          setListTimeRange={setListTimeRange}
-        />
-      </Modal>
+      {platform === "android" ? (
+        <Modal
+          statusBarTranslucent
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            // Alert.alert("Modal has been closed.");
+            setModalVisible(false);
+          }}
+        >
+          <DateTimePicker
+            setModalVisible={setModalVisible}
+            setListTimeRange={setListTimeRange}
+          />
+        </Modal>
+      ) : (
+        <Modal
+          statusBarTranslucent
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            // Alert.alert("Modal has been closed.");
+            setModalVisible(false);
+          }}
+        >
+          <DateTimePickerIos
+            setModalVisible={setModalVisible}
+            setListTimeRange={setListTimeRange}
+          />
+        </Modal>
+      )}
       <View style={styles.bodyContainer}>
         <View style={styles.topArea}>
           <View style={styles.logoTypographyImageBox}>
