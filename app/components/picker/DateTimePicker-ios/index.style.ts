@@ -49,15 +49,30 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: 12,
   },
-  dateTextView: {
+  dateTextBox: {
     borderBottomWidth: 1,
     borderBottomColor: "#2C333F",
   },
-  dateText: {
+  dateTextView: {
     minHeight: 48,
     paddingTop: 12,
     paddingBottom: 12,
     fontSize: 20,
+  },
+  dateText: {
+    fontSize: 20,
+  },
+  dateTimePickerView: {
+    opacity: 0,
+    position: "absolute",
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+  },
+  dateTimePicker: {
+    width: "100%",
+    height: "100%",
   },
   error: {
     borderBottomColor: "#EB4343",

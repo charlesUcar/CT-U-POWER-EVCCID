@@ -5,7 +5,9 @@
     "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "pod:install": "cd ios && pod install && cd ../",
+    "pod:deintegrate": "cd ios && pod deintegrate && cd ../"
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "7.6.1",

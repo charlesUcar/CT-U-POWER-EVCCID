@@ -1,6 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Text, View, TouchableOpacity, Image, Modal } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Modal,
+  Platform,
+} from "react-native";
 import Images from "../../../images";
 import styles from "./index.style";
 import React, { useCallback, useContext, useEffect, useState } from "react";
@@ -8,6 +15,7 @@ import AppContext from "../../../context/AppContext";
 import { useFocusEffect } from "@react-navigation/native";
 import BindingList from "../../../components/binding/BindingList";
 import DateTimePicker from "../../../components/picker/DateTimePicker";
+import DateTimePickerIos from "../../../components/picker/DateTimePicker-ios";
 import { getVehicle } from "../../../services/Api";
 import Loading from "../../../components/animate/Loading";
 import dayjs from "dayjs";
@@ -26,6 +34,8 @@ function HomeScreen({ navigation }) {
     GetVehicleResponseBody["data"] | null
   >(null);
   const [totalCount, setTotalCount] = useState<string>("");
+
+  const [platform, setPlatform] = useState<string>("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -81,7 +91,7 @@ function HomeScreen({ navigation }) {
     // 沒Fetch到內容，會噴500
     Toast.show({
       type: "customWarning",
-      text1: '所選區間無資料',
+      text1: "所選區間無資料",
       position: "bottom",
     });
     setListData(null);
@@ -101,6 +111,10 @@ function HomeScreen({ navigation }) {
       });
     }
   }, [listStartTime, listEndTime]);
+
+  useEffect(() => {
+    setPlatform(Platform.OS);
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -129,21 +143,39 @@ function HomeScreen({ navigation }) {
           </View>
         )}
       </TouchableOpacity>
-      <Modal
-        statusBarTranslucent
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          // Alert.alert("Modal has been closed.");
-          setModalVisible(false);
-        }}
-      >
-        <DateTimePicker
-          setModalVisible={setModalVisible}
-          setListTimeRange={setListTimeRange}
-        />
-      </Modal>
+      {platform === "android" ? (
+        <Modal
+          statusBarTranslucent
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            // Alert.alert("Modal has been closed.");
+            setModalVisible(false);
+          }}
+        >
+          <DateTimePicker
+            setModalVisible={setModalVisible}
+            setListTimeRange={setListTimeRange}
+          />
+        </Modal>
+      ) : (
+        <Modal
+          statusBarTranslucent
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            // Alert.alert("Modal has been closed.");
+            setModalVisible(false);
+          }}
+        >
+          <DateTimePickerIos
+            setModalVisible={setModalVisible}
+            setListTimeRange={setListTimeRange}
+          />
+        </Modal>
+      )}
       <View style={styles.bodyContainer}>
         <View style={styles.topArea}>
           <View style={styles.logoTypographyImageBox}>

@@ -1,9 +1,7 @@
 import { Text, View, TouchableOpacity } from "react-native";
 import styles from "./index.style";
 import React, { useEffect, useState } from "react";
-import DateTimePicker, {
-  DateTimePickerAndroid,
-} from "@react-native-community/datetimepicker";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
 import Toast from "react-native-toast-message";
 
@@ -21,7 +19,7 @@ interface Props {
   setListTimeRange: SetListTimeRangeType;
 }
 
-function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
+function DateTimePickerIosModal({ setModalVisible, setListTimeRange }: Props) {
   // dateTimePicker
   const [startTime, setStartTime] = useState<Date>();
   const [endTime, setEndTime] = useState<Date>();
@@ -30,20 +28,32 @@ function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   // state
+  const [mode, setMode] = useState<string>("date");
+  const [startTimePickerShow, setStartTimePickerShow] =
+    useState<boolean>(false);
+  const [endTimePickerShow, setEndTimePickerShow] = useState<boolean>(false);
   const [rangeAllSet, setRangeAllSet] = useState<boolean>(false);
   const [startTimeErrorShow, setStartTimeErrorShow] = useState<boolean>(false);
   const [endTimeErrorShow, setEndTimeErrorShow] = useState<boolean>(false);
 
   const onChangeStartDate = (event, selectedDate: Date | undefined) => {
-    if (event.type === "dismissed") return;
+    console.log("change");
+    if (event.type === "dismissed") {
+      setStartTimePickerShow(false);
+      return;
+    }
     const currentDate = selectedDate;
     currentDate && setStartTime(currentDate);
     const formattedDate = dayjs(currentDate).format("YYYY-MM-DD");
     setStartTimeString(formattedDate);
+    setStartTimePickerShow(false);
   };
 
   const onChangeEndDate = (event, selectedDate: Date | undefined) => {
-    if (event.type === "dismissed") return;
+    if (event.type === "dismissed") {
+      setEndTimePickerShow(false);
+      return;
+    }
     const currentDate = selectedDate;
     currentDate && setEndTime(currentDate);
     const formattedDate = dayjs(currentDate).format("YYYY-MM-DD");
@@ -51,21 +61,13 @@ function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
   };
 
   const showStartDateMode = (currentMode) => {
-    DateTimePickerAndroid.open({
-      value: startTime ? startTime : new Date(),
-      onChange: onChangeStartDate,
-      mode: currentMode,
-      is24Hour: true,
-    });
+    setStartTimePickerShow(true);
+    setMode(currentMode);
   };
 
   const showEndDateMode = (currentMode) => {
-    DateTimePickerAndroid.open({
-      value: endTime ? endTime : new Date(),
-      onChange: onChangeEndDate,
-      mode: currentMode,
-      is24Hour: true,
-    });
+    setEndTimePickerShow(true);
+    setMode(currentMode);
   };
 
   const showStartDatePicker = () => {
@@ -85,6 +87,7 @@ function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
     }
 
     if (!endTime) {
+      setStartTimeErrorShow(false);
       setEndTimeErrorShow(true);
       setErrorMessage("請輸入起訖時間");
       setRangeAllSet(false);
@@ -108,13 +111,14 @@ function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
       setRangeAllSet(false);
       return false;
     }
+    setStartTimeErrorShow(false);
+    setEndTimeErrorShow(false);
+    setErrorMessage("");
+    setRangeAllSet(true);
     return true;
   };
 
   const handleSelectDate = (target: number) => {
-    setStartTimeErrorShow(false);
-    setEndTimeErrorShow(false);
-    setErrorMessage("");
     // target: 0 是startTime , 1是endTime
     if (target === 0) {
       showStartDatePicker();
@@ -136,12 +140,18 @@ function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
   };
 
   useEffect(() => {
-    // if (startTime && endTime) {
-    //   setRangeAllSet(true);
-    // }
     if (!checkInputTimeRangeValid()) return;
-    setRangeAllSet(true);
   }, [startTime, endTime]);
+
+  useEffect(() => {
+    setStartTime(new Date());
+    setEndTime(new Date());
+    setRangeAllSet(true);
+
+    const formattedDate = dayjs(new Date()).format("YYYY-MM-DD");
+    setStartTimeString(formattedDate);
+    setEndTimeString(formattedDate);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -155,38 +165,58 @@ function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
         <View style={styles.dateTimePickerArea}>
           <Text style={styles.titleText}>選擇起始日期</Text>
           <View style={styles.dateRangeContainer}>
-            <TouchableOpacity
-              style={styles.dateContainer}
-              onPress={() => {
-                handleSelectDate(0);
-              }}
-            >
+            <View style={styles.dateContainer}>
               <Text style={styles.labelText}>開始日期</Text>
               <View
                 style={[
-                  styles.dateTextView,
+                  styles.dateTextBox,
                   startTimeErrorShow ? styles.error : null,
                 ]}
               >
-                <Text style={styles.dateText}>{startTimeString}</Text>
+                <View style={styles.dateTextView}>
+                  <Text style={styles.dateText}>{startTimeString}</Text>
+                </View>
+                <View style={styles.dateTimePickerView}>
+                  <DateTimePicker
+                    style={styles.dateTimePicker}
+                    testID="dateTimePicker"
+                    value={startTime ? startTime : new Date()}
+                    mode={mode}
+                    is24Hour={true}
+                    onTouchStart={() => {
+                      setStartTimePickerShow(true);
+                    }}
+                    onChange={onChangeStartDate}
+                  />
+                </View>
               </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.dateContainer}
-              onPress={() => {
-                handleSelectDate(1);
-              }}
-            >
+            </View>
+            <View style={styles.dateContainer}>
               <Text style={styles.labelText}>結束日期</Text>
               <View
                 style={[
-                  styles.dateTextView,
+                  styles.dateTextBox,
                   endTimeErrorShow ? styles.error : null,
                 ]}
               >
-                <Text style={styles.dateText}>{endTimeString}</Text>
+                <View style={styles.dateTextView}>
+                  <Text style={styles.dateText}>{endTimeString}</Text>
+                </View>
+                <View style={styles.dateTimePickerView}>
+                  <DateTimePicker
+                    style={styles.dateTimePicker}
+                    testID="dateTimePicker"
+                    value={endTime ? endTime : new Date()}
+                    mode={mode}
+                    is24Hour={true}
+                    onTouchStart={() => {
+                      setEndTimePickerShow(true);
+                    }}
+                    onChange={onChangeEndDate}
+                  />
+                </View>
               </View>
-            </TouchableOpacity>
+            </View>
 
             <Text style={styles.errorMessage}>{errorMessage}</Text>
           </View>
@@ -207,13 +237,10 @@ function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
             </Text>
           </TouchableOpacity>
         </View>
-        {/* <Button onPress={showDatepicker} title="Show date picker!" />
-        <Button onPress={showTimepicker} title="Show time picker!" /> */}
-        {/* <Text>selected: {date.toLocaleString()}</Text> */}
       </View>
       <Toast />
     </View>
   );
 }
 
-export default DateTimePickerModal;
+export default DateTimePickerIosModal;
