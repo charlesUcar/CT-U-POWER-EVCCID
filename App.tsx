@@ -136,7 +136,7 @@ const Wrapper = () => {
   const { globalBackgroundColor } = useContext(AppContext);
 
   return (
-    <SafeAreaView
+    <View
       style={{
         flex: 1,
         backgroundColor: globalBackgroundColor as string,
@@ -160,7 +160,7 @@ const Wrapper = () => {
         <Toast config={toastconfig} />
         <StatusBar style="dark" />
       </NavigationContainer>
-    </SafeAreaView>
+    </View>
   );
 };
 
