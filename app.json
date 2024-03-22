@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "u-power-tools-app",
-    "slug": "u-power-tools-app",
+    "name": "U-Power-Tools",
+    "slug": "u-power-tools",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -37,7 +37,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "76da9477-d80f-4598-bc87-3d37a676a494"
+        "projectId": "052a52a9-95f1-4bd5-b94d-551aa3c93882"
       }
     },
     "owner": "u-power-work",
