@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1039853388597",
+    "project_id": "u-power-x-kia",
+    "storage_bucket": "u-power-x-kia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039853388597:android:52393b143bd9e159c1c27c",
+        "android_client_info": {
+          "package_name": "com.u_power_tools.development"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmVIp3dZwz3YVDxHOWlHYZJSrQ7LNISdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

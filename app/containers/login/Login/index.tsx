@@ -11,9 +11,11 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Button,
 } from "react-native";
 import images from "../../../images";
 import styles from "./index.style";
+import crashlytics from "@react-native-firebase/crashlytics";
 
 function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -143,6 +145,15 @@ function LoginScreen({ navigation }) {
           <TouchableOpacity style={styles.submitBtn} onPress={handleSubmit}>
             <Text style={styles.submitBtnText}>Log in</Text>
           </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            width: "100%",
+            paddingLeft: 32,
+            paddingRight: 32,
+          }}
+        >
+          <Button title="Crash Test" onPress={() => crashlytics.crash()} />
         </View>
       </View>
     </TouchableWithoutFeedback>
