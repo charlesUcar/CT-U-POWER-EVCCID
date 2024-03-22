@@ -9,7 +9,10 @@
     "pod:install": "cd ios && pod install && cd ../",
     "pod:deintegrate": "cd ios && pod deintegrate && cd ../",
     "expo:prebuild": "npx expo prebuild",
-    "expo:prebuild-clean": "npx expo prebuild --clean"
+    "expo:prebuild-clean": "npx expo prebuild --clean",
+    "android:clean": "cd android && ./gradlew clean && cd ../",
+    "android:build-aab": "cd android && ./gradlew bundleRelease && cd ../",
+    "android:build-apk": "cd android && ./gradlew assembleRelease && cd ../"
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "7.6.3",

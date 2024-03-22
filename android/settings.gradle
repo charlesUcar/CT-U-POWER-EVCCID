@@ -1,4 +1,4 @@
-rootProject.name = 'u-power-tools-app'
+rootProject.name = 'U-Power-Tools'
 
 dependencyResolutionManagement {
   versionCatalogs {
