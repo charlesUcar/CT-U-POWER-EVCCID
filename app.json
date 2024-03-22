@@ -19,7 +19,7 @@
       "infoPlist": {
         "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera"
       },
-      "bundleIdentifier": "com.u-power-tools-app.development"
+      "bundleIdentifier": "com.u-power-tools.development"
     },
     "android": {
       "icon": "./assets/icon.png",
@@ -30,7 +30,7 @@
       "permissions": [
         "android.permission.CAMERA"
       ],
-      "package": "com.u_power_tools_app.development"
+      "package": "com.u_power_tools.development"
     },
     "web": {
       "favicon": "./assets/favicon.png"
