@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "U-Power-Tools",
-    "slug": "u-power-tools",
+    "name": "U-POWER-EVCCID",
+    "slug": "u-power-evccid",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,13 +11,15 @@
       "resizeMode": "contain",
       "backgroundColor": "#0096A3"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
         "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera"
       },
-      "bundleIdentifier": "com.u-power-tools.development",
+      "bundleIdentifier": "com.upower.evccid.development",
       "buildNumber": "1.0.0",
       "googleServicesFile": "./GoogleService-Info.plist"
     },
@@ -27,8 +29,10 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0096A3"
       },
-      "permissions": ["android.permission.CAMERA"],
-      "package": "com.u_power_tools.development",
+      "permissions": [
+        "android.permission.CAMERA"
+      ],
+      "package": "com.upower.evccid.development",
       "googleServicesFile": "./google-services.json"
     },
     "web": {
@@ -36,10 +40,10 @@
     },
     "extra": {
       "eas": {
-        "projectId": "052a52a9-95f1-4bd5-b94d-551aa3c93882"
+        "projectId": "7fa16fc6-0b91-4bd1-8695-a55464b0c2bb"
       }
     },
-    "owner": "u-power-work",
+    "owner": "charlesucar",
     "plugins": [
       [
         "react-native-vision-camera",

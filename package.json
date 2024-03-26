@@ -1,5 +1,5 @@
 {
-  "name": "u-power-tools-app",
+  "name": "U-POWER-EVCCID",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start --dev-client",
