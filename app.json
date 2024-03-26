@@ -18,6 +18,7 @@
         "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera"
       },
       "bundleIdentifier": "com.u-power-tools.development",
+      "buildNumber": "1.0.0",
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
