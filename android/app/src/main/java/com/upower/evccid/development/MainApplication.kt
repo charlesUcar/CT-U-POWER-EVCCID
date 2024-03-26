@@ -1,4 +1,4 @@
-package com.u_power_tools.development
+package com.upower.evccid.development
 
 import android.app.Application
 import android.content.res.Configuration

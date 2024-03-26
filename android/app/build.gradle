@@ -83,9 +83,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.u_power_tools.development'
+    namespace 'com.upower.evccid.development'
     defaultConfig {
-        applicationId 'com.u_power_tools.development'
+        applicationId 'com.upower.evccid.development'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -100,14 +100,6 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
-        release {
-            if (project.hasProperty('UPOWERTOOLS_RELEASE_STORE_FILE')) {
-                storeFile file(UPOWERTOOLS_RELEASE_STORE_FILE)
-                storePassword UPOWERTOOLS_RELEASE_STORE_PASSWORD
-                keyAlias UPOWERTOOLS_RELEASE_KEY_ALIAS
-                keyPassword UPOWERTOOLS_RELEASE_KEY_PASSWORD
-            }
-        }
     }
     buildTypes {
         debug {
@@ -116,7 +108,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
             shrinkResources (findProperty('android.enableShrinkResourcesInReleaseBuilds')?.toBoolean() ?: false)
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
