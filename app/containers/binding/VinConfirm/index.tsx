@@ -19,6 +19,7 @@ import Loading from "../../../components/animate/Loading";
 import { useFocusEffect } from "@react-navigation/native";
 import { createVehicleByVin, getVehicle } from "../../../services/Api";
 import useVinValidator from "../../../hooks/useVinValidator";
+import crashlytics from "@react-native-firebase/crashlytics";
 
 export type vehicle = {
   code: String;
@@ -42,6 +43,7 @@ function VinConfirmScreen({ route, navigation }) {
     // UU6JA69691D713820
     setIsLoading(true);
     if (!checkVinValid(vin)) {
+      crashlytics().log("V.I.N inValid");
       Alert.alert("V.I.N 格式錯誤", "請重新掃描並確認 V.I.N");
       setIsLoading(false);
       return;
@@ -55,17 +57,19 @@ function VinConfirmScreen({ route, navigation }) {
       const params = new URLSearchParams(url.split("?")[1]);
       const vehicleId = params.get("vehicleid");
       if (vehicleId) {
-        const { data } = await getVehicle({vehicleId});
+        const { data } = await getVehicle({ vehicleId });
         navigation.navigate("PlugIn", {
           vin,
           vehicleId: data.data[0].vehicleId,
         });
         return;
       }
+      crashlytics().log('get vehicleId fail');
       Alert.alert("取得Vehicle錯誤", "沒有VehicleId");
       navigation.navigate("Home");
       return;
     } else {
+      crashlytics().log('get vehicleId fail');
       Alert.alert("發生錯誤");
       navigation.navigate("Home");
       return;

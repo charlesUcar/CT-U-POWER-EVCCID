@@ -24,6 +24,7 @@ import Toast from "react-native-toast-message";
 import * as XLSX from "xlsx";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import crashlytics from "@react-native-firebase/crashlytics";
 
 var utc = require("dayjs/plugin/utc");
 dayjs.extend(utc);
@@ -119,8 +120,10 @@ function HomeScreen({ navigation }) {
       // 有Fetch到內容
       if (result.status && result.status >= 200 && result.status <= 299) {
         // 蒐集用戶所選區間的所有記錄
-        const currentDownloadData: GetVehicleResponseBody["data"] =
-          [...listData, ...result.data.data];
+        const currentDownloadData: GetVehicleResponseBody["data"] = [
+          ...listData,
+          ...result.data.data,
+        ];
         generationExcel(currentDownloadData);
       }
       return;
@@ -186,6 +189,7 @@ function HomeScreen({ navigation }) {
       <TouchableOpacity
         style={styles.topHeaderContainer}
         onPress={() => {
+          crashlytics().log("open DateTimePicker Modal");
           setModalVisible(true);
         }}
       >
@@ -224,6 +228,7 @@ function HomeScreen({ navigation }) {
           visible={modalVisible}
           onRequestClose={() => {
             // Alert.alert("Modal has been closed.");
+            crashlytics().log("close DateTimePicker Modal");
             setModalVisible(false);
           }}
         >

@@ -1,20 +1,7 @@
-import { StatusBar } from "expo-status-bar";
-import { MaterialIcons } from "@expo/vector-icons";
-import {
-  Text,
-  View,
-  Button,
-  TouchableWithoutFeedback,
-  Keyboard,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  AppState,
-  Alert,
-} from "react-native";
-import images from "../../../images";
+import { Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
 import styles from "./index.style";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
+import crashlytics from "@react-native-firebase/crashlytics";
 
 function VinTypingScreen({ navigation }) {
   const [userInputVin, setUserInputCode] = useState<string>("");
@@ -29,6 +16,7 @@ function VinTypingScreen({ navigation }) {
   const handleSubmitUserInputVin = () => {
     // 7J3ZZ56T7834500003, JS3TD62V1Y4107896
     if (!isValidVin(userInputVin)) {
+      crashlytics().log("V.I.N 手動輸入格式錯誤");
       Alert.alert("V.I.N 格式錯誤");
       setIsUserInputVinError(true);
       return;

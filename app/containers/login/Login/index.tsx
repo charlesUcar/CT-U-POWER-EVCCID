@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import images from "../../../images";
 import styles from "./index.style";
+import crashlytics from "@react-native-firebase/crashlytics";
 
 function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -39,6 +40,7 @@ function LoginScreen({ navigation }) {
 
   const handleSubmit = () => {
     setGlobalBackgroundColor("#C1DFE2");
+    crashlytics().log("Login Success");
     navigation.push("Home");
 
     // if (email && isValidEmail && password && isValidPassword) {

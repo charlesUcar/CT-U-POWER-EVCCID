@@ -1,11 +1,10 @@
 import { Text, View, TouchableOpacity } from "react-native";
 import styles from "./index.style";
 import React, { useEffect, useState } from "react";
-import DateTimePicker, {
-  DateTimePickerAndroid,
-} from "@react-native-community/datetimepicker";
+import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
 import Toast from "react-native-toast-message";
+import crashlytics from "@react-native-firebase/crashlytics";
 
 type SetModalVisibleType = (value: boolean) => void;
 type SetListTimeRangeType = ({
@@ -51,6 +50,7 @@ function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
   };
 
   const showStartDateMode = (currentMode) => {
+    crashlytics().log("android startDate picker open");
     DateTimePickerAndroid.open({
       value: startTime ? startTime : new Date(),
       onChange: onChangeStartDate,
@@ -60,6 +60,7 @@ function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
   };
 
   const showEndDateMode = (currentMode) => {
+    crashlytics().log("android endDate picker open");
     DateTimePickerAndroid.open({
       value: endTime ? endTime : new Date(),
       onChange: onChangeEndDate,
@@ -125,6 +126,7 @@ function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
 
   const handleSubmit = () => {
     if (checkInputTimeRangeValid()) {
+      crashlytics().log("submit search evccid binding data by android dateTimePicker");
       const startTimeFormat = dayjs(startTime).format("YYYY-MM-DD");
       const EndTimeFormat = dayjs(endTime).format("YYYY-MM-DD");
       // 把startTime跟endTime傳到Home組件的setListTimeRange

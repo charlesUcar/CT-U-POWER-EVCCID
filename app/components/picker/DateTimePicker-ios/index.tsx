@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
 import Toast from "react-native-toast-message";
+import crashlytics from "@react-native-firebase/crashlytics";
 
 type SetModalVisibleType = (value: boolean) => void;
 type SetListTimeRangeType = ({
@@ -61,11 +62,13 @@ function DateTimePickerIosModal({ setModalVisible, setListTimeRange }: Props) {
   };
 
   const showStartDateMode = (currentMode) => {
+    crashlytics().log("ios startDate picker open");
     setStartTimePickerShow(true);
     setMode(currentMode);
   };
 
   const showEndDateMode = (currentMode) => {
+    crashlytics().log("ios endDate picker open");
     setEndTimePickerShow(true);
     setMode(currentMode);
   };
@@ -118,17 +121,9 @@ function DateTimePickerIosModal({ setModalVisible, setListTimeRange }: Props) {
     return true;
   };
 
-  const handleSelectDate = (target: number) => {
-    // target: 0 是startTime , 1是endTime
-    if (target === 0) {
-      showStartDatePicker();
-      return;
-    }
-    showEndDatePicker();
-  };
-
   const handleSubmit = () => {
     if (checkInputTimeRangeValid()) {
+      crashlytics().log("submit search evccid binding data by ios dateTimePicker");
       const startTimeFormat = dayjs(startTime).format("YYYY-MM-DD");
       const EndTimeFormat = dayjs(endTime).format("YYYY-MM-DD");
       // 把startTime跟endTime傳到Home組件的setListTimeRange

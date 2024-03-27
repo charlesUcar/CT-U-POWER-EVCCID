@@ -1,16 +1,7 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import styles from "./index.style";
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
   Code,
   Camera,
@@ -23,6 +14,7 @@ import { useIsForeground } from "../../../hooks/useIsForeground";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AppContext from "../../../context/AppContext";
+import crashlytics from "@react-native-firebase/crashlytics";
 
 // const showCodeAlert = (value: string, onDismissed: () => void): void => {
 //   const buttons: AlertButton[] = [
@@ -84,6 +76,7 @@ function ScanScreen({ navigation }) {
     if (isValidVin(value)) {
       setIsActive(false);
       // Alert.alert("GET VIN", value);
+      crashlytics().log("scanned VIN");
       console.log(value);
       navigation.navigate("VinConfirm", {
         vin: value,
@@ -159,6 +152,7 @@ function ScanScreen({ navigation }) {
   );
 
   useEffect(() => {
+    crashlytics().log("request camera permission");
     requestPermission();
   }, []);
 
