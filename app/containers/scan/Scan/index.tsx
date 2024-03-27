@@ -1,26 +1,14 @@
 import { StatusBar } from "expo-status-bar";
-import { MaterialIcons } from "@expo/vector-icons";
 import {
   Text,
   View,
-  Button,
-  TouchableWithoutFeedback,
-  Keyboard,
-  TextInput,
   TouchableOpacity,
-  Image,
-  AppState,
-  Alert,
-  Linking,
-  AlertButton,
 } from "react-native";
-import images from "../../../images";
 import styles from "./index.style";
 import React, {
   useCallback,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import {
@@ -63,7 +51,6 @@ function ScanScreen({ navigation }) {
   // const [isScanMode, setIsScanMode] = useState<boolean>(true);
   const [scannedType, setScannedType] = useState<string>("");
   const [scannedCode, setScannedCode] = useState<string>("");
-  const [userInputCode, setUserInputCode] = useState<string>("");
 
   const { setGlobalBackgroundColor } = useContext(AppContext);
 
@@ -79,7 +66,6 @@ function ScanScreen({ navigation }) {
   const [torch, setTorch] = useState(false);
 
   // 4. On code scanned, we show an aler to the user
-  const isShowingAlert = useRef(false);
   const onCodeScanned = useCallback((codes: Code[]) => {
     // console.log(`Scanned ${codes.length} codes:`, codes);
     const type = codes[0]?.type;
@@ -149,11 +135,17 @@ function ScanScreen({ navigation }) {
   };
 
   const handleToggleInputStyle = () => {
-    navigation.push("VinTyping");
+    setIsActive(false);
+    setTimeout(() => {
+      navigation.push("VinTyping");
+    }, 0);
   };
 
   const handleClickCloseBtn = () => {
-    navigation.navigate("Home");
+    setIsActive(false);
+    setTimeout(() => {
+      navigation.navigate("Home");
+    }, 0);
   };
 
   useFocusEffect(
@@ -207,7 +199,7 @@ function ScanScreen({ navigation }) {
               style={{ width: "100%", height: "100%" }}
               device={device}
               format={format}
-              fps={24}
+              fps={15}
               orientation="portrait"
               codeScanner={codeScanner}
               torch={torch ? "on" : "off"}

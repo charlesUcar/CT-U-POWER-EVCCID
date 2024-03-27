@@ -7,28 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1039853388597:android:52393b143bd9e159c1c27c",
+        "mobilesdk_app_id": "1:1039853388597:android:a962ca35a79d01d4c1c27c",
         "android_client_info": {
-          "package_name": "com.u_power_tools.development"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBmVIp3dZwz3YVDxHOWlHYZJSrQ7LNISdU"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1039853388597:android:d529285d22a7e553c1c27c",
-        "android_client_info": {
-          "package_name": "com.upower.evccid"
+          "package_name": "com.upower.evccid.development"
         }
       },
       "oauth_client": [],

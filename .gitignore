@@ -3,6 +3,9 @@
 # dependencies
 node_modules/
 
+android/
+ios/
+
 # Expo
 .expo/
 dist/
@@ -15,6 +18,10 @@ web-build/
 *.p12
 *.key
 *.mobileprovision
+
+*.apk
+*.aab
+*.ipa
 
 # Metro
 .metro-health-check*
