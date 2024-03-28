@@ -19,7 +19,7 @@
       "infoPlist": {
         "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera"
       },
-      "bundleIdentifier": "com.upower.evccid.development",
+      "bundleIdentifier": "com.upower.evccid.dev",
       "buildNumber": "1.0.0",
       "googleServicesFile": "./GoogleService-Info.plist"
     },

@@ -14,9 +14,11 @@ import LoginScreen from "./app/containers/login/Login";
 import HomeScreen from "./app/containers/home/Home";
 import ScanScreen from "./app/containers/scan/Scan";
 import VinTypingScreen from "./app/containers/vinTyping/VinTyping";
-import VinConfirmScreen from "./app/containers/binding/VinConfirm";
-import PlugInScreen from "./app/containers/binding/PlugIn";
-import FinalConfirmScreen from "./app/containers/binding/FinalConfirm";
+import {
+  VinConfirmScreen,
+  PlugInScreen,
+  FinalConfirmScreen,
+} from "./app/containers/binding";
 import Images from "./app/images";
 
 const Stack = createNativeStackNavigator();
