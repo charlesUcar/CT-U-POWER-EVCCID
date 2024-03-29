@@ -10,6 +10,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaView, View, Text, Image } from "react-native";
 import { AppProvider } from "./app/context/AppContext";
 import AppContext from "./app/context/AppContext";
+import SplashScreen from "./app/containers/splash/Splash";
 import LoginScreen from "./app/containers/login/Login";
 import HomeScreen from "./app/containers/home/Home";
 import ScanScreen from "./app/containers/scan/Scan";
@@ -149,8 +150,9 @@ const Wrapper = () => {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName="Login"
+          initialRouteName="Splash"
         >
+          <Stack.Screen name="Splash" component={SplashScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Scan" component={ScanScreen} />

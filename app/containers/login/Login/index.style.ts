@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     width: "100%",
     // backgroundColor: "lightgreen",
   },
-  emailContainer: {
+  userNameContainer: {
     flex: 0,
     alignItems: "flex-start",
     justifyContent: "flex-start",
@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
   },
   submitBtn: {
     width: "100%",
+    height: 58,
     paddingTop: 19,
     paddingBottom: 19,
     backgroundColor: "#00565C",

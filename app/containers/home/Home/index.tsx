@@ -96,6 +96,7 @@ function HomeScreen({ navigation }) {
       setIsLoading(false);
       return;
     }
+    console.log(result.status)
     // 沒Fetch到內容，會噴500
     Toast.show({
       type: "customWarning",

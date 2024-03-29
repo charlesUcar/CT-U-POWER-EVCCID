@@ -1,8 +1,8 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useCallback, useContext, useState } from "react";
-import AppContext from "../../../context/AppContext";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { useFocusEffect } from "@react-navigation/native";
+import { StatusBar } from 'expo-status-bar';
+import React, { useCallback, useContext, useState } from 'react';
+import AppContext from '../../../context/AppContext';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   TouchableWithoutFeedback,
   Keyboard,
@@ -12,24 +12,26 @@ import {
   TouchableOpacity,
   Image,
   Button,
-} from "react-native";
-import images from "../../../images";
-import styles from "./index.style";
-import crashlytics from "@react-native-firebase/crashlytics";
+} from 'react-native';
+import images from '../../../images';
+import styles from './index.style';
+import crashlytics from '@react-native-firebase/crashlytics';
+import { login } from '../../../services/Api';
+import Toast from 'react-native-toast-message';
+import Loading from '../../../components/animate/Loading';
 
 function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [isValidEmail, setIsValidEmail] = useState(true);
-  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState('');
+  // const [isValidUserName, setIsValidUserName] = useState(true);
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
 
   const { setGlobalBackgroundColor } = useContext(AppContext);
 
-  const handleEmailChange = (text: string) => {
-    setEmail(text);
-    // 使用正則表達式驗證郵件地址格式
-    setIsValidEmail(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(text));
+  const handleUserNameChange = (text: string) => {
+    setUserName(text);
   };
 
   const handlePasswordChange = (text: string) => {
@@ -38,16 +40,52 @@ function LoginScreen({ navigation }) {
     setIsValidPassword(/^.{8}$/.test(text));
   };
 
-  const handleSubmit = () => {
-    setGlobalBackgroundColor("#C1DFE2");
-    crashlytics().log("Login Success");
-    navigation.push("Home");
+  const handleSubmit = async () => {
+    setGlobalBackgroundColor('#C1DFE2');
+    crashlytics().log('Login Success');
 
-    // if (email && isValidEmail && password && isValidPassword) {
+    const payload = {
+      username: userName,
+      password: password,
+    };
+
+    try {
+      setIsLoading(true);
+      const result = await login(payload);
+
+      if (result.success) {
+        // 登入成功，導航到首頁或執行其他操作
+        Toast.show({
+          type: 'customSuccess',
+          text1: '登入成功',
+          position: 'bottom',
+        });
+        navigation.push('Home');
+      } else {
+        // 登入失敗，顯示錯誤訊息
+        setIsLoading(false);
+        Toast.show({
+          type: 'customError',
+          text1: '登入失敗，請檢查帳號密碼有無錯誤',
+          position: 'bottom',
+        });
+      }
+    } catch (error) {
+      // 處理其他錯誤
+      console.error('Login failed:', error);
+      setIsLoading(false);
+      Toast.show({
+        type: 'customError',
+        text1: '登入異常，請稍後再試',
+        position: 'bottom',
+      });
+    }
+
+    // if (userName && isValidUserName && password && isValidPassword) {
     //   // 在這裡處理提交邏輯
     //   navigation.push("Home");
-    // } else if (!email || !isValidEmail) {
-    //   alert("Please enter a valid email address.");
+    // } else if (!userName || !isValidUserName) {
+    //   alert("Please enter a valid userName address.");
     //   return;
     // } else if (!password || !isValidPassword) {
     //   Alert.alert(
@@ -62,8 +100,10 @@ function LoginScreen({ navigation }) {
   useFocusEffect(
     useCallback(() => {
       // 進入Login頁面將全域背景換成#C1DFE2
-      setGlobalBackgroundColor("#C1DFE2");
-      return () => {};
+      setGlobalBackgroundColor('#C1DFE2');
+      return () => {
+        setIsLoading(false);
+      };
     }, [])
   );
 
@@ -81,8 +121,8 @@ function LoginScreen({ navigation }) {
               marginTop: 24,
               marginBottom: 8,
               fontSize: 28,
-              fontWeight: "600",
-              color: "#2C333F",
+              fontWeight: '600',
+              color: '#2C333F',
             }}
           >
             Log In
@@ -90,22 +130,21 @@ function LoginScreen({ navigation }) {
           <Text
             style={{
               fontSize: 12,
-              color: "gray",
-              fontWeight: "400",
+              color: 'gray',
+              fontWeight: '400',
             }}
           >
             Welcome
           </Text>
         </View>
-        <View style={styles.emailContainer}>
-          <Text style={styles.label}>Email</Text>
+        <View style={styles.userNameContainer}>
+          <Text style={styles.label}>UserName</Text>
           <TextInput
-            style={[styles.input, !isValidEmail && styles.inputError]}
-            onChangeText={handleEmailChange}
-            value={email}
-            keyboardType="email-address" // 將鍵盤類型設置為電子郵件地址
+            style={styles.input}
+            onChangeText={handleUserNameChange}
+            value={userName}
             autoCapitalize="none" // 禁用自動大寫，因為電子郵件地址不區分大小寫
-            placeholder="Enter Your Email"
+            placeholder="Enter Your UserName"
             placeholderTextColor="gray"
           />
         </View>
@@ -122,13 +161,13 @@ function LoginScreen({ navigation }) {
           <TouchableOpacity
             onPress={togglePasswordVisibility}
             style={{
-              position: "absolute", // 將 iconContainer 設置為絕對定位
-              right: "15%", // 將 iconContainer 放置在 TextInput 的最右邊
-              top: "44%",
+              position: 'absolute', // 將 iconContainer 設置為絕對定位
+              right: '15%', // 將 iconContainer 放置在 TextInput 的最右邊
+              top: '44%',
             }}
           >
             <Ionicons
-              name={showPassword ? "eye-off-outline" : "eye-outline"}
+              name={showPassword ? 'eye-off-outline' : 'eye-outline'}
               size={24}
               color="black"
             />
@@ -136,13 +175,17 @@ function LoginScreen({ navigation }) {
         </View>
         <View
           style={{
-            width: "100%",
+            width: '100%',
             paddingLeft: 32,
             paddingRight: 32,
           }}
         >
           <TouchableOpacity style={styles.submitBtn} onPress={handleSubmit}>
-            <Text style={styles.submitBtnText}>Log in</Text>
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <Text style={styles.submitBtnText}>Log in</Text>
+            )}
           </TouchableOpacity>
         </View>
       </View>
