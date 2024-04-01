@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.upower.evccid.development</string>
+	<string>com.upower.evccid.dev</string>
 	<key>PROJECT_ID</key>
 	<string>u-power-x-kia</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1039853388597:ios:ef9013798d142680c1c27c</string>
+	<string>1:1039853388597:ios:14970301cacd375bc1c27c</string>
 </dict>
 </plist>
