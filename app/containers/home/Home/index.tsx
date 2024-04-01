@@ -7,7 +7,6 @@ import {
   Image,
   Modal,
   Platform,
-  Button,
 } from 'react-native';
 import Images from '../../../images';
 import styles from './index.style';
@@ -26,7 +25,6 @@ import * as XLSX from 'xlsx';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import crashlytics from '@react-native-firebase/crashlytics';
-import { setUserApiToken } from '../../../services/Api';
 
 var utc = require('dayjs/plugin/utc');
 dayjs.extend(utc);
@@ -122,7 +120,7 @@ function HomeScreen({ navigation }) {
   const handleDownloadData = async () => {
     setIsDownloadLoading(true);
     if (listData && Number(totalCount) > 50) {
-      const result = await getVehicle({
+      const response = await getVehicle({
         offset: '50',
         limit: '10000',
         startTime: listStartTimeUTC,
@@ -130,11 +128,11 @@ function HomeScreen({ navigation }) {
       });
 
       // 有Fetch到內容
-      if (result.status && result.status >= 200 && result.status <= 299) {
+      if (response.success) {
         // 蒐集用戶所選區間的所有記錄
         const currentDownloadData: GetVehicleResponseBody['data'] = [
           ...listData,
-          ...result.data.data,
+          ...response.data.data,
         ];
         generationExcel(currentDownloadData);
       }
@@ -316,14 +314,6 @@ function HomeScreen({ navigation }) {
             <Text style={styles.createBtnAreaPlusText}>開始新增</Text>
           </View>
         </TouchableOpacity>
-        <Button
-          title="TEST"
-          onPress={() => {
-            setUserApiToken(
-              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkZmY2MjM5Yi0wZmI4LTQ4NjMtYmQxOS02MzhiZWQzNjE2ZDgiLCJuYmYiOjE3MTE3MDE3NDEsImV4cCI6MTYyNzI1Mzc0MSwiaWF0IjoxNzExNzAxNzQxLCJpc3MiOiJFVkdhbGxvcCJ9.87EatiCJwj2WMyq7Ooblg9FrHAOLYwXofFvsn5KEUKg'
-            );
-          }}
-        />
       </View>
       <StatusBar style="dark" />
     </View>
