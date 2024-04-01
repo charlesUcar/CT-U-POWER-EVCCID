@@ -12,6 +12,8 @@ import {
   TouchableOpacity,
   Image,
   Button,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import images from '../../../images';
 import styles from './index.style';
@@ -44,6 +46,15 @@ function LoginScreen({ navigation }) {
     setGlobalBackgroundColor('#C1DFE2');
     crashlytics().log('Login Success');
 
+    if (!userName || !password) {
+      Toast.show({
+        type: 'customWarning',
+        text1: '請輸入帳密',
+        position: 'bottom',
+      });
+      return;
+    }
+
     const payload = {
       username: userName,
       password: password,
@@ -60,7 +71,7 @@ function LoginScreen({ navigation }) {
           text1: '登入成功',
           position: 'bottom',
         });
-        navigation.push('Home');
+        navigation.replace('Home');
       } else {
         // 登入失敗，顯示錯誤訊息
         setIsLoading(false);
@@ -137,42 +148,50 @@ function LoginScreen({ navigation }) {
             Welcome
           </Text>
         </View>
-        <View style={styles.userNameContainer}>
-          <Text style={styles.label}>UserName</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={handleUserNameChange}
-            value={userName}
-            autoCapitalize="none" // 禁用自動大寫，因為電子郵件地址不區分大小寫
-            placeholder="Enter Your UserName"
-            placeholderTextColor="gray"
-          />
-        </View>
-        <View style={styles.passwordContainer}>
-          <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={(text) => handlePasswordChange(text)}
-            value={password}
-            placeholder="Enter Your Password"
-            placeholderTextColor="gray"
-            secureTextEntry={!showPassword} // 如果 showPassword 為 true，則顯示密碼
-          />
-          <TouchableOpacity
-            onPress={togglePasswordVisibility}
-            style={{
-              position: 'absolute', // 將 iconContainer 設置為絕對定位
-              right: '15%', // 將 iconContainer 放置在 TextInput 的最右邊
-              top: '44%',
-            }}
-          >
-            <Ionicons
-              name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-              size={24}
-              color="black"
+        <KeyboardAvoidingView
+          style={styles.formContainer}
+          enabled={Platform.OS === 'ios' ? true : false}
+          behavior={'padding'}
+          keyboardVerticalOffset={20} // 鍵盤彈出時的垂直偏移量
+        >
+          <View style={styles.userNameContainer}>
+            <Text style={styles.label}>UserName</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={handleUserNameChange}
+              value={userName}
+              autoCapitalize="none" // 禁用自動大寫，因為電子郵件地址不區分大小寫
+              placeholder="Enter Your UserName"
+              placeholderTextColor="gray"
             />
-          </TouchableOpacity>
-        </View>
+          </View>
+          <View style={styles.passwordContainer}>
+            <Text style={styles.label}>Password</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => handlePasswordChange(text)}
+              value={password}
+              placeholder="Enter Your Password"
+              placeholderTextColor="gray"
+              secureTextEntry={!showPassword} // 如果 showPassword 為 true，則顯示密碼
+            />
+            <TouchableOpacity
+              onPress={togglePasswordVisibility}
+              style={{
+                position: 'absolute', // 將 iconContainer 設置為絕對定位
+                right: '15%', // 將 iconContainer 放置在 TextInput 的最右邊
+                top: '44%',
+              }}
+            >
+              <Ionicons
+                name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                size={24}
+                color="black"
+              />
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+
         <View
           style={{
             width: '100%',

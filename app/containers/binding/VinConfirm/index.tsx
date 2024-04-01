@@ -1,25 +1,17 @@
-import { StatusBar } from "expo-status-bar";
-import { MaterialIcons } from "@expo/vector-icons";
 import {
   Text,
   View,
-  Button,
-  TouchableWithoutFeedback,
-  Keyboard,
-  TextInput,
   TouchableOpacity,
-  Image,
-  AppState,
   Alert,
-} from "react-native";
-import images from "../../../images";
-import styles from "./index.style";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import Loading from "../../../components/animate/Loading";
-import { useFocusEffect } from "@react-navigation/native";
-import { createVehicleByVin, getVehicle } from "../../../services/Api";
-import useVinValidator from "../../../hooks/useVinValidator";
-import crashlytics from "@react-native-firebase/crashlytics";
+} from 'react-native';
+import styles from './index.style';
+import React, { useCallback, useState } from 'react';
+import Loading from '../../../components/animate/Loading';
+import { useFocusEffect } from '@react-navigation/native';
+import { createVehicleByVin, getVehicle } from '../../../services/Api';
+import useVinValidator from '../../../hooks/useVinValidator';
+import crashlytics from '@react-native-firebase/crashlytics';
+import Toast from 'react-native-toast-message';
 
 export type vehicle = {
   code: String;
@@ -43,37 +35,54 @@ function VinConfirmScreen({ route, navigation }) {
     // UU6JA69691D713820
     setIsLoading(true);
     if (!checkVinValid(vin)) {
-      crashlytics().log("V.I.N inValid");
-      Alert.alert("V.I.N 格式錯誤", "請重新掃描並確認 V.I.N");
+      crashlytics().log('V.I.N inValid');
+      Alert.alert('V.I.N 格式錯誤', '請重新掃描並確認 V.I.N');
       setIsLoading(false);
       return;
     }
     // 上傳VIN，伺服器會創建新的vehicle物件並帶入VIN
     // 創建後的vehicle物件location會在headers裡
-    const headers = await createVehicleByVin(vin);
+    const response = await createVehicleByVin(vin);
 
-    if (headers) {
-      const url = headers.location;
-      const params = new URLSearchParams(url.split("?")[1]);
-      const vehicleId = params.get("vehicleid");
+    if (response.success && response.headers) {
+      const url = response.headers.location;
+      const params = new URLSearchParams(url.split('?')[1]);
+      const vehicleId = params.get('vehicleid');
       if (vehicleId) {
         const { data } = await getVehicle({ vehicleId });
-        navigation.navigate("PlugIn", {
+        navigation.navigate('PlugIn', {
           vin,
           vehicleId: data.data[0].vehicleId,
         });
         return;
       }
       crashlytics().log('get vehicleId fail');
-      Alert.alert("取得Vehicle錯誤", "沒有VehicleId");
-      navigation.navigate("Home");
-      return;
-    } else {
-      crashlytics().log('get vehicleId fail');
-      Alert.alert("發生錯誤");
-      navigation.navigate("Home");
+      Toast.show({
+        type: 'customWarning',
+        text1: '取得Vehicle錯誤',
+        text2: '沒有VehicleId',
+        position: 'bottom',
+      });
+      navigation.replace('Home');
       return;
     }
+    if (!response.success && response.status === 401) {
+      crashlytics().log('token expired');
+      Toast.show({
+        type: 'customWarning',
+        text1: '請重新登入',
+        position: 'bottom',
+      });
+      navigation.replace('Login');
+      return;
+    }
+    crashlytics().log('create vehicle by vin fail');
+    Toast.show({
+      type: 'customWarning',
+      text1: '發生錯誤',
+      position: 'bottom',
+    });
+    navigation.navigate('Home');
   };
 
   useFocusEffect(
@@ -87,7 +96,7 @@ function VinConfirmScreen({ route, navigation }) {
   );
 
   const handleUserCancle = () => {
-    navigation.navigate("Scan", {});
+    navigation.navigate('Scan', {});
   };
 
   return (

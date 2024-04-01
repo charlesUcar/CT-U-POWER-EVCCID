@@ -1,6 +1,14 @@
 import { TIMEOUT, endpoints } from './config';
 import { create } from 'apisauce';
-import { CreateVehicleByVin, GetVehicleResponseBody, GetEvccId } from './types';
+import {
+  CreateVehicleByVinParams,
+  GetVehicleResponseBody,
+  GetEvccId,
+  GetVehicleParams,
+  BindEvccidWithVehicle,
+  Login,
+  LoginPayLoad,
+} from './types';
 import crashlytics from '@react-native-firebase/crashlytics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -9,7 +17,7 @@ const api = create({
   timeout: TIMEOUT,
 });
 
-let userToken: string = '';
+let userToken: string = "";
 
 // 添加一個 request 攔截器，在每個請求中添加 Token 到 headers 中
 api.addRequestTransform((request) => {
@@ -20,7 +28,7 @@ const setUserApiToken = (token: string) => {
   userToken = token;
 };
 
-const login = async (payload) => {
+const login = async (payload: LoginPayLoad) => {
   try {
     const response = await api.post('/user/login', payload);
 
@@ -49,25 +57,40 @@ const login = async (payload) => {
   }
 };
 
-const createVehicleByVin = async (vin: CreateVehicleByVin) => {
+const createVehicleByVin = async (vin: CreateVehicleByVinParams) => {
   try {
+    const response = await api.post('/vehicle', { vin });
     // 使用VIN建立vehicle物件後，物件的location url會在headers裡面
-    const { headers } = await api.post('/vehicle', { vin });
-    crashlytics().log('created vehicle by vin');
-    return headers;
+    if (response.ok) {
+      crashlytics().log('created vehicle by vin');
+      return {
+        success: true,
+        headers: response.headers,
+        status: response.status,
+      };
+    } else {
+      // 登入失敗，返回錯誤訊息或處理其他錯誤情況
+      if (response.status === 401) {
+        // 如果是未授權錯誤，可能是 Token 過期或無效，需要重新登入
+        return {
+          success: false,
+          status: response.status,
+          error: 'Unauthorized',
+        };
+      } else {
+        // 其他狀況，可能是網絡問題等，可以顯示一個通用的錯誤訊息給用戶
+        return {
+          success: false,
+          status: response.status,
+          error: 'Unexpected Error',
+        };
+      }
+    }
   } catch (error) {
     console.log(error);
     crashlytics().log('created vehicle by vin fail');
     throw new Error('Failed to create vehicle');
   }
-};
-
-type GetVehicleParams = {
-  vehicleId?: string;
-  offset?: string;
-  limit?: string;
-  startTime?: string;
-  endTime?: string;
 };
 
 const getVehicle = async ({
@@ -108,11 +131,40 @@ const getVehicle = async ({
       endTime,
     };
   }
+
   const searchParams = new URLSearchParams(search);
   try {
-    const result = await api.get(`/vehicle?${searchParams}`);
-    crashlytics().log('get vehicle by params');
-    return result;
+    const response = await api.get(`/vehicle?${searchParams}`);
+    if (response.ok) {
+      crashlytics().log('get vehicle by params');
+      return {
+        success: true,
+        data: response.data,
+        status: response.status,
+        headers: response.headers,
+      };
+    } else {
+      // 獲取資料失敗，返回錯誤訊息或處理其他錯誤情況
+      if (response.status === 401) {
+        // 如果是未授權錯誤，可能是 Token 過期或無效，需要重新登入
+        // 將手機內的token刪掉
+        await AsyncStorage.removeItem('token');
+        crashlytics().log('remove token in device successed');
+        setUserApiToken("");
+        return {
+          success: false,
+          status: response.status,
+          error: 'Unauthorized',
+        };
+      } else {
+        // 其他狀況，可能是網絡問題等，可以顯示一個通用的錯誤訊息給用戶
+        return {
+          success: false,
+          status: response.status,
+          error: 'Unexpected Error',
+        };
+      }
+    }
     // if (result.status && result.status >= 200 && result.status <= 299) {
     //   return { data, headers };
     // }
@@ -126,12 +178,47 @@ const getVehicle = async ({
 };
 
 const getEvccId = async (vehicleId: string): Promise<GetEvccId> => {
+  // try {
+  //   const { data, status } = await api.get(
+  //     `vehicle/evccid?vehicleid=${vehicleId}`
+  //   );
+  //   crashlytics().log('get evccId');
+  //   return { data, status } as GetEvccId;
+  // } catch (error) {
+  //   crashlytics().log('failed to get evccId');
+  //   throw new Error('Failed to get evccId');
+  // }
   try {
-    const { data, status } = await api.get(
-      `vehicle/evccid?vehicleid=${vehicleId}`
-    );
-    crashlytics().log('get evccId');
-    return { data, status } as GetEvccId;
+    const response = await api.get(`vehicle/evccid?vehicleid=${vehicleId}`);
+    if (response.ok) {
+      crashlytics().log('get evccId');
+      return {
+        success: true,
+        data: response.data as GetEvccId['data'],
+        status: response.status as GetEvccId['status'],
+      };
+    } else {
+      // 獲取資料失敗，返回錯誤訊息或處理其他錯誤情況
+      if (response.status === 401) {
+        // 如果是未授權錯誤，可能是 Token 過期或無效，需要重新登入
+        // 將手機內的token刪掉
+        await AsyncStorage.removeItem('token');
+        crashlytics().log('remove token in device successed');
+        setUserApiToken("");
+        return {
+          success: false,
+          status: response.status,
+          error: 'Unauthorized',
+        };
+      } else {
+        // 其他狀況，可能是網絡問題等，可以顯示一個通用的錯誤訊息給用戶
+        return {
+          success: false,
+          status: response.status as GetEvccId['status'],
+          error: 'Unexpected Error' as GetEvccId['error'],
+        };
+      }
+    }
   } catch (error) {
     crashlytics().log('failed to get evccId');
     throw new Error('Failed to get evccId');
@@ -142,16 +229,26 @@ const bindEvccidWithVehicle = async (
   vehicleId: string,
   evccId: string,
   identifier: string
-): Promise<number> => {
+): Promise<BindEvccidWithVehicle> => {
   try {
-    const { status } = await api.put(
+    const response = await api.put(
       `vehicle?vehicleid=${vehicleId}&identifier=${identifier}`,
       {
         evccId,
       }
     );
-    crashlytics().log('binding evccid with vehicle');
-    return status as number;
+    if (response.ok) {
+      crashlytics().log('binding evccid with vehicle successed');
+      return {
+        success: true,
+        status: response.status as number,
+      };
+    } else {
+      return {
+        success: false,
+        status: response.status as number,
+      };
+    }
   } catch (error) {
     crashlytics().log('failed to binding evccid with vehicle');
     throw new Error('Failed to bind evccId');

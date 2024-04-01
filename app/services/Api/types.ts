@@ -1,5 +1,38 @@
-export type CreateVehicleByVin = {
+export type ApiResponse = {
+  error?: string;
+  success: boolean;
+  headers?: any;
+  status: number;
+};
+
+export type LoginPayLoad = {
+  userName: string;
+  password: string;
+};
+
+export type Login = ApiResponse & {
+  data: {
+    loginId: string;
+    userId: string;
+    status: number;
+    token: {
+      token: string;
+      refreshToken: string;
+      expiresIn: number;
+    };
+  };
+};
+
+export type CreateVehicleByVinParams = {
   vin: string;
+};
+
+export type GetVehicleParams = {
+  vehicleId?: string;
+  offset?: string;
+  limit?: string;
+  startTime?: string;
+  endTime?: string;
 };
 
 export type GetVehicleResponseBody = {
@@ -15,14 +48,15 @@ export type GetVehicleResponseBody = {
   }[];
 };
 
-export type GetEvccId = {
-  data: {
-    code: "1000";
+export type GetEvccId = ApiResponse & {
+  data?: {
+    code: string;
     data: {
-      evccid: "007DFA073FF8";
-      identifier: "037f6500-a512-4b85-bf1e-6e36ae16a292";
+      evccid: string;
+      identifier: string;
     };
-    message: "Success";
+    message: string;
   };
-  status: number;
 };
+
+export type BindEvccidWithVehicle = ApiResponse;

@@ -1,46 +1,39 @@
-import { StatusBar } from "expo-status-bar";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Text, View, TouchableOpacity } from "react-native";
-import images from "../../../images";
-import styles from "./index.style";
-import React, { useEffect, useRef, useState } from "react";
-import { create } from "apisauce";
-import Loading from "../../../components/animate/Loading";
-import { getEvccId } from "../../../services/Api";
+import { Text, View } from 'react-native';
+import styles from './index.style';
+import React, { useEffect } from 'react';
+import Loading from '../../../components/animate/Loading';
+import { getEvccId } from '../../../services/Api';
 
 function PlugInScreen({ route, navigation }) {
   const { vin, vehicleId } = route.params;
   let timer: NodeJS.Timeout;
 
-  const api = create({
-    baseURL: "https://app-upower-testing-vinevccid.azurewebsites.net",
-  });
-
   const fetchEVCCId = async () => {
-    const { data, status } = await getEvccId(vehicleId);
-    if (status && status >= 200 && status <= 299) {
-      return data;
+    const response = await getEvccId(vehicleId);
+    if (response.success) {
+      return response.data;
     } else {
-      console.error("API request failed with status:", status);
+      console.error('API request failed with status:', response.status);
       return false;
     }
   };
 
   useEffect(() => {
+    // 每5秒檢查有無在資料庫獲取到EVCCID
     timer = setInterval(async () => {
       const result = await fetchEVCCId();
       if (result) {
-        console.log("get EVCCID!");
+        console.log('get EVCCID!');
         console.log(result);
         clearInterval(timer);
-        navigation.navigate("FinalConfirm", {
+        navigation.replace('FinalConfirm', {
           vin,
           vehicleId,
           evccId: result.data.evccid,
           identifier: result.data.identifier,
         });
       } else {
-        console.log("not found");
+        console.log('not found');
       }
     }, 5000);
     return () => {

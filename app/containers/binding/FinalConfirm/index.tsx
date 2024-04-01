@@ -1,22 +1,8 @@
-import { StatusBar } from "expo-status-bar";
-import { MaterialIcons } from "@expo/vector-icons";
-import Toast from "react-native-toast-message";
-import {
-  Text,
-  View,
-  Button,
-  TouchableWithoutFeedback,
-  Keyboard,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  AppState,
-  Alert,
-} from "react-native";
-import images from "../../../images";
-import styles from "./index.style";
-import React, { useEffect, useRef, useState } from "react";
-import { bindEvccidWithVehicle } from "../../../services/Api";
+import Toast from 'react-native-toast-message';
+import { Text, View, TouchableOpacity } from 'react-native';
+import styles from './index.style';
+import React from 'react';
+import { bindEvccidWithVehicle } from '../../../services/Api';
 
 function FinalConfirmScreen({ route, navigation }) {
   const { vin, vehicleId, evccId, identifier } = route.params;
@@ -25,30 +11,30 @@ function FinalConfirmScreen({ route, navigation }) {
     // 7J3ZZ56T7834500003, JS3TD62V1Y4107896
     // Alert.alert("V.I.N 已送出");
     console.log(vin, vehicleId, evccId, identifier);
-    const status = await bindEvccidWithVehicle(vehicleId, evccId, identifier);
-    console.log(status);
-    if (status && status >= 200 && status <= 299) {
+    const response = await bindEvccidWithVehicle(vehicleId, evccId, identifier);
+    console.log(response.status);
+    if (response.success) {
       Toast.show({
-        type: "customSuccess",
-        text1: "綁定成功",
-        position: "bottom",
+        type: 'customSuccess',
+        text1: '綁定成功',
+        position: 'bottom',
       });
-      navigation.navigate("Home");
-      return true;
+      navigation.replace('Home', {});
+      return;
     } else {
       Toast.show({
-        type: "customError",
-        text1: `綁定失敗, status: ${status}`,
-        position: "bottom",
+        type: 'customError',
+        text1: `綁定失敗, status: ${response.status}`,
+        position: 'bottom',
       });
-      console.error("API request failed with status:", status);
-      navigation.navigate("Home");
-      return false;
+      console.error('API request failed with status:', response.status);
+      navigation.replace('Home', {});
+      return;
     }
   };
 
   const handleUserCancle = () => {
-    navigation.navigate("Home");
+    navigation.replace('Home');
   };
 
   return (
