@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start --dev-client",
+    "start-local": "expo start --dev-client --localhost",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
@@ -10,6 +11,8 @@
     "pod:deintegrate": "cd ios && pod deintegrate && cd ../",
     "expo:prebuild": "npx expo prebuild",
     "expo:prebuild-clean": "npx expo prebuild --clean",
+    "expo:build-android-local": "eas build --platform android --local",
+    "expo:build-ios-local": "eas build --platform ios --local",
     "android:clean": "cd android && ./gradlew clean && cd ../",
     "android:build-aab": "cd android && ./gradlew bundleRelease && cd ../",
     "android:build-apk": "cd android && ./gradlew assembleRelease && cd ../"
