@@ -1,9 +1,4 @@
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
+import { Text, View, TouchableOpacity, Alert } from 'react-native';
 import styles from './index.style';
 import React, { useCallback, useState } from 'react';
 import Loading from '../../../components/animate/Loading';
@@ -27,14 +22,20 @@ export type vehicle = {
 
 function VinConfirmScreen({ route, navigation }) {
   const { vin } = route.params;
-  const { checkVinValid } = useVinValidator();
+  // const { checkVinValid } = useVinValidator();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmitUserInputVin = async () => {
     // 7J3ZZ56T7834500003, JS3TD62V1Y4107896
     // UU6JA69691D713820
     setIsLoading(true);
-    if (!checkVinValid(vin)) {
+    // if (!checkVinValid(vin)) {
+    //   crashlytics().log('V.I.N inValid');
+    //   Alert.alert('V.I.N 格式錯誤', '請重新掃描並確認 V.I.N');
+    //   setIsLoading(false);
+    //   return;
+    // }
+    if (vin.length !== 17) {
       crashlytics().log('V.I.N inValid');
       Alert.alert('V.I.N 格式錯誤', '請重新掃描並確認 V.I.N');
       setIsLoading(false);
