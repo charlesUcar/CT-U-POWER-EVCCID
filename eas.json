@@ -4,24 +4,30 @@
   },
   "build": {
     "development": {
-      "developmentClient": true,
+      "developmentClient": false,
       "distribution": "internal",
-      "env": {
-        "EXPO_PUBLIC_API_URL": "https://app-upower-testing-vinevccid.azurewebsites.net"
-      }
-    },
-    "preview": {
       "android": {
         "buildType": "apk"
       },
-      "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://app-upower-testing-vinevccid.azurewebsites.net"
+        "EXPO_PUBLIC_API_URL": "https://app-upower-testing-vinevccid.azurewebsites.net",
+        "EXPO_PUBLIC_APP_ENV": "development"
+      }
+    },
+    "staging": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://app-upower-staging-vinevccid.azurewebsites.net",
+        "EXPO_PUBLIC_APP_ENV": "staging"
       }
     },
     "production": {
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://app-upower-testing-vinevccid.azurewebsites.net"
+        "EXPO_PUBLIC_API_URL": "https://app-upower-vinevccid.azurewebsites.net",
+        "EXPO_PUBLIC_APP_ENV": "production"
       }
     }
   },

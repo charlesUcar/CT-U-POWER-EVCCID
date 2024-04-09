@@ -1,4 +1,4 @@
-rootProject.name = 'U-POWER-EVCCID'
+rootProject.name = 'U-POWER-EVCCID-Dev'
 
 dependencyResolutionManagement {
   versionCatalogs {

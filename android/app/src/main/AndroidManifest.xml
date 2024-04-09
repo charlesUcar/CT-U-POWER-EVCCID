@@ -28,6 +28,7 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="com.upower.evccid.development"/>
         <data android:scheme="exp+u-power-evccid"/>
+        <data android:scheme="exp+u-power-evccid-dev"/>
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>
