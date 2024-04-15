@@ -1,4 +1,5 @@
 import { Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import styles from "./index.style";
 import React, { useState } from "react";
 import crashlytics from "@react-native-firebase/crashlytics";
@@ -89,6 +90,7 @@ function VinTypingScreen({ navigation }) {
           <Text style={styles.toggleInputStyleText}>使用相機掃描</Text>
         </TouchableOpacity>
       </View>
+      <StatusBar style="light" />
     </View>
   );
 }

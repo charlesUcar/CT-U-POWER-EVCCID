@@ -1,7 +1,7 @@
-import { StatusBar } from "expo-status-bar";
-import { Text, View, TouchableOpacity } from "react-native";
-import styles from "./index.style";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import { StatusBar } from 'expo-status-bar';
+import { Text, View, TouchableOpacity } from 'react-native';
+import styles from './index.style';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import {
   Code,
   Camera,
@@ -9,12 +9,12 @@ import {
   useCameraFormat,
   useCameraPermission,
   useCodeScanner,
-} from "react-native-vision-camera";
-import { useIsForeground } from "../../../hooks/useIsForeground";
-import { useFocusEffect, useIsFocused } from "@react-navigation/native";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import AppContext from "../../../context/AppContext";
-import crashlytics from "@react-native-firebase/crashlytics";
+} from 'react-native-vision-camera';
+import { useIsForeground } from '../../../hooks/useIsForeground';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import AppContext from '../../../context/AppContext';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 // const showCodeAlert = (value: string, onDismissed: () => void): void => {
 //   const buttons: AlertButton[] = [
@@ -41,13 +41,13 @@ function ScanScreen({ navigation }) {
   // const appState = useRef(AppState.currentState);
   // const [appStateVisible, setAppStateVisible] = useState(appState.current);
   // const [isScanMode, setIsScanMode] = useState<boolean>(true);
-  const [scannedType, setScannedType] = useState<string>("");
-  const [scannedCode, setScannedCode] = useState<string>("");
+  const [scannedType, setScannedType] = useState<string>('');
+  const [scannedCode, setScannedCode] = useState<string>('');
 
   const { setGlobalBackgroundColor } = useContext(AppContext);
 
   // 1. Use a simple default back camera
-  const device = useCameraDevice("back");
+  const device = useCameraDevice('back');
 
   // 2. Only activate Camera when the app is focused and this screen is currently opened
   const isFocused = useIsFocused();
@@ -59,26 +59,15 @@ function ScanScreen({ navigation }) {
 
   // 4. On code scanned, we show an aler to the user
   const onCodeScanned = useCallback((codes: Code[]) => {
-    // console.log(`Scanned ${codes.length} codes:`, codes);
-    const type = codes[0]?.type;
     const value = codes[0]?.value;
     if (value == null) return;
     if (value.length !== 17) return;
-    // if (isShowingAlert.current) return;
-    // showCodeAlert(value, () => {
-    //   isShowingAlert.current = false;
-    // });
-    // isShowingAlert.current = true;
-
-    setScannedType(type);
-    setScannedCode(value);
-
-    if (isValidVin(value)) {
+    if (isActive && isValidVin(value)) {
       setIsActive(false);
       // Alert.alert("GET VIN", value);
-      crashlytics().log("scanned VIN");
+      crashlytics().log('scanned VIN');
       console.log(value);
-      navigation.navigate("VinConfirm", {
+      navigation.navigate('VinConfirm', {
         vin: value,
       });
     }
@@ -86,11 +75,11 @@ function ScanScreen({ navigation }) {
 
   // 5. Initialize the Code Scanner to scan QR codes and Barcodes
   const codeScanner = useCodeScanner({
-    codeTypes: ["qr", "code-39"],
+    codeTypes: ['qr', 'code-39'],
     onCodeScanned: onCodeScanned,
   });
 
-  const format = useCameraFormat(device, [{ videoResolution: "max" }]);
+  const format = useCameraFormat(device, [{ videoResolution: 'max' }]);
   // const codeScanner = useCodeScanner({
   //   codeTypes: ["qr", "ean-13", "code-39"],
   //   onCodeScanned: (codes: any) => {
@@ -130,21 +119,21 @@ function ScanScreen({ navigation }) {
   const handleToggleInputStyle = () => {
     setIsActive(false);
     setTimeout(() => {
-      navigation.push("VinTyping");
+      navigation.push('VinTyping');
     }, 0);
   };
 
   const handleClickCloseBtn = () => {
     setIsActive(false);
     setTimeout(() => {
-      navigation.navigate("Home");
+      navigation.navigate('Home');
     }, 0);
   };
 
   useFocusEffect(
     useCallback(() => {
       setIsActive(true);
-      setGlobalBackgroundColor("#2C333F");
+      setGlobalBackgroundColor('#2C333F');
       return () => {
         setIsActive(false);
       };
@@ -152,7 +141,7 @@ function ScanScreen({ navigation }) {
   );
 
   useEffect(() => {
-    crashlytics().log("request camera permission");
+    crashlytics().log('request camera permission');
     requestPermission();
   }, []);
 
@@ -172,7 +161,7 @@ function ScanScreen({ navigation }) {
               style={styles.torchIcon}
             >
               <Ionicons
-                name={torch ? "flash" : "flash-off"}
+                name={torch ? 'flash' : 'flash-off'}
                 color="white"
                 size={24}
               />
@@ -190,13 +179,13 @@ function ScanScreen({ navigation }) {
         <View style={styles.cameraContainer}>
           {hasPermission && device != null && (
             <Camera
-              style={{ width: "100%", height: "100%" }}
+              style={{ width: '100%', height: '100%' }}
               device={device}
               format={format}
               fps={15}
               orientation="portrait"
               codeScanner={codeScanner}
-              torch={torch ? "on" : "off"}
+              torch={torch ? 'on' : 'off'}
               isActive={isActive}
             />
           )}
@@ -226,7 +215,7 @@ function ScanScreen({ navigation }) {
         <Text>{scannedType}</Text>
         <Text>{scannedCode}</Text>
       </View> */}
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
     </View>
   );
 }
