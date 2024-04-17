@@ -1,6 +1,7 @@
 import { Text, View } from 'react-native';
 import styles from './index.style';
 import React, { useEffect } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import Loading from '../../../components/animate/Loading';
 import { getEvccId } from '../../../services/Api';
 
@@ -66,6 +67,7 @@ function PlugInScreen({ route, navigation }) {
           </TouchableOpacity>
         </View> */}
       </View>
+      <StatusBar style="light" />
     </View>
   );
 }

@@ -4,7 +4,8 @@ import React, { useCallback, useState } from 'react';
 import Loading from '../../../components/animate/Loading';
 import { useFocusEffect } from '@react-navigation/native';
 import { createVehicleByVin, getVehicle } from '../../../services/Api';
-import useVinValidator from '../../../hooks/useVinValidator';
+// import useVinValidator from '../../../hooks/useVinValidator';
+import { StatusBar } from 'expo-status-bar';
 import crashlytics from '@react-native-firebase/crashlytics';
 import Toast from 'react-native-toast-message';
 
@@ -51,7 +52,7 @@ function VinConfirmScreen({ route, navigation }) {
       const vehicleId = params.get('vehicleid');
       if (vehicleId) {
         const { data } = await getVehicle({ vehicleId });
-        navigation.navigate('PlugIn', {
+        navigation.replace('PlugIn', {
           vin,
           vehicleId: data.data[0].vehicleId,
         });
@@ -83,7 +84,7 @@ function VinConfirmScreen({ route, navigation }) {
       text1: '發生錯誤',
       position: 'bottom',
     });
-    navigation.navigate('Home');
+    navigation.replace('Home');
   };
 
   useFocusEffect(
@@ -97,7 +98,7 @@ function VinConfirmScreen({ route, navigation }) {
   );
 
   const handleUserCancle = () => {
-    navigation.navigate('Scan', {});
+    navigation.replace('Scan', {});
   };
 
   return (
@@ -131,6 +132,7 @@ function VinConfirmScreen({ route, navigation }) {
           </View>
         </View>
       </View>
+      <StatusBar style="light" />
     </View>
   );
 }

@@ -16,26 +16,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AppContext from '../../../context/AppContext';
 import crashlytics from '@react-native-firebase/crashlytics';
 
-// const showCodeAlert = (value: string, onDismissed: () => void): void => {
-//   const buttons: AlertButton[] = [
-//     {
-//       text: "Close",
-//       style: "cancel",
-//       onPress: onDismissed,
-//     },
-//   ];
-//   if (value.startsWith("http")) {
-//     buttons.push({
-//       text: "Open URL",
-//       onPress: () => {
-//         Linking.openURL(value);
-//         onDismissed();
-//       },
-//     });
-//   }
-//   Alert.alert("Scanned Code", value, buttons);
-// };
-
 function ScanScreen({ navigation }) {
   const { hasPermission, requestPermission } = useCameraPermission();
   // const appState = useRef(AppState.currentState);
@@ -67,7 +47,7 @@ function ScanScreen({ navigation }) {
       // Alert.alert("GET VIN", value);
       crashlytics().log('scanned VIN');
       console.log(value);
-      navigation.navigate('VinConfirm', {
+      navigation.replace('VinConfirm', {
         vin: value,
       });
     }
@@ -104,14 +84,14 @@ function ScanScreen({ navigation }) {
     }
 
     // 檢查字符是否合法
-    if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(vin)) {
-      return false;
-    }
+    // if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(vin)) {
+    //   return false;
+    // }
 
     // 檢查第9個字符是否是數字或字母X
-    if (!/^[0-9X]$/.test(vin[8])) {
-      return false;
-    }
+    // if (!/^[0-9X]$/.test(vin[8])) {
+    //   return false;
+    // }
 
     return true;
   };
@@ -126,7 +106,7 @@ function ScanScreen({ navigation }) {
   const handleClickCloseBtn = () => {
     setIsActive(false);
     setTimeout(() => {
-      navigation.navigate('Home');
+      navigation.replace('Home');
     }, 0);
   };
 

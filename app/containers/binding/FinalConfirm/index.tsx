@@ -2,6 +2,7 @@ import Toast from 'react-native-toast-message';
 import { Text, View, TouchableOpacity } from 'react-native';
 import styles from './index.style';
 import React from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { bindEvccidWithVehicle } from '../../../services/Api';
 
 function FinalConfirmScreen({ route, navigation }) {
@@ -70,6 +71,7 @@ function FinalConfirmScreen({ route, navigation }) {
           </View>
         </View>
       </View>
+      <StatusBar style="light" />
     </View>
   );
 }

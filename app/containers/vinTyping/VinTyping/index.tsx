@@ -22,7 +22,7 @@ function VinTypingScreen({ navigation }) {
       setIsUserInputVinError(true);
       return;
     }
-    navigation.navigate("VinConfirm", { vin: userInputVin });
+    navigation.replace("VinConfirm", { vin: userInputVin });
   };
 
   const isValidVin = (vin: string) => {
@@ -32,14 +32,14 @@ function VinTypingScreen({ navigation }) {
     }
 
     // 檢查字符是否合法
-    if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(vin)) {
-      return false;
-    }
+    // if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(vin)) {
+    //   return false;
+    // }
 
     // 檢查第9個字符是否是數字或字母X
-    if (!/^[0-9X]$/.test(vin[8])) {
-      return false;
-    }
+    // if (!/^[0-9X]$/.test(vin[8])) {
+    //   return false;
+    // }
 
     return true;
   };
