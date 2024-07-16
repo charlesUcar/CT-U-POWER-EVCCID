@@ -72,8 +72,6 @@ const styles = StyleSheet.create({
     width: "100%",
     minHeight: 60,
     marginTop: 32,
-    paddingTop: 19,
-    paddingBottom: 19,
     borderColor: "#FFC200",
     borderWidth: 1,
     borderRadius: 40,
@@ -82,10 +80,13 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   submitUserInputVinBtnText: {
+    paddingTop: 19,
+    paddingBottom: 19,
     fontSize: 15,
     fontWeight: "600",
     textAlign: "center",
     color: "#FFC200",
+    borderRadius: 40,
   },
   cancleBtnContainer: {
     width: "100%",

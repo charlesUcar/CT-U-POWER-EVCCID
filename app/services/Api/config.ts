@@ -7,8 +7,8 @@ let DOMAIN = process.env.EXPO_PUBLIC_API_URL;
 export const TIMEOUT = 30000;
 
 export const endpoints = {
-  upower: `${DOMAIN}`,
-  env: `${ENV}`,
+  upower: DOMAIN,
+  env: ENV,
 };
 
 // export const AppVersion = DeviceInfo.getVersion();
