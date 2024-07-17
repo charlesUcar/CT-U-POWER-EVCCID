@@ -6,7 +6,6 @@ import {
   GetEvccId,
   GetVehicleParams,
   BindEvccidWithVehicle,
-  Login,
   LoginPayLoad,
 } from './types';
 import crashlytics from '@react-native-firebase/crashlytics';

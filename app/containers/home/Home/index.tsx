@@ -256,6 +256,9 @@ function HomeScreen({ navigation }) {
               style={styles.logoTypographyImage}
             />
           </View>
+          <View>
+            <Text style={styles.middleX}>X</Text>
+          </View>
           <View style={styles.accountBox}>
             <Text style={styles.accountBoxText}>KIA</Text>
           </View>

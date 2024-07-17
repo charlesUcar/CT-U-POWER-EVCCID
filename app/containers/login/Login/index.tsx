@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useContext, useState } from 'react';
 import AppContext from '../../../context/AppContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -11,7 +10,6 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  Button,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';

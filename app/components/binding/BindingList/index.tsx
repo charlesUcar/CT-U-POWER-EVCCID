@@ -52,7 +52,7 @@ function BindingList({
       endTime,
     });
 
-    console.log(result.data.data);
+    console.log('fetch data!');
     // 有Fetch到內容
     if (result.status && result.status >= 200 && result.status <= 299) {
       // append到現有的資料內

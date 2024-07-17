@@ -1,23 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import AppContext from '../../../context/AppContext';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import React, { useCallback, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import {
-  TouchableWithoutFeedback,
-  Keyboard,
   View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  Button,
 } from 'react-native';
-import images from '../../../images';
 import styles from './index.style';
-import crashlytics from '@react-native-firebase/crashlytics';
-import { login } from '../../../services/Api';
-import Toast from 'react-native-toast-message';
 import Loading from '../../../components/animate/Loading';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setUserApiToken } from '../../../services/Api';
