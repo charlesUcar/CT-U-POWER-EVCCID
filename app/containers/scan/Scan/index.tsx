@@ -1,20 +1,27 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
+import crashlytics from '@react-native-firebase/crashlytics';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, TouchableOpacity } from 'react-native';
-import styles from './index.style';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import {
-  Code,
   Camera,
+  Code,
+  CodeScannerFrame,
   useCameraDevice,
   useCameraFormat,
   useCameraPermission,
   useCodeScanner,
 } from 'react-native-vision-camera';
-import { useIsForeground } from '../../../hooks/useIsForeground';
-import { useFocusEffect, useIsFocused } from '@react-navigation/native';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import AppContext from '../../../context/AppContext';
-import crashlytics from '@react-native-firebase/crashlytics';
+import { useIsForeground } from '../../../hooks/useIsForeground';
+import styles from './index.style';
 
 function ScanScreen({ navigation }) {
   const { hasPermission, requestPermission } = useCameraPermission();
@@ -23,6 +30,9 @@ function ScanScreen({ navigation }) {
   // const [isScanMode, setIsScanMode] = useState<boolean>(true);
   const [scannedType, setScannedType] = useState<string>('');
   const [scannedCode, setScannedCode] = useState<string>('');
+  const [consecutiveScans, setConsecutiveScans] = useState<string[]>([]);
+  const isFirstScan = useRef<boolean>(true);
+  const lastExecutionTime = useRef<number>(0);
 
   const { setGlobalBackgroundColor } = useContext(AppContext);
 
@@ -38,25 +48,64 @@ function ScanScreen({ navigation }) {
   const [torch, setTorch] = useState(false);
 
   // 4. On code scanned, we show an aler to the user
-  const onCodeScanned = useCallback((codes: Code[]) => {
-    const value = codes[0]?.value;
-    if (value == null) return;
-    if (value.length !== 17) return;
-    if (isActive && isValidVin(value)) {
-      setIsActive(false);
-      // Alert.alert("GET VIN", value);
-      crashlytics().log('scanned VIN');
-      console.log(value);
-      navigation.replace('VinConfirm', {
-        vin: value,
+  const onCodeScanned = useCallback(
+    (codes: Code[], frame: CodeScannerFrame) => {
+      console.log(consecutiveScans);
+      const now = Date.now();
+      if (isFirstScan.current) {
+        isFirstScan.current = false;
+        lastExecutionTime.current = now;
+        return;
+      }
+      if (now - lastExecutionTime.current < 300) {
+        return; // 如果距離上次執行不到 300ms，直接返回
+      }
+
+      lastExecutionTime.current = now;
+
+      const value = codes[0]?.value;
+      if (value == null) return;
+      if (value.length !== 17) return;
+
+      // 更新連續掃描數組
+      setConsecutiveScans((prev) => {
+        const newScans = [...prev, value];
+        // 只保留最後5次的掃描結果
+        if (newScans.length > 5) {
+          newScans.shift();
+        }
+        return newScans;
       });
-    }
-  }, []);
+
+      // 檢查是否有連續5次相同的值
+      if (
+        consecutiveScans.length === 5 &&
+        consecutiveScans.every((scan) => scan === value) &&
+        isActive &&
+        isValidVin(value)
+      ) {
+        setIsActive(false);
+        crashlytics().log('scanned VIN');
+        console.log(value);
+        setConsecutiveScans([]); // 重置掃描記錄
+        navigation.replace('VinConfirm', {
+          vin: value,
+        });
+      }
+    },
+    [isFirstScan, isActive, navigation, consecutiveScans]
+  );
 
   // 5. Initialize the Code Scanner to scan QR codes and Barcodes
   const codeScanner = useCodeScanner({
     codeTypes: ['qr', 'code-39'],
     onCodeScanned: onCodeScanned,
+    regionOfInterest: {
+      x: 0,
+      y: 0,
+      width: 100,
+      height: 100,
+    },
   });
 
   const format = useCameraFormat(device, [{ videoResolution: 'max' }]);
@@ -155,6 +204,7 @@ function ScanScreen({ navigation }) {
         </View>
 
         <Text style={styles.title}>QR & Barcode</Text>
+        <Text></Text>
 
         <View style={styles.cameraContainer}>
           {hasPermission && device != null && (
@@ -162,7 +212,7 @@ function ScanScreen({ navigation }) {
               style={{ width: '100%', height: '100%' }}
               device={device}
               format={format}
-              fps={15}
+              fps={60}
               orientation="portrait"
               codeScanner={codeScanner}
               torch={torch ? 'on' : 'off'}
