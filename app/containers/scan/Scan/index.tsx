@@ -212,7 +212,7 @@ function ScanScreen({ navigation }) {
               style={{ width: '100%', height: '100%' }}
               device={device}
               format={format}
-              fps={60}
+              fps={30}
               orientation="portrait"
               codeScanner={codeScanner}
               torch={torch ? 'on' : 'off'}
