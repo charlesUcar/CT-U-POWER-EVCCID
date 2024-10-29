@@ -50,15 +50,15 @@ function ScanScreen({ navigation }) {
   // 4. On code scanned, we show an aler to the user
   const onCodeScanned = useCallback(
     (codes: Code[], frame: CodeScannerFrame) => {
-      console.log(consecutiveScans);
+      // console.log(consecutiveScans);
       const now = Date.now();
       if (isFirstScan.current) {
         isFirstScan.current = false;
         lastExecutionTime.current = now;
         return;
       }
-      if (now - lastExecutionTime.current < 300) {
-        return; // 如果距離上次執行不到 300ms，直接返回
+      if (now - lastExecutionTime.current < 100) {
+        return; // 如果距離上次執行不到 100ms，直接返回
       }
 
       lastExecutionTime.current = now;
@@ -109,22 +109,6 @@ function ScanScreen({ navigation }) {
   });
 
   const format = useCameraFormat(device, [{ videoResolution: 'max' }]);
-  // const codeScanner = useCodeScanner({
-  //   codeTypes: ["qr", "ean-13", "code-39"],
-  //   onCodeScanned: (codes: any) => {
-  //     setScannedType(codes[0].type);
-  //     setScannedCode(codes[0].value);
-  //     if (codes[0].value.length === 17) {
-  //       if (isValidVin(codes[0].value)) {
-  //         Alert.alert("GET VIN", codes[0].value);
-  //         console.log(codes[0].value);
-  //         setIsActive(false);
-  //       }
-  //     }
-  //     // console.log(`Scanned ${codes.length} codes!`)
-  //     // console.log(codes);
-  //   },
-  // });
 
   const isValidVin = (vin: string) => {
     // 檢查是否有17個字符
