@@ -1,30 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
 import { MaterialIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import crashlytics from '@react-native-firebase/crashlytics';
+import { useFocusEffect } from '@react-navigation/native';
+import dayjs from 'dayjs';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+import { StatusBar } from 'expo-status-bar';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import {
-  Text,
-  View,
-  TouchableOpacity,
   Image,
   Modal,
   Platform,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import Images from '../../../images';
-import styles from './index.style';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import AppContext from '../../../context/AppContext';
-import { useFocusEffect } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
+import * as XLSX from 'xlsx';
+import Loading from '../../../components/animate/Loading';
 import BindingList from '../../../components/binding/BindingList';
 import DateTimePicker from '../../../components/picker/DateTimePicker';
 import DateTimePickerIos from '../../../components/picker/DateTimePicker-ios';
+import AppContext from '../../../context/AppContext';
+import Images from '../../../images';
 import { getVehicle } from '../../../services/Api';
-import Loading from '../../../components/animate/Loading';
-import dayjs from 'dayjs';
 import { GetVehicleResponseBody } from '../../../services/Api/types';
-import Toast from 'react-native-toast-message';
-import * as XLSX from 'xlsx';
-import * as FileSystem from 'expo-file-system';
-import * as Sharing from 'expo-sharing';
-import crashlytics from '@react-native-firebase/crashlytics';
+import { getUserIdFromToken } from '../../../utils/tokenUtils';
+import styles from './index.style';
 
 var utc = require('dayjs/plugin/utc');
 dayjs.extend(utc);
@@ -38,12 +40,14 @@ function HomeScreen({ navigation }) {
     GetVehicleResponseBody['data'] | null
   >(null);
   const [totalCount, setTotalCount] = useState<string>('');
-
+  const [userToken, setUserToken] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
   const [platform, setPlatform] = useState<string>('');
 
   const [isLoading, setIsLoading] = useState(false);
   const [isDownloadLoading, setIsDownloadLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [userActionModalVisible, setUserActionModalVisible] = useState(false);
 
   // 全域的provider
   const { setGlobalBackgroundColor } = useContext(AppContext);
@@ -171,6 +175,19 @@ function HomeScreen({ navigation }) {
     });
   };
 
+  const handleLogout = async () => {
+    setUserActionModalVisible(false);
+    try {
+      // 刪除 Token
+      await AsyncStorage.removeItem('token');
+      console.log('Token removed');
+      // 轉到登入頁面
+      navigation.replace('Login');
+    } catch (error) {
+      console.error('Error removing token:', error);
+    }
+  };
+
   useEffect(() => {
     if (listStartTime && listEndTime) {
       handleFetchBindingData({
@@ -184,7 +201,20 @@ function HomeScreen({ navigation }) {
 
   useEffect(() => {
     setPlatform(Platform.OS);
+    const getToken = async () => {
+      const token = await AsyncStorage.getItem('token');
+      setUserToken(token);
+    };
+    getToken();
   }, []);
+
+  useEffect(() => {
+    if (userToken) {
+      getUserIdFromToken(userToken).then((userId) => {
+        setUserId(userId);
+      });
+    }
+  }, [userToken]);
 
   useFocusEffect(
     useCallback(() => {
@@ -260,7 +290,7 @@ function HomeScreen({ navigation }) {
             <Text style={styles.middleX}>X</Text>
           </View>
           <View style={styles.accountBox}>
-            <Text style={styles.accountBoxText}>KIA</Text>
+            <Image source={Images.KiaLogo} style={styles.kiaLogoImage} />
           </View>
         </View>
         {isLoading ? (
@@ -313,10 +343,66 @@ function HomeScreen({ navigation }) {
             navigation.push('Scan');
           }}
         >
-          <View style={styles.createBtnAreaPlusIconBox}>
+          <View style={[styles.createBtnAreaPlusIconBox, styles.bgYellow]}>
             <Text style={styles.createBtnAreaPlusText}>開始新增</Text>
           </View>
         </TouchableOpacity>
+      </View>
+      <View style={styles.userActionArea}>
+        <TouchableOpacity
+          style={styles.createActionBtnBox}
+          onPress={() => {
+            setGlobalBackgroundColor('#2C333F');
+            setUserActionModalVisible(true);
+          }}
+        >
+          <View style={[styles.userActionBtnAreaPlusIconBox, styles.bgPrimary]}>
+            <Image source={Images.Member} />
+          </View>
+        </TouchableOpacity>
+        <Modal
+          statusBarTranslucent
+          animationType="slide"
+          transparent={true}
+          visible={userActionModalVisible}
+          onRequestClose={() => {
+            setUserActionModalVisible(false);
+          }}
+        >
+          <TouchableOpacity
+            style={styles.modalContainer}
+            activeOpacity={1}
+            onPress={() => setUserActionModalVisible(false)}
+          >
+            <View style={styles.modalContent}>
+              <TouchableOpacity
+                style={styles.actionButton}
+                onPress={() => {
+                  // 處理修改密碼邏輯
+                  setUserActionModalVisible(false);
+                  navigation.navigate('ChangePassword'); // 假設有這個頁面
+                }}
+              >
+                <Text style={styles.actionButtonText}>修改密碼</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.actionButton}
+                onPress={() => {
+                  // 處理登出邏輯
+                  handleLogout();
+                }}
+              >
+                <Text style={styles.actionButtonText}>登出</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={() => setUserActionModalVisible(false)}
+              >
+                <Text style={styles.cancelButtonText}>取消</Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+        </Modal>
       </View>
       <StatusBar style="dark" />
     </View>

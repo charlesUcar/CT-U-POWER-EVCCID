@@ -1,22 +1,23 @@
-import { TIMEOUT, endpoints } from './config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { create } from 'apisauce';
+import { TIMEOUT, endpoints } from './config';
 import {
+  BindEvccidWithVehicle,
+  ChangePasswordPayload,
   CreateVehicleByVinParams,
-  GetVehicleResponseBody,
   GetEvccId,
   GetVehicleParams,
-  BindEvccidWithVehicle,
+  GetVehicleResponseBody,
   LoginPayLoad,
 } from './types';
-import crashlytics from '@react-native-firebase/crashlytics';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const api = create({
   baseURL: endpoints.upower,
   timeout: TIMEOUT,
 });
 
-let userToken: string = "";
+let userToken: string = '';
 
 // 添加一個 request 攔截器，在每個請求中添加 Token 到 headers 中
 api.addRequestTransform((request) => {
@@ -53,6 +54,26 @@ const login = async (payload: LoginPayLoad) => {
     // 處理其他錯誤，例如網絡連接問題等
     console.error('Failed to login:', error);
     throw new Error('Failed to login');
+  }
+};
+
+const changePassword = async (payload: ChangePasswordPayload) => {
+  try {
+    const response = await api.patch('/user/password', payload);
+
+    if (response.ok) {
+      // 修改成功
+      crashlytics().log('changePassword successed');
+      return { success: true, data: response.data, status: response.status };
+    } else {
+      // 修改失敗，返回一個通用的錯誤訊息
+      crashlytics().log('changePassword failed');
+      return { success: false, error: 'Unexpected Error' };
+    }
+  } catch (error) {
+    // 處理其他錯誤，例如網絡連接問題等
+    console.error('Failed to changePassword:', error);
+    throw new Error('Failed to changePassword');
   }
 };
 
@@ -149,7 +170,7 @@ const getVehicle = async ({
         // 將手機內的token刪掉
         await AsyncStorage.removeItem('token');
         crashlytics().log('remove token in device successed');
-        setUserApiToken("");
+        setUserApiToken('');
         return {
           success: false,
           status: response.status,
@@ -203,7 +224,7 @@ const getEvccId = async (vehicleId: string): Promise<GetEvccId> => {
         // 將手機內的token刪掉
         await AsyncStorage.removeItem('token');
         crashlytics().log('remove token in device successed');
-        setUserApiToken("");
+        setUserApiToken('');
         return {
           success: false,
           status: response.status,
@@ -255,10 +276,12 @@ const bindEvccidWithVehicle = async (
 };
 
 export {
-  login,
-  setUserApiToken,
-  createVehicleByVin,
-  getVehicle,
-  getEvccId,
   bindEvccidWithVehicle,
+  changePassword,
+  createVehicleByVin,
+  getEvccId,
+  getVehicle,
+  login,
+  setUserApiToken
 };
+

@@ -1,25 +1,24 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 import {
-  NavigationAction,
-  NavigationContainer,
+  NavigationContainer
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StatusBar } from "expo-status-bar";
+import React, { useContext } from "react";
+import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 
-import { SafeAreaView, View, Text, Image } from "react-native";
-import { AppProvider } from "./app/context/AppContext";
-import AppContext from "./app/context/AppContext";
-import SplashScreen from "./app/containers/splash/Splash";
-import LoginScreen from "./app/containers/login/Login";
-import HomeScreen from "./app/containers/home/Home";
-import ScanScreen from "./app/containers/scan/Scan";
-import VinTypingScreen from "./app/containers/vinTyping/VinTyping";
+import { Image, Text, View } from "react-native";
 import {
-  VinConfirmScreen,
-  PlugInScreen,
   FinalConfirmScreen,
+  PlugInScreen,
+  VinConfirmScreen,
 } from "./app/containers/binding";
+import ChangePasswordScreen from "./app/containers/changePassword/ChangePassword";
+import HomeScreen from "./app/containers/home/Home";
+import LoginScreen from "./app/containers/login/Login";
+import ScanScreen from "./app/containers/scan/Scan";
+import SplashScreen from "./app/containers/splash/Splash";
+import VinTypingScreen from "./app/containers/vinTyping/VinTyping";
+import AppContext, { AppProvider } from "./app/context/AppContext";
 import Images from "./app/images";
 
 const Stack = createNativeStackNavigator();
@@ -154,6 +153,7 @@ const Wrapper = () => {
         >
           <Stack.Screen name="Splash" component={SplashScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Scan" component={ScanScreen} />
           <Stack.Screen name="VinTyping" component={VinTypingScreen} />

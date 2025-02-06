@@ -5,7 +5,9 @@ export default {
   Error_circle_fill: require("./icons/Action/Error_circle_fill.png"),
   Loading: require("./icons/Action/Loading.png"),
   Loading_lightPage: require("./icons/Action/Loading_lightPage.png"),
+  Member: require("./icons/Action/Member.png"),
   // Logo
   Logo: require("./Logo/Logo.png"),
   LogoTypography: require("./Logo/LogoTypography.png"),
+  KiaLogo: require("./Logo/KiaLogo.png"),
 };

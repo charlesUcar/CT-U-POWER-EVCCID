@@ -63,6 +63,10 @@ const styles = StyleSheet.create({
     height: 20,
     resizeMode: 'cover',
   },
+  kiaLogoImage: {
+    height: 20,
+    resizeMode: 'cover',
+  },
   middleX: {
     fontSize: 18,
     fontWeight: '600',
@@ -146,6 +150,19 @@ const styles = StyleSheet.create({
     // backgroundColor: "red",
     pointerEvents: 'box-none',
   },
+  userActionArea: {
+    flex: 0,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    position: 'absolute',
+    bottom: 0,
+    right: 16,
+    paddingTop: 8,
+    paddingBottom: 24,
+    // width: "100%",
+    // backgroundColor: "red",
+    pointerEvents: 'box-none',
+  },
   createActionBtnBox: {
     flex: 0,
     justifyContent: 'center',
@@ -158,20 +175,71 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 85,
     height: 85,
-    backgroundColor: '#FFC200',
     fontSize: 36,
     borderRadius: 50,
     borderWidth: 5,
     borderColor: '#C1DFE2',
+  },
+  createBtnAreaPlusText: {
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  userActionBtnAreaPlusIconBox: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 60,
+    height: 60,
+    fontSize: 24,
+    borderRadius: 50,
+    borderWidth: 5,
+    borderColor: '#C1DFE2',
+  },
+  userActionBtnText: {
+    fontSize: 10,
+    fontWeight: '300',
+  },
+  bgYellow: {
+    backgroundColor: '#FFC200',
+  },
+  bgGray: {
+    backgroundColor: '#9a9a9a',
+  },
+  bgPrimary: {
+    backgroundColor: '#0096A3',
   },
   // createBtnAreaPlusIcon: {
   //   transform: [{ rotate: "45deg" }],
   //   fontSize: 20,
   //   fontWeight: "800",
   // },
-  createBtnAreaPlusText: {
-    fontSize: 12,
-    fontWeight: '800',
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
+  },
+  actionButton: {
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  actionButtonText: {
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  cancelButton: {
+    marginTop: 10,
+    paddingVertical: 15,
+  },
+  cancelButtonText: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: 'red',
   },
 });
 

@@ -10,6 +10,12 @@ export type LoginPayLoad = {
   password: string;
 };
 
+export type ChangePasswordPayload = {
+  newPassword: string;
+  oldPassword: string;
+  confirmPassword: string;
+};
+
 export type Login = ApiResponse & {
   data: {
     loginId: string;
