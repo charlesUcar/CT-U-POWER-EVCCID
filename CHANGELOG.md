@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.1.1] -2025-2-7
+
+### Changed
+
+- 升級 Expo SDK 到 52.0.0
+
 ## [1.1.0] -2025-2-7
 
 ### Added
@@ -12,6 +18,7 @@ All notable changes to this project will be documented in this file.
 - 新增用戶修改密碼功能
 
 ### Changed
+
 - 升級 Expo SDK 到 51.0.0
 - 升級 react-native-vision-camera 到最新版本
 
