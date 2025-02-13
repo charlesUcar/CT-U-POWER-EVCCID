@@ -109,7 +109,7 @@ function HomeScreen({ navigation }) {
         navigation.replace('Login');
         return;
       }
-      // 沒Fetch到內容，會噴500
+      // 沒Fetch到內容，會回傳空陣列
       Toast.show({
         type: 'customWarning',
         text1: '所選區間無資料',

@@ -21,6 +21,7 @@ let userToken: string = '';
 
 // 添加一個 request 攔截器，在每個請求中添加 Token 到 headers 中
 api.addRequestTransform((request) => {
+  request.headers = request.headers || {};
   request.headers['Authorization'] = `Bearer ${userToken}`;
 });
 
@@ -32,11 +33,11 @@ const login = async (payload: LoginPayLoad) => {
   try {
     const response = await api.post('/user/login', payload);
 
-    if (response.ok && response.data.status) {
+    if (response.ok && (response.data as any).status) {
       // 登入成功
       crashlytics().log('login successed');
       // 設定全域token
-      setUserApiToken(response.data.token.token as string);
+      setUserApiToken((response.data as any).token.token as string);
       // 將Token存到手機
       try {
         await AsyncStorage.setItem('token', userToken);
@@ -155,7 +156,7 @@ const getVehicle = async ({
   const searchParams = new URLSearchParams(search);
   try {
     const response = await api.get(`/vehicle?${searchParams}`);
-    if (response.ok) {
+    if (response.ok && (response.data as any).data?.length > 0) {
       crashlytics().log('get vehicle by params');
       return {
         success: true,
@@ -282,6 +283,5 @@ export {
   getEvccId,
   getVehicle,
   login,
-  setUserApiToken
+  setUserApiToken,
 };
-

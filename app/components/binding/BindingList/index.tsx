@@ -54,7 +54,12 @@ function BindingList({
 
     console.log('fetch data!');
     // 有Fetch到內容
-    if (result.status && result.status >= 200 && result.status <= 299) {
+    if (
+      result.status &&
+      result.status >= 200 &&
+      result.status <= 299 &&
+      result.data.data.length > 0
+    ) {
       // append到現有的資料內
       setCurrentListData([...currentListData, ...result.data.data]);
       // 更新offset跟渲染次數
