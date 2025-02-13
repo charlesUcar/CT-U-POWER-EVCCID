@@ -3,7 +3,7 @@ const IS_DEV = process.env.EXPO_PUBLIC_APP_ENV === 'development';
 export default {
   name: IS_DEV ? 'U-POWER-EVCCID-Dev' : 'U-POWER-EVCCID',
   slug: IS_DEV ? 'u-power-evccid-dev' : 'u-power-evccid',
-  version: '1.1.1',
+  version: '1.1.2',
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'light',
@@ -19,7 +19,7 @@ export default {
       NSCameraUsageDescription: 'Allow $(PRODUCT_NAME) to access your camera',
     },
     bundleIdentifier: IS_DEV ? 'com.upower.evccid.dev' : 'com.upower.evccid',
-    buildNumber: '1.1.1',
+    buildNumber: '1.1.2',
     googleServicesFile: './GoogleService-Info.plist',
   },
   android: {
