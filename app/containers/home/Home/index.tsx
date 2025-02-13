@@ -286,12 +286,6 @@ function HomeScreen({ navigation }) {
               style={styles.logoTypographyImage}
             />
           </View>
-          <View>
-            <Text style={styles.middleX}>X</Text>
-          </View>
-          <View style={styles.accountBox}>
-            <Image source={Images.KiaLogo} style={styles.kiaLogoImage} />
-          </View>
         </View>
         {isLoading ? (
           <Loading style="dark" />

@@ -55,12 +55,10 @@ const styles = StyleSheet.create({
     gap: 12,
     // backgroundColor: "lightgray",
   },
-  logoTypographyImageBox: {
-    // width: 'auto%',
-  },
+  logoTypographyImageBox: {},
   logoTypographyImage: {
-    width: 121,
-    height: 20,
+    width: 183,
+    height: 30,
     resizeMode: 'cover',
   },
   kiaLogoImage: {
@@ -128,7 +126,7 @@ const styles = StyleSheet.create({
     flex: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: '20%',
+    marginTop: '10%',
     // position: "absolute",
     // top: 0,
     // bottom: 0,
