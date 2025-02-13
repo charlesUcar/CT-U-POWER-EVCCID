@@ -8,7 +8,6 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- 修改 API URL
 - 移除首頁合作廠商LOGO
 
 ### Fixed
