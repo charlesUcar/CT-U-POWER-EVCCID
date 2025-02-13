@@ -10,7 +10,7 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://app-upower-testing-vinevccid-staging.azurewebsites.net",
+        "EXPO_PUBLIC_API_URL": "https://app-upower-testing-vinevccid.azurewebsites.net",
         "EXPO_PUBLIC_APP_ENV": "development"
       }
     },
@@ -20,7 +20,7 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://app-upower-testing-vinevccid-staging.azurewebsites.net",
+        "EXPO_PUBLIC_API_URL": "https://app-upower-testing-vinevccid.azurewebsites.net",
         "EXPO_PUBLIC_APP_ENV": "staging"
       }
     },
