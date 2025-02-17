@@ -55,6 +55,7 @@ function ChangePasswordScreen({ navigation }) {
         text1: '請輸入所有欄位',
         position: 'bottom',
       });
+
       return;
     }
 
@@ -64,6 +65,7 @@ function ChangePasswordScreen({ navigation }) {
         text1: '新密碼與確認密碼不一致',
         position: 'bottom',
       });
+
       return;
     }
 
@@ -84,13 +86,14 @@ function ChangePasswordScreen({ navigation }) {
           text1: '修改成功',
           position: 'bottom',
         });
+
         navigation.replace('Home');
       } else {
         // 修改失敗，顯示錯誤訊息
         setIsLoading(false);
         Toast.show({
           type: 'customError',
-          text1: '修改失敗，請確認舊密碼是否正確',
+          text1: `修改失敗：${result.error}`,
           position: 'bottom',
         });
       }
@@ -100,7 +103,7 @@ function ChangePasswordScreen({ navigation }) {
       setIsLoading(false);
       Toast.show({
         type: 'customError',
-        text1: '修改異常，請稍後再試',
+        text1: `修改異常，請稍後再試：${error}`,
         position: 'bottom',
       });
     }

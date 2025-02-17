@@ -15,19 +15,23 @@ function FinalConfirmScreen({ route, navigation }) {
     const response = await bindEvccidWithVehicle(vehicleId, evccId, identifier);
     console.log(response.status);
     if (response.success) {
-      Toast.show({
-        type: 'customSuccess',
-        text1: '綁定成功',
-        position: 'bottom',
-      });
+      setTimeout(() => {
+        Toast.show({
+          type: 'customSuccess',
+          text1: '綁定成功',
+          position: 'bottom',
+        });
+      }, 500);
       navigation.replace('Home', {});
       return;
     } else {
-      Toast.show({
-        type: 'customError',
-        text1: `綁定失敗, status: ${response.status}`,
-        position: 'bottom',
-      });
+      setTimeout(() => {
+        Toast.show({
+          type: 'customError',
+          text1: `綁定失敗, status: ${response.status}`,
+          position: 'bottom',
+        });
+      }, 500);
       console.error('API request failed with status:', response.status);
       navigation.replace('Home', {});
       return;

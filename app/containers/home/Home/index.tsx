@@ -101,20 +101,27 @@ function HomeScreen({ navigation }) {
       return;
     } else {
       if (resbonse.status === 401) {
-        Toast.show({
-          type: 'customError',
-          text1: '請重新登入',
-          position: 'bottom',
-        });
+        setTimeout(() => {
+          Toast.show({
+            type: 'customError',
+            text1: '請重新登入',
+            position: 'bottom',
+          });
+        }, 500);
         navigation.replace('Login');
+        crashlytics().log('Toast show');
         return;
       }
       // 沒Fetch到內容，會回傳空陣列
-      Toast.show({
-        type: 'customWarning',
-        text1: '所選區間無資料',
-        position: 'bottom',
-      });
+      // ios沒設定延遲顯示會crash
+      setTimeout(() => {
+        Toast.show({
+          type: 'customWarning',
+          text1: '所選區間無資料',
+          position: 'bottom',
+        });
+      }, 500);
+      crashlytics().log('Toast show');
       setListData(null);
       setIsLoading(false);
       return;

@@ -69,7 +69,7 @@ const changePassword = async (payload: ChangePasswordPayload) => {
     } else {
       // 修改失敗，返回一個通用的錯誤訊息
       crashlytics().log('changePassword failed');
-      return { success: false, error: 'Unexpected Error' };
+      return { success: false, error: response.problem };
     }
   } catch (error) {
     // 處理其他錯誤，例如網絡連接問題等

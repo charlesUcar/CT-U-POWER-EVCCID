@@ -59,31 +59,37 @@ function VinConfirmScreen({ route, navigation }) {
         return;
       }
       crashlytics().log('get vehicleId fail');
-      Toast.show({
-        type: 'customWarning',
-        text1: '取得Vehicle錯誤',
-        text2: '沒有VehicleId',
-        position: 'bottom',
-      });
+      setTimeout(() => {
+        Toast.show({
+          type: 'customWarning',
+          text1: '取得Vehicle錯誤',
+          text2: '沒有VehicleId',
+          position: 'bottom',
+        });
+      }, 500);
       navigation.replace('Home');
       return;
     }
     if (!response.success && response.status === 401) {
       crashlytics().log('token expired');
-      Toast.show({
-        type: 'customWarning',
-        text1: '請重新登入',
-        position: 'bottom',
-      });
+      setTimeout(() => {
+        Toast.show({
+          type: 'customWarning',
+          text1: '請重新登入',
+          position: 'bottom',
+        });
+      }, 500);
       navigation.replace('Login');
       return;
     }
     crashlytics().log('create vehicle by vin fail');
-    Toast.show({
-      type: 'customWarning',
-      text1: '發生錯誤',
-      position: 'bottom',
-    });
+    setTimeout(() => {
+      Toast.show({
+        type: 'customWarning',
+        text1: '發生錯誤',
+        position: 'bottom',
+      });
+    }, 500);
     navigation.replace('Home');
   };
 
