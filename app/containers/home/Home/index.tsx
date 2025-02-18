@@ -48,6 +48,7 @@ function HomeScreen({ navigation }) {
   const [isDownloadLoading, setIsDownloadLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [userActionModalVisible, setUserActionModalVisible] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
 
   // 全域的provider
   const { setGlobalBackgroundColor } = useContext(AppContext);
@@ -187,7 +188,9 @@ function HomeScreen({ navigation }) {
     try {
       // 刪除 Token
       await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('userName');
       console.log('Token removed');
+      console.log('userName removed');
       // 轉到登入頁面
       navigation.replace('Login');
     } catch (error) {
@@ -211,6 +214,8 @@ function HomeScreen({ navigation }) {
     const getToken = async () => {
       const token = await AsyncStorage.getItem('token');
       setUserToken(token);
+      const userName = await AsyncStorage.getItem('userName');
+      setUserName(userName);
     };
     getToken();
   }, []);
@@ -376,6 +381,10 @@ function HomeScreen({ navigation }) {
             onPress={() => setUserActionModalVisible(false)}
           >
             <View style={styles.modalContent}>
+              <View style={styles.userNameBox}>
+                <Text>Hello, </Text>
+                <Text style={styles.userNameText}>{userName}</Text>
+              </View>
               <TouchableOpacity
                 style={styles.actionButton}
                 onPress={() => {

@@ -1,6 +1,6 @@
 {
   "name": "U-POWER-EVCCID",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "scripts": {
     "start-dev": "NODE_ENV=development npx expo start",
     "start-dev-local": "NODE_ENV=development npx expo start --localhost",

@@ -38,12 +38,14 @@ const login = async (payload: LoginPayLoad) => {
       crashlytics().log('login successed');
       // 設定全域token
       setUserApiToken((response.data as any).token.token as string);
-      // 將Token存到手機
+
+      // 將Token與userName存到手機
       try {
         await AsyncStorage.setItem('token', userToken);
-        crashlytics().log('store token in device successed');
+        await AsyncStorage.setItem('userName', payload.username);
+        crashlytics().log('store token and userName in device successed');
       } catch (error) {
-        console.error('fail to store token in device:', error);
+        console.error('fail to store token and userName in device:', error);
       }
 
       return { success: true, data: response.data, status: response.status };
@@ -170,6 +172,7 @@ const getVehicle = async ({
         // 如果是未授權錯誤，可能是 Token 過期或無效，需要重新登入
         // 將手機內的token刪掉
         await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('userName');
         crashlytics().log('remove token in device successed');
         setUserApiToken('');
         return {
@@ -224,6 +227,7 @@ const getEvccId = async (vehicleId: string): Promise<GetEvccId> => {
         // 如果是未授權錯誤，可能是 Token 過期或無效，需要重新登入
         // 將手機內的token刪掉
         await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('userName');
         crashlytics().log('remove token in device successed');
         setUserApiToken('');
         return {

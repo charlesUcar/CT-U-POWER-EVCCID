@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.2.0] -2025-2-17
+
+### Added
+
+- 新增用戶名稱顯示功能
+
 ## [1.1.2] -2025-2-13
 
 ### Changed

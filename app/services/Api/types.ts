@@ -6,7 +6,7 @@ export type ApiResponse = {
 };
 
 export type LoginPayLoad = {
-  userName: string;
+  username: string;
   password: string;
 };
 
