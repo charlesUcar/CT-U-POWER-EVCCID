@@ -22,8 +22,17 @@ import {
 import AppContext from '../../../context/AppContext';
 import { useIsForeground } from '../../../hooks/useIsForeground';
 import styles from './index.style';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-function ScanScreen({ navigation }) {
+type RootStackParamList = {
+  Home: undefined;
+  VinConfirm: { vin: string };
+  VinTyping: undefined;
+};
+
+type ScanScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+function ScanScreen({ navigation }: { navigation: ScanScreenNavigationProp }) {
   const { hasPermission, requestPermission } = useCameraPermission();
   // const appState = useRef(AppState.currentState);
   // const [appStateVisible, setAppStateVisible] = useState(appState.current);
@@ -57,8 +66,8 @@ function ScanScreen({ navigation }) {
         lastExecutionTime.current = now;
         return;
       }
-      if (now - lastExecutionTime.current < 100) {
-        return; // 如果距離上次執行不到 100ms，直接返回
+      if (now - lastExecutionTime.current < 200) {
+        return; // 如果距離上次執行不到 200ms，直接返回
       }
 
       lastExecutionTime.current = now;
@@ -71,20 +80,20 @@ function ScanScreen({ navigation }) {
       setConsecutiveScans((prev) => {
         const newScans = [...prev, value];
         // 只保留最後5次的掃描結果
-        if (newScans.length > 5) {
+        if (newScans.length > 3) {
           newScans.shift();
         }
         return newScans;
       });
 
-      // 檢查是否有連續5次相同的值
+      // 檢查是否有連續3次相同的值
       if (
-        consecutiveScans.length === 5 &&
+        consecutiveScans.length === 3 &&
         consecutiveScans.every((scan) => scan === value) &&
         isActive &&
         isValidVin(value)
       ) {
-        setIsActive(false);
+        // setIsActive(false);
         crashlytics().log('scanned VIN');
         console.log(value);
         setConsecutiveScans([]); // 重置掃描記錄
@@ -197,7 +206,6 @@ function ScanScreen({ navigation }) {
               device={device}
               format={format}
               fps={30}
-              orientation="portrait"
               codeScanner={codeScanner}
               torch={torch ? 'on' : 'off'}
               isActive={isActive}
