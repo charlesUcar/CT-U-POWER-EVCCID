@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.2.1] -2025-4-18
+
+### Fixed
+
+- 微調掃描VIN的重複驗證流程，提高掃描VIN的成功率
+
 ## [1.2.0] -2025-2-17
 
 ### Added
