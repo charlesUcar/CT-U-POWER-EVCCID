@@ -37,6 +37,30 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginBottom: 2,
   },
+  topHeaderActionBtn: {
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+    backgroundColor: '#FFF',
+  },
+  todayBtn: {
+    width: 60,
+    flex: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    backgroundColor: '#FFC200', // 黃色
+  },
+  customBtn: {
+    width: 60,
+    flex: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    backgroundColor: '#0096A3', 
+  },
+  topHeaderActionBtnText: {
+    fontSize: 10,
+  },
   // bodyContainer
   bodyContainer: {
     flex: 1,

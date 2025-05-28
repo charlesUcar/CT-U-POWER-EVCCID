@@ -64,6 +64,11 @@ function HomeScreen({ navigation }) {
     setListEndTime(endTime);
   };
 
+  const handleSetListTimeRange = (startTime: string, endTime: string) => {
+    setListStartTime(startTime);
+    setListEndTime(endTime);
+  };
+
   const handleFetchBindingData = async ({
     offset,
     limit,
@@ -238,24 +243,47 @@ function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.topHeaderContainer}
-        onPress={() => {
+      <View style={styles.topHeaderContainer}>
+        <View style={styles.topHeaderActionBox}>
+          <Text style={styles.topHeaderText}>搜尋 </Text>
+          <TouchableOpacity
+            style={[styles.topHeaderActionBtn, styles.todayBtn]}
+            onPress={() => {
+              handleSetListTimeRange(
+                dayjs().utc().format('YYYY-MM-DD'),
+                dayjs().utc().format('YYYY-MM-DD')
+              );
+            }}
+          >
+            <Text style={styles.topHeaderActionBtnText}>今日</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.topHeaderActionBtn, styles.customBtn]}
+             onPress={() => {
           crashlytics().log('open DateTimePicker Modal');
           setModalVisible(true);
         }}
+          >
+            <Text style={styles.topHeaderActionBtnText}>自訂</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      {/* <TouchableOpacity
+        style={styles.topHeaderContainer}
+        onPress={() => {
+          crashlytics().log('open DateTimePicker Modal');
+          handleSetListTimeRange(
+            dayjs().subtract(1, 'day').format('YYYY-MM-DD'),
+            dayjs().format('YYYY-MM-DD')
+          );
+        }}
       >
-        {listData ? (
-          <View style={styles.topHeaderActionBox}>
-            <MaterialIcons name="search" size={24} color="black" />
-          </View>
-        ) : (
-          <View style={styles.topHeaderActionBox}>
-            <MaterialIcons name="history" size={18} color="black" />
-            <Text style={styles.topHeaderText}>車輛記錄</Text>
-          </View>
-        )}
-      </TouchableOpacity>
+        <View style={styles.topHeaderActionBox}>
+          <MaterialIcons name="search" size={24} color="black" />
+          <Text style={styles.topHeaderText}>搜尋</Text>
+        </View>
+      </TouchableOpacity> */}
+
       {platform === 'android' ? (
         <Modal
           statusBarTranslucent
