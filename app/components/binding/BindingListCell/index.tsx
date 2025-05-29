@@ -3,6 +3,7 @@ import Images from '../../../images';
 import styles from './index.style';
 import React from 'react';
 import { memo } from 'react';
+import dayjs from 'dayjs';
 
 type Vehicle = {
   vehicleId: string;
@@ -17,9 +18,18 @@ const BindingListCell = memo(
     return (
       <View style={styles.listHead}>
         <Text style={styles.order}>{index}</Text>
-        <Text style={styles.vin}>{item.vin}</Text>
+        <View style={styles.vin}>
+          <Text style={styles.vinText}>{item.vin}</Text>
+          <Text style={styles.createdTime}>
+            {dayjs(item.createdTime).format('YYYY-MM-DD HH:mm:ss')}
+          </Text>
+        </View>
         <View style={styles.evccId}>
-          {item.evccid ? <Image source={Images.Success_circle_fill} /> : null}
+          {item.evccid ? (
+            <Image source={Images.Success_circle_fill} />
+          ) : (
+            <Image source={Images.Error_circle_fill} />
+          )}
         </View>
       </View>
     );

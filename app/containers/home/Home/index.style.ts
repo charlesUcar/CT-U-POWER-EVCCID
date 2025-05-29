@@ -44,22 +44,19 @@ const styles = StyleSheet.create({
   },
   todayBtn: {
     width: 60,
-    flex: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 4,
     backgroundColor: '#FFC200', // 黃色
   },
   customBtn: {
     width: 60,
-    flex: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 4,
-    backgroundColor: '#0096A3', 
+    backgroundColor: '#0096A3',
   },
   topHeaderActionBtnText: {
-    fontSize: 10,
+    fontSize: 14,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    lineHeight: 20,
   },
   // bodyContainer
   bodyContainer: {
@@ -124,9 +121,42 @@ const styles = StyleSheet.create({
   listHeadLineTitle: {
     fontSize: 18,
     fontWeight: '800',
+    marginBottom: 8,
+  },
+  listHeadLineSubtitleBox: {
+    flex: 0,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 10,
   },
   listHeadLineSubtitle: {
     fontSize: 12,
+    lineHeight: 25,
+  },
+  evccidCountBox: {
+    flex: 0,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    gap: 0,
+  },
+  evccidCountText: {
+    fontSize: 12,
+    lineHeight: 25,
+  },
+  evccidCountTextNumber: {
+    fontSize: 14,
+    lineHeight: 25,
+    backgroundColor: '#0096A3',
+    paddingHorizontal: 6,
+    borderRadius: 4,
+    fontWeight: '800',
+    color: '#FFF',
+  },
+  evccidCountDescriptionText: {
+    fontSize: 10,
+    lineHeight: 25,
   },
   downloadBtn: {
     paddingHorizontal: 16,

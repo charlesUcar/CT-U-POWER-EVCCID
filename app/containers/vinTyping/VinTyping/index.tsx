@@ -3,6 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import styles from "./index.style";
 import React, { useState } from "react";
 import crashlytics from "@react-native-firebase/crashlytics";
+import BindingSteps from "../../../components/Steps/BindingSteps";
 
 function VinTypingScreen({ navigation }) {
   const [userInputVin, setUserInputCode] = useState<string>("");
@@ -54,6 +55,7 @@ function VinTypingScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <BindingSteps currentStep={1} />
       <View style={styles.mainContainer}>
         <View style={styles.closeBtnBox}>
           <TouchableOpacity onPress={handleClickCloseBtn}>

@@ -22,6 +22,7 @@ import {
 import AppContext from '../../../context/AppContext';
 import { useIsForeground } from '../../../hooks/useIsForeground';
 import styles from './index.style';
+import BindingSteps from '../../../components/Steps/BindingSteps';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type RootStackParamList = {
@@ -175,6 +176,7 @@ function ScanScreen({ navigation }: { navigation: ScanScreenNavigationProp }) {
   //   );
   return (
     <View style={styles.container}>
+      <BindingSteps currentStep={1} />
       <View style={styles.mainContainer}>
         <View style={styles.header}>
           <View style={styles.torchBox}>

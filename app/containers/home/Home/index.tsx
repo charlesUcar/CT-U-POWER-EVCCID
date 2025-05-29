@@ -31,7 +31,7 @@ import styles from './index.style';
 var utc = require('dayjs/plugin/utc');
 dayjs.extend(utc);
 
-function HomeScreen({ navigation }) {
+function HomeScreen({ navigation, route }) {
   const [listStartTime, setListStartTime] = useState<string | null>(null);
   const [listEndTime, setListEndTime] = useState<string | null>(null);
   const [listStartTimeUTC, setListStartTimeUTC] = useState<string>('');
@@ -40,6 +40,9 @@ function HomeScreen({ navigation }) {
     GetVehicleResponseBody['data'] | null
   >(null);
   const [totalCount, setTotalCount] = useState<string>('');
+  const [evccidCount, setEvccidCount] = useState<number>(0);
+  const [isSingleDayData, setIsSingleDayData] = useState<boolean>(false);
+
   const [userToken, setUserToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [platform, setPlatform] = useState<string>('');
@@ -49,6 +52,8 @@ function HomeScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [userActionModalVisible, setUserActionModalVisible] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
+
+  const defaultLimit: number = 80;
 
   // 全域的provider
   const { setGlobalBackgroundColor } = useContext(AppContext);
@@ -136,9 +141,9 @@ function HomeScreen({ navigation }) {
 
   const handleDownloadData = async () => {
     setIsDownloadLoading(true);
-    if (listData && Number(totalCount) > 50) {
+    if (listData && Number(totalCount) > defaultLimit) {
       const response = await getVehicle({
-        offset: '50',
+        offset: defaultLimit.toString(),
         limit: '10000',
         startTime: listStartTimeUTC,
         endTime: listEndTimeUTC,
@@ -162,9 +167,14 @@ function HomeScreen({ navigation }) {
     currentDownloadData: GetVehicleResponseBody['data']
   ) => {
     // 產生Sheet表
-    let XLSXArray: (string | number)[][] = [['', 'VIN', 'EVCCID']];
+    let XLSXArray: (string | number)[][] = [['', 'VIN', 'EVCCID', '綁定時間']];
     currentDownloadData?.map((item, index) => {
-      XLSXArray.push([index + 1, item.vin, item.evccid ? '已綁定' : '']);
+      XLSXArray.push([
+        index + 1,
+        item.vin,
+        item.evccid ? '已綁定' : '',
+        dayjs(item.createdTime).format('YYYY-MM-DD HH:mm:ss'),
+      ]);
     });
 
     let wb = XLSX.utils.book_new();
@@ -203,11 +213,46 @@ function HomeScreen({ navigation }) {
     }
   };
 
+  const calculateEvccidCount = (data: GetVehicleResponseBody['data']) => {
+    // 建立一個 Map 來追蹤每個 VIN 是否已經被計算過，避免重複計算
+    const vinMap = new Map<string, boolean>();
+    let count = 0;
+
+    data.forEach((item) => {
+      // 只計算有 evccid 的項目
+      if (item.evccid) {
+        // 如果這個 VIN 還沒有被計算過
+        if (!vinMap.has(item.vin)) {
+          count++;
+          vinMap.set(item.vin, true);
+        }
+      }
+    });
+
+    return count;
+  };
+
+  const handleBindingListData = (data: any) => {
+    // 處理從 BindingList 傳來的資料
+    setListData(data);
+  };
+
+  useEffect(() => {
+    if (route.params?.startTime && route.params?.endTime) {
+      handleSetListTimeRange(route.params.startTime, route.params.endTime);
+    }
+  }, [route.params]);
+
   useEffect(() => {
     if (listStartTime && listEndTime) {
+      if (listStartTime === listEndTime) {
+        setIsSingleDayData(true);
+      } else {
+        setIsSingleDayData(false);
+      }
       handleFetchBindingData({
         offset: '0',
-        limit: '50',
+        limit: defaultLimit.toString(),
         startTime: listStartTime,
         endTime: listEndTime,
       });
@@ -232,6 +277,12 @@ function HomeScreen({ navigation }) {
       });
     }
   }, [userToken]);
+
+  useEffect(() => {
+    if (listData) {
+      setEvccidCount(calculateEvccidCount(listData));
+    }
+  }, [listData]);
 
   useFocusEffect(
     useCallback(() => {
@@ -259,31 +310,15 @@ function HomeScreen({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.topHeaderActionBtn, styles.customBtn]}
-             onPress={() => {
-          crashlytics().log('open DateTimePicker Modal');
-          setModalVisible(true);
-        }}
+            onPress={() => {
+              crashlytics().log('open DateTimePicker Modal');
+              setModalVisible(true);
+            }}
           >
             <Text style={styles.topHeaderActionBtnText}>自訂</Text>
           </TouchableOpacity>
         </View>
       </View>
-      {/* <TouchableOpacity
-        style={styles.topHeaderContainer}
-        onPress={() => {
-          crashlytics().log('open DateTimePicker Modal');
-          handleSetListTimeRange(
-            dayjs().subtract(1, 'day').format('YYYY-MM-DD'),
-            dayjs().format('YYYY-MM-DD')
-          );
-        }}
-      >
-        <View style={styles.topHeaderActionBox}>
-          <MaterialIcons name="search" size={24} color="black" />
-          <Text style={styles.topHeaderText}>搜尋</Text>
-        </View>
-      </TouchableOpacity> */}
-
       {platform === 'android' ? (
         <Modal
           statusBarTranslucent
@@ -338,9 +373,22 @@ function HomeScreen({ navigation }) {
                     <Text style={styles.listHeadLineTitle}>
                       {listStartTime + ' ~ ' + listEndTime}
                     </Text>
-                    <Text style={styles.listHeadLineSubtitle}>
-                      共 {totalCount} 筆
-                    </Text>
+                    <View style={styles.listHeadLineSubtitleBox}>
+                      <Text style={styles.listHeadLineSubtitle}>
+                        共 {totalCount} 筆
+                      </Text>
+                      {isSingleDayData ? (
+                        <View style={styles.evccidCountBox}>
+                          <Text style={styles.evccidCountText}>綁定成功：</Text>
+                          <Text style={[styles.evccidCountTextNumber]}>
+                            {evccidCount} 筆
+                          </Text>
+                          <Text style={styles.evccidCountDescriptionText}>
+                            （重複綁定只算1次）
+                          </Text>
+                        </View>
+                      ) : null}
+                    </View>
                   </View>
                   <TouchableOpacity
                     style={styles.downloadBtn}
@@ -355,6 +403,7 @@ function HomeScreen({ navigation }) {
                     totalCount={totalCount}
                     startTimeUTC={listStartTimeUTC}
                     endTimeUTC={listEndTimeUTC}
+                    onDataChange={handleBindingListData}
                   />
                 </View>
               </>

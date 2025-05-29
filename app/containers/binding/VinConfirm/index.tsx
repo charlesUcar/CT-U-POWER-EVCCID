@@ -8,6 +8,7 @@ import { createVehicleByVin, getVehicle } from '../../../services/Api';
 import { StatusBar } from 'expo-status-bar';
 import crashlytics from '@react-native-firebase/crashlytics';
 import Toast from 'react-native-toast-message';
+import BindingSteps from '../../../components/Steps/BindingSteps';
 
 export type vehicle = {
   code: String;
@@ -109,6 +110,7 @@ function VinConfirmScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      <BindingSteps currentStep={1} />
       <View style={styles.mainContainer}>
         <Text style={styles.title}>確認 V.I.N</Text>
         <View style={styles.confirmInfoContainer}>

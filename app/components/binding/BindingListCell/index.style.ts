@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   },
   listHead: {
     flex: 0,
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
     gap: 20,
@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
   },
   order: {
     flex: 1,
-    // width: "20%",
+    // width: "20%",  
+    maxWidth: 30,
     textAlign: "right",
     // backgroundColor: "red",
   },
@@ -37,8 +38,22 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     // backgroundColor: "yellow",
   },
+  vinText: {
+    flex: 1,
+    textAlign: "left",
+    letterSpacing: 1,
+    // backgroundColor: "yellow",
+  },
+  createdTime: {
+    textAlign: "left",
+    letterSpacing: 1,
+    fontSize: 12,
+    color: "#555",
+    // backgroundColor: "yellow",
+  },
   evccId: {
-    flex: 2,
+    flex: 3,
+    // maxWidth: 30,
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",

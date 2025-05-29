@@ -16,6 +16,7 @@ export type BindingListProps = {
   totalCount: string;
   startTimeUTC: string;
   endTimeUTC: string;
+  onDataChange?: (data: any) => void;
 };
 
 function BindingList({
@@ -23,6 +24,7 @@ function BindingList({
   totalCount,
   startTimeUTC,
   endTimeUTC,
+  onDataChange,
 }: BindingListProps) {
   const { setGlobalBackgroundColor } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +33,8 @@ function BindingList({
   const [currentListData, setCurrentListData] = useState<
     BindingListProps['listData']
   >([]);
+
+  const defaultLimit = 80;
 
   const handleFetchBindingData = async ({
     offset,
@@ -60,10 +64,12 @@ function BindingList({
       result.status <= 299 &&
       result.data.data.length > 0
     ) {
-      // append到現有的資料內
-      setCurrentListData([...currentListData, ...result.data.data]);
+      // append到現有的資料內，並反轉順序
+      setCurrentListData(
+        [...result.data.data].reverse().concat(currentListData)
+      );
       // 更新offset跟渲染次數
-      setCurrentOffset(currentOffset + 50);
+      setCurrentOffset(currentOffset + defaultLimit);
       setFetchDataTimes(fetchDataTimes - 1);
       setIsLoading(false);
       return;
@@ -78,8 +84,8 @@ function BindingList({
     if (isLoading) return;
     setIsLoading(true);
     await handleFetchBindingData({
-      limit: '50',
-      offset: (currentOffset + 50).toString(),
+      limit: defaultLimit.toString(),
+      offset: (currentOffset + defaultLimit).toString(),
       startTime: startTimeUTC,
       endTime: endTimeUTC,
     });
@@ -87,10 +93,16 @@ function BindingList({
   };
 
   useEffect(() => {
-    // 計算可以下拉讀取資料次數，第一次進入時已獲取前50筆資料
-    setFetchDataTimes(Math.ceil(Number(totalCount) / 50) - 1);
-    setCurrentListData(listData);
+    // 計算可以下拉讀取資料次數，第一次進入時已獲取defaultLimit筆資料
+    setFetchDataTimes(Math.ceil(Number(totalCount) / defaultLimit) - 1);
+    setCurrentListData([...listData].reverse());
   }, []);
+
+  useEffect(() => {
+    if (currentListData.length > 0) {
+      onDataChange?.(currentListData);
+    }
+  }, [currentListData]);
 
   useFocusEffect(
     useCallback(() => {
@@ -105,7 +117,10 @@ function BindingList({
       <View style={styles.listHead}>
         <Text style={styles.order}></Text>
         <Text style={styles.vin}>V.I.N</Text>
-        <Text style={styles.evccId}>EVCCID</Text>
+        <View style={styles.evccIdBox}>
+          <Text style={styles.evccId}>EVCCID</Text>
+          <Text style={styles.evccId}>綁定成功</Text>
+        </View>
       </View>
 
       <FlatList
@@ -129,7 +144,7 @@ function BindingList({
         } // 顯示加載指示器
         data={currentListData}
         renderItem={({ item, index }) => (
-          <BindingListCell item={item} index={index + 1} />
+          <BindingListCell item={item} index={Number(totalCount) - index} />
         )}
       />
     </View>
