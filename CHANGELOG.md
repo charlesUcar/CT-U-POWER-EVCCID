@@ -4,11 +4,24 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.3.0] -2025-5-29
+
+### Added
+
+- 新增綁定步驟指示器，提供更清晰的綁定流程指引
+- 新增綁定成功/失敗的狀態提示視窗
+- 新增單日綁定統計功能，顯示當日成功綁定數量
+
+### Changed
+
+- 優化列表顯示，新增創建時間欄位
+- 改進未綁定車輛的狀態顯示，新增錯誤圖示
+
 ## [1.2.1] -2025-4-18
 
 ### Fixed
 
-- 微調掃描VIN的重複驗證流程，提高掃描VIN的成功率
+- 微調掃描 VIN 的重複驗證流程，提高掃描 VIN 的成功率
 
 ## [1.2.0] -2025-2-17
 
@@ -20,7 +33,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- 移除首頁合作廠商LOGO
+- 移除首頁合作廠商 LOGO
 
 ### Fixed
 
@@ -48,21 +61,21 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- 透過重複驗證改善掃描VIN的準確度
+- 透過重複驗證改善掃描 VIN 的準確度
 
 ### Changed
 
-- 相機預覽圖改為30FPS
+- 相機預覽圖改為 30FPS
 
 ## [1.0.3] -2024-7-16
 
 ### Fixed
 
-- IOS版本無法登入問題
+- IOS 版本無法登入問題
 - 確認按鈕觸及範圍太小問題
 
 ## [1.0.2] -2024-6-5
 
 ### Fixed
 
-- 搜尋綁定列表，往下滑動會有Fetch兩次的問題
+- 搜尋綁定列表，往下滑動會有 Fetch 兩次的問題
