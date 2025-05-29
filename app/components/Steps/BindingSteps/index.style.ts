@@ -30,11 +30,14 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 15,
+    color: '#493800',
+  },
+  stepItemNumberText: {
     textAlign: 'center',
-    lineHeight: 30,
     fontSize: 14,
     fontWeight: '800',
     color: '#493800',
+    lineHeight: 30,
   },
   stepItem: {
     textAlign: 'center',

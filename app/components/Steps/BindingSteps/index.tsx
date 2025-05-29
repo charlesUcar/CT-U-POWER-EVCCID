@@ -36,25 +36,33 @@ function BindingSteps({ currentStep = 1 }: BindingStepsProps) {
         <View
           style={[styles.stepItemContainer, { opacity: getStepOpacity(1) }]}
         >
-          <Text style={styles.stepItemNumber}>1</Text>
+          <View style={styles.stepItemNumber}>
+            <Text style={styles.stepItemNumberText}>1</Text>
+          </View>
           <Text style={[styles.stepItem]}>輸入 VIN</Text>
         </View>
         <View
           style={[styles.stepItemContainer, { opacity: getStepOpacity(2) }]}
         >
-          <Text style={styles.stepItemNumber}>2</Text>
+          <View style={styles.stepItemNumber}>
+            <Text style={styles.stepItemNumberText}>2</Text>
+          </View>
           <Text style={[styles.stepItem]}>取得 EVCCID</Text>
         </View>
         <View
           style={[styles.stepItemContainer, { opacity: getStepOpacity(3) }]}
         >
-          <Text style={styles.stepItemNumber}>3</Text>
+          <View style={styles.stepItemNumber}>
+            <Text style={styles.stepItemNumberText}>3</Text>
+          </View>
           <Text style={[styles.stepItem]}>確認綁定資訊</Text>
         </View>
         <View
           style={[styles.stepItemContainer, { opacity: getStepOpacity(4) }]}
         >
-          <Text style={styles.stepItemNumber}>4</Text>
+          <View style={styles.stepItemNumber}>
+            <Text style={styles.stepItemNumberText}>4</Text>
+          </View>
           <Text style={[styles.stepItem]}>完成綁定</Text>
         </View>
       </View>

@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.3.1] -2025-5-29
+
+### Changed
+
+- 修復 IOS 版本的步驟 icon 圖示變成方形的問題
+
 ## [1.3.0] -2025-5-29
 
 ### Added
