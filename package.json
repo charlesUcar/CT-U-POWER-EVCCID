@@ -1,6 +1,6 @@
 {
   "name": "U-POWER-EVCCID",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "scripts": {
     "start-dev": "NODE_ENV=development npx expo start",
     "start-dev-local": "NODE_ENV=development npx expo start --localhost",
@@ -20,6 +20,8 @@
     "android:build-apk": "cd android && ./gradlew assembleRelease && cd ../"
   },
   "dependencies": {
+    "@babel/runtime": "^7.27.6",
+    "@expo/vector-icons": "^14.1.0",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/datetimepicker": "8.2.0",
     "@react-native-firebase/app": "^19.0.1",

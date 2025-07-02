@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@babel/runtime':
+        specifier: ^7.27.6
+        version: 7.27.6
+      '@expo/vector-icons':
+        specifier: ^14.1.0
+        version: 14.1.0(expo-font@13.0.4(expo@52.0.46(@babel/core@7.27.3)(@babel/preset-env@7.27.2(@babel/core@7.27.3))(react-native@0.76.9(@babel/core@7.27.3)(@babel/preset-env@7.27.2(@babel/core@7.27.3))(@types/react@18.3.23)(react@18.3.1))(react@18.3.1))(react@18.3.1))(react-native@0.76.9(@babel/core@7.27.3)(@babel/preset-env@7.27.2(@babel/core@7.27.3))(@types/react@18.3.23)(react@18.3.1))(react@18.3.1)
       '@react-native-async-storage/async-storage':
         specifier: 1.23.1
         version: 1.23.1(react-native@0.76.9(@babel/core@7.27.3)(@babel/preset-env@7.27.2(@babel/core@7.27.3))(@types/react@18.3.23)(react@18.3.1))
@@ -803,8 +809,8 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/runtime@7.27.3':
-    resolution: {integrity: sha512-7EYtGezsdiDMyY80+65EzwiGmcJqpmcZCojSXaRgdrBaGtWTgDZKq69cPIVped6MkIM78cTQ2GOiEYjwOlG4xw==}
+  '@babel/runtime@7.27.6':
+    resolution: {integrity: sha512-vbavdySgbTTrmFE+EsiqUTzlOr5bzlnJtUv9PynGCAKvfQqjIXbvFdumPM/GxMDfyuGMJaJAU6TO4zc1Jf1i8Q==}
     engines: {node: '>=6.9.0'}
 
   '@babel/template@7.27.2':
@@ -4631,7 +4637,7 @@ snapshots:
       pirates: 4.0.7
       source-map-support: 0.5.21
 
-  '@babel/runtime@7.27.3': {}
+  '@babel/runtime@7.27.6': {}
 
   '@babel/template@7.27.2':
     dependencies:
@@ -4663,7 +4669,7 @@ snapshots:
   '@expo/cli@0.22.26':
     dependencies:
       '@0no-co/graphql.web': 1.1.2
-      '@babel/runtime': 7.27.3
+      '@babel/runtime': 7.27.6
       '@expo/code-signing-certificates': 0.0.5
       '@expo/config': 10.0.11
       '@expo/config-plugins': 9.0.17
@@ -6132,7 +6138,7 @@ snapshots:
 
   expo@52.0.46(@babel/core@7.27.3)(@babel/preset-env@7.27.2(@babel/core@7.27.3))(react-native@0.76.9(@babel/core@7.27.3)(@babel/preset-env@7.27.2(@babel/core@7.27.3))(@types/react@18.3.23)(react@18.3.1))(react@18.3.1):
     dependencies:
-      '@babel/runtime': 7.27.3
+      '@babel/runtime': 7.27.6
       '@expo/cli': 0.22.26
       '@expo/config': 10.0.11
       '@expo/config-plugins': 9.0.17
@@ -6888,7 +6894,7 @@ snapshots:
 
   metro-runtime@0.81.5:
     dependencies:
-      '@babel/runtime': 7.27.3
+      '@babel/runtime': 7.27.6
       flow-enums-runtime: 0.0.6
 
   metro-source-map@0.81.5:

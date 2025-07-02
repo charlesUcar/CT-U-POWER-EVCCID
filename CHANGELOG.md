@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.3.2] -2025-7-2
+
+### Changed
+
+- 修復已知問題
+
 ## [1.3.1] -2025-5-29
 
 ### Changed
