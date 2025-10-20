@@ -17,7 +17,7 @@ function VinTypingScreen({ navigation }) {
   const handleSubmitUserInputVin = () => {
     // 7J3ZZ56T7834500003, JS3TD62V1Y4107896
     if (!isValidVin(userInputVin)) {
-      Alert.alert("V.I.N 格式錯誤");
+      Alert.alert("V.I.N 格式錯誤 (需為17碼)");
       setIsUserInputVinError(true);
       return;
     }

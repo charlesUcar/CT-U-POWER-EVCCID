@@ -77,6 +77,8 @@ const styles = StyleSheet.create({
   backScanBtn: {
   },
   backScanBtnText: {
+    padding: 10,
+    // backgroundColor: "red",
     color: "#aaa",
     fontSize: 16,
     fontWeight: "600",

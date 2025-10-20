@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "100%",
-    height: 40,
+    height: 50,
     // borderColor: "transparent",
     borderBottomWidth: 1,
     borderBottomColor: "#2C333F",
