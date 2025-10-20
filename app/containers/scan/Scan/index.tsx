@@ -1,5 +1,4 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import crashlytics from '@react-native-firebase/crashlytics';
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import React, {
@@ -95,7 +94,6 @@ function ScanScreen({ navigation }: { navigation: ScanScreenNavigationProp }) {
         isValidVin(value)
       ) {
         // setIsActive(false);
-        crashlytics().log('scanned VIN');
         console.log(value);
         setConsecutiveScans([]); // 重置掃描記錄
         navigation.replace('VinConfirm', {
@@ -164,7 +162,6 @@ function ScanScreen({ navigation }: { navigation: ScanScreenNavigationProp }) {
   );
 
   useEffect(() => {
-    crashlytics().log('request camera permission');
     requestPermission();
   }, []);
 

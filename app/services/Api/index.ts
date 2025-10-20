@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import crashlytics from '@react-native-firebase/crashlytics';
 import { create } from 'apisauce';
 import { TIMEOUT, endpoints } from './config';
 import {
@@ -35,7 +34,6 @@ const login = async (payload: LoginPayLoad) => {
 
     if (response.ok && (response.data as any).status) {
       // 登入成功
-      crashlytics().log('login successed');
       // 設定全域token
       setUserApiToken((response.data as any).token.token as string);
 
@@ -43,7 +41,6 @@ const login = async (payload: LoginPayLoad) => {
       try {
         await AsyncStorage.setItem('token', userToken);
         await AsyncStorage.setItem('userName', payload.username);
-        crashlytics().log('store token and userName in device successed');
       } catch (error) {
         console.error('fail to store token and userName in device:', error);
       }
@@ -66,11 +63,9 @@ const changePassword = async (payload: ChangePasswordPayload) => {
 
     if (response.ok) {
       // 修改成功
-      crashlytics().log('changePassword successed');
       return { success: true, data: response.data, status: response.status };
     } else {
       // 修改失敗，返回一個通用的錯誤訊息
-      crashlytics().log('changePassword failed');
       return { success: false, error: response.problem };
     }
   } catch (error) {
@@ -85,7 +80,6 @@ const createVehicleByVin = async (vin: CreateVehicleByVinParams) => {
     const response = await api.post('/vehicle', { vin });
     // 使用VIN建立vehicle物件後，物件的location url會在headers裡面
     if (response.ok) {
-      crashlytics().log('created vehicle by vin');
       return {
         success: true,
         headers: response.headers,
@@ -111,7 +105,6 @@ const createVehicleByVin = async (vin: CreateVehicleByVinParams) => {
     }
   } catch (error) {
     console.log(error);
-    crashlytics().log('created vehicle by vin fail');
     throw new Error('Failed to create vehicle');
   }
 };
@@ -159,7 +152,6 @@ const getVehicle = async ({
   try {
     const response = await api.get(`/vehicle?${searchParams}`);
     if (response.ok && (response.data as any).data?.length > 0) {
-      crashlytics().log('get vehicle by params');
       return {
         success: true,
         data: response.data,
@@ -173,7 +165,6 @@ const getVehicle = async ({
         // 將手機內的token刪掉
         await AsyncStorage.removeItem('token');
         await AsyncStorage.removeItem('userName');
-        crashlytics().log('remove token in device successed');
         setUserApiToken('');
         return {
           success: false,
@@ -196,7 +187,6 @@ const getVehicle = async ({
     // return false
   } catch (error) {
     console.log(error);
-    crashlytics().log('failed to get vehicle by params');
     throw new Error('Failed to get vehicle by params');
   }
 };
@@ -206,16 +196,13 @@ const getEvccId = async (vehicleId: string): Promise<GetEvccId> => {
   //   const { data, status } = await api.get(
   //     `vehicle/evccid?vehicleid=${vehicleId}`
   //   );
-  //   crashlytics().log('get evccId');
   //   return { data, status } as GetEvccId;
   // } catch (error) {
-  //   crashlytics().log('failed to get evccId');
   //   throw new Error('Failed to get evccId');
   // }
   try {
     const response = await api.get(`vehicle/evccid?vehicleid=${vehicleId}`);
     if (response.ok) {
-      crashlytics().log('get evccId');
       return {
         success: true,
         data: response.data as GetEvccId['data'],
@@ -228,7 +215,6 @@ const getEvccId = async (vehicleId: string): Promise<GetEvccId> => {
         // 將手機內的token刪掉
         await AsyncStorage.removeItem('token');
         await AsyncStorage.removeItem('userName');
-        crashlytics().log('remove token in device successed');
         setUserApiToken('');
         return {
           success: false,
@@ -245,7 +231,6 @@ const getEvccId = async (vehicleId: string): Promise<GetEvccId> => {
       }
     }
   } catch (error) {
-    crashlytics().log('failed to get evccId');
     throw new Error('Failed to get evccId');
   }
 };
@@ -263,7 +248,6 @@ const bindEvccidWithVehicle = async (
       }
     );
     if (response.ok) {
-      crashlytics().log('binding evccid with vehicle successed');
       return {
         success: true,
         status: response.status as number,
@@ -275,7 +259,6 @@ const bindEvccidWithVehicle = async (
       };
     }
   } catch (error) {
-    crashlytics().log('failed to binding evccid with vehicle');
     throw new Error('Failed to bind evccId');
   }
 };

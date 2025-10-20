@@ -2,7 +2,6 @@ import { Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import styles from "./index.style";
 import React, { useState } from "react";
-import crashlytics from "@react-native-firebase/crashlytics";
 import BindingSteps from "../../../components/Steps/BindingSteps";
 
 function VinTypingScreen({ navigation }) {
@@ -18,7 +17,6 @@ function VinTypingScreen({ navigation }) {
   const handleSubmitUserInputVin = () => {
     // 7J3ZZ56T7834500003, JS3TD62V1Y4107896
     if (!isValidVin(userInputVin)) {
-      crashlytics().log("V.I.N 手動輸入格式錯誤");
       Alert.alert("V.I.N 格式錯誤");
       setIsUserInputVinError(true);
       return;

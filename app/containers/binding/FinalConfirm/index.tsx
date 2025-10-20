@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { bindEvccidWithVehicle } from '../../../services/Api';
 import BindingSteps from '../../../components/Steps/BindingSteps';
-import crashlytics from '@react-native-firebase/crashlytics';
 import dayjs from 'dayjs';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 

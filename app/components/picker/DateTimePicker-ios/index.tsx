@@ -1,10 +1,9 @@
-import { Text, View, TouchableOpacity } from "react-native";
-import styles from "./index.style";
-import React, { useEffect, useState } from "react";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import dayjs from "dayjs";
-import Toast from "react-native-toast-message";
-import crashlytics from "@react-native-firebase/crashlytics";
+import { Text, View, TouchableOpacity } from 'react-native';
+import styles from './index.style';
+import React, { useEffect, useState } from 'react';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import dayjs from 'dayjs';
+import Toast from 'react-native-toast-message';
 
 type SetModalVisibleType = (value: boolean) => void;
 type SetListTimeRangeType = ({
@@ -24,12 +23,12 @@ function DateTimePickerIosModal({ setModalVisible, setListTimeRange }: Props) {
   // dateTimePicker
   const [startTime, setStartTime] = useState<Date>();
   const [endTime, setEndTime] = useState<Date>();
-  const [startTimeString, setStartTimeString] = useState<string>("");
-  const [endTimeString, setEndTimeString] = useState<string>("");
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [startTimeString, setStartTimeString] = useState<string>('');
+  const [endTimeString, setEndTimeString] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   // state
-  const [mode, setMode] = useState<string>("date");
+  const [mode, setMode] = useState<string>('date');
   const [startTimePickerShow, setStartTimePickerShow] =
     useState<boolean>(false);
   const [endTimePickerShow, setEndTimePickerShow] = useState<boolean>(false);
@@ -38,53 +37,51 @@ function DateTimePickerIosModal({ setModalVisible, setListTimeRange }: Props) {
   const [endTimeErrorShow, setEndTimeErrorShow] = useState<boolean>(false);
 
   const onChangeStartDate = (event, selectedDate: Date | undefined) => {
-    console.log("change");
-    if (event.type === "dismissed") {
+    console.log('change');
+    if (event.type === 'dismissed') {
       setStartTimePickerShow(false);
       return;
     }
     const currentDate = selectedDate;
     currentDate && setStartTime(currentDate);
-    const formattedDate = dayjs(currentDate).format("YYYY-MM-DD");
+    const formattedDate = dayjs(currentDate).format('YYYY-MM-DD');
     setStartTimeString(formattedDate);
     setStartTimePickerShow(false);
   };
 
   const onChangeEndDate = (event, selectedDate: Date | undefined) => {
-    if (event.type === "dismissed") {
+    if (event.type === 'dismissed') {
       setEndTimePickerShow(false);
       return;
     }
     const currentDate = selectedDate;
     currentDate && setEndTime(currentDate);
-    const formattedDate = dayjs(currentDate).format("YYYY-MM-DD");
+    const formattedDate = dayjs(currentDate).format('YYYY-MM-DD');
     setEndTimeString(formattedDate);
   };
 
   const showStartDateMode = (currentMode) => {
-    crashlytics().log("ios startDate picker open");
     setStartTimePickerShow(true);
     setMode(currentMode);
   };
 
   const showEndDateMode = (currentMode) => {
-    crashlytics().log("ios endDate picker open");
     setEndTimePickerShow(true);
     setMode(currentMode);
   };
 
   const showStartDatePicker = () => {
-    showStartDateMode("date");
+    showStartDateMode('date');
   };
 
   const showEndDatePicker = () => {
-    showEndDateMode("date");
+    showEndDateMode('date');
   };
 
   const checkInputTimeRangeValid = () => {
     if (!startTime) {
       setStartTimeErrorShow(true);
-      setErrorMessage("請輸入起訖時間");
+      setErrorMessage('請輸入起訖時間');
       setRangeAllSet(false);
       return false;
     }
@@ -92,7 +89,7 @@ function DateTimePickerIosModal({ setModalVisible, setListTimeRange }: Props) {
     if (!endTime) {
       setStartTimeErrorShow(false);
       setEndTimeErrorShow(true);
-      setErrorMessage("請輸入起訖時間");
+      setErrorMessage('請輸入起訖時間');
       setRangeAllSet(false);
       return false;
     }
@@ -100,32 +97,31 @@ function DateTimePickerIosModal({ setModalVisible, setListTimeRange }: Props) {
     if (startTime > endTime) {
       setStartTimeErrorShow(true);
       setEndTimeErrorShow(true);
-      setErrorMessage("開始日期不可晚於結束日期");
+      setErrorMessage('開始日期不可晚於結束日期');
       setRangeAllSet(false);
       return false;
     }
 
     const compareStartDate = dayjs(startTime);
     const compareEndDate = dayjs(endTime);
-    if (compareEndDate.diff(compareStartDate, "day") > 30) {
+    if (compareEndDate.diff(compareStartDate, 'day') > 30) {
       setStartTimeErrorShow(true);
       setEndTimeErrorShow(true);
-      setErrorMessage("搜尋期間不可超過30天");
+      setErrorMessage('搜尋期間不可超過30天');
       setRangeAllSet(false);
       return false;
     }
     setStartTimeErrorShow(false);
     setEndTimeErrorShow(false);
-    setErrorMessage("");
+    setErrorMessage('');
     setRangeAllSet(true);
     return true;
   };
 
   const handleSubmit = () => {
     if (checkInputTimeRangeValid()) {
-      crashlytics().log("submit search evccid binding data by ios dateTimePicker");
-      const startTimeFormat = dayjs(startTime).format("YYYY-MM-DD");
-      const EndTimeFormat = dayjs(endTime).format("YYYY-MM-DD");
+      const startTimeFormat = dayjs(startTime).format('YYYY-MM-DD');
+      const EndTimeFormat = dayjs(endTime).format('YYYY-MM-DD');
       // 把startTime跟endTime傳到Home組件的setListTimeRange
       setListTimeRange({ startTime: startTimeFormat, endTime: EndTimeFormat });
       setModalVisible(false);
@@ -143,7 +139,7 @@ function DateTimePickerIosModal({ setModalVisible, setListTimeRange }: Props) {
     setEndTime(new Date());
     setRangeAllSet(true);
 
-    const formattedDate = dayjs(new Date()).format("YYYY-MM-DD");
+    const formattedDate = dayjs(new Date()).format('YYYY-MM-DD');
     setStartTimeString(formattedDate);
     setEndTimeString(formattedDate);
   }, []);

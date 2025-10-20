@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useState } from 'react';
 import AppContext from '../../../context/AppContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFocusEffect } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
   TouchableWithoutFeedback,
   Keyboard,
@@ -15,12 +16,21 @@ import {
 } from 'react-native';
 import images from '../../../images';
 import styles from './index.style';
-import crashlytics from '@react-native-firebase/crashlytics';
 import { login } from '../../../services/Api';
 import Toast from 'react-native-toast-message';
 import Loading from '../../../components/animate/Loading';
 
-function LoginScreen({ navigation }) {
+type RootStackParamList = {
+  Home: undefined;
+  Login: undefined;
+  // 可以根據您的導航結構添加更多路由
+};
+
+function LoginScreen({
+  navigation,
+}: {
+  navigation: NativeStackNavigationProp<RootStackParamList>;
+}) {
   const [userName, setUserName] = useState('');
   // const [isValidUserName, setIsValidUserName] = useState(true);
   const [password, setPassword] = useState('');
@@ -42,7 +52,6 @@ function LoginScreen({ navigation }) {
 
   const handleSubmit = async () => {
     setGlobalBackgroundColor('#C1DFE2');
-    crashlytics().log('Login Success');
 
     if (!userName || !password) {
       Toast.show({

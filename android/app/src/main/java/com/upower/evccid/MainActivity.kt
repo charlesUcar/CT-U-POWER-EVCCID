@@ -1,4 +1,4 @@
-package com.upower.evccid.development
+package com.upower.evccid
 
 import android.os.Build
 import android.os.Bundle

@@ -1,6 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import crashlytics from '@react-native-firebase/crashlytics';
 import { useFocusEffect } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import * as FileSystem from 'expo-file-system';
@@ -120,7 +119,6 @@ function HomeScreen({ navigation, route }) {
           });
         }, 500);
         navigation.replace('Login');
-        crashlytics().log('Toast show');
         return;
       }
       // 沒Fetch到內容，會回傳空陣列
@@ -132,7 +130,6 @@ function HomeScreen({ navigation, route }) {
           position: 'bottom',
         });
       }, 500);
-      crashlytics().log('Toast show');
       setListData(null);
       setIsLoading(false);
       return;
@@ -311,7 +308,6 @@ function HomeScreen({ navigation, route }) {
           <TouchableOpacity
             style={[styles.topHeaderActionBtn, styles.customBtn]}
             onPress={() => {
-              crashlytics().log('open DateTimePicker Modal');
               setModalVisible(true);
             }}
           >
@@ -343,7 +339,6 @@ function HomeScreen({ navigation, route }) {
           visible={modalVisible}
           onRequestClose={() => {
             // Alert.alert("Modal has been closed.");
-            crashlytics().log('close DateTimePicker Modal');
             setModalVisible(false);
           }}
         >

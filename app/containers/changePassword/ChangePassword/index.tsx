@@ -1,5 +1,4 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import crashlytics from '@react-native-firebase/crashlytics';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useContext, useState } from 'react';
 import {
@@ -47,7 +46,6 @@ function ChangePasswordScreen({ navigation }) {
 
   const handleSubmit = async () => {
     setGlobalBackgroundColor('#C1DFE2');
-    crashlytics().log('Login Success');
 
     if (oldPassword === '' || newPassword === '' || confirmPassword === '') {
       Toast.show({

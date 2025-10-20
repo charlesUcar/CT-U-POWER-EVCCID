@@ -6,7 +6,6 @@ import { useFocusEffect } from '@react-navigation/native';
 import { createVehicleByVin, getVehicle } from '../../../services/Api';
 // import useVinValidator from '../../../hooks/useVinValidator';
 import { StatusBar } from 'expo-status-bar';
-import crashlytics from '@react-native-firebase/crashlytics';
 import Toast from 'react-native-toast-message';
 import BindingSteps from '../../../components/Steps/BindingSteps';
 
@@ -32,13 +31,11 @@ function VinConfirmScreen({ route, navigation }) {
     // UU6JA69691D713820
     setIsLoading(true);
     // if (!checkVinValid(vin)) {
-    //   crashlytics().log('V.I.N inValid');
     //   Alert.alert('V.I.N 格式錯誤', '請重新掃描並確認 V.I.N');
     //   setIsLoading(false);
     //   return;
     // }
     if (vin.length !== 17) {
-      crashlytics().log('V.I.N inValid');
       Alert.alert('V.I.N 格式錯誤', '請重新掃描並確認 V.I.N');
       setIsLoading(false);
       return;
@@ -59,7 +56,6 @@ function VinConfirmScreen({ route, navigation }) {
         });
         return;
       }
-      crashlytics().log('get vehicleId fail');
       setTimeout(() => {
         Toast.show({
           type: 'customWarning',
@@ -72,7 +68,6 @@ function VinConfirmScreen({ route, navigation }) {
       return;
     }
     if (!response.success && response.status === 401) {
-      crashlytics().log('token expired');
       setTimeout(() => {
         Toast.show({
           type: 'customWarning',
@@ -83,7 +78,6 @@ function VinConfirmScreen({ route, navigation }) {
       navigation.replace('Login');
       return;
     }
-    crashlytics().log('create vehicle by vin fail');
     setTimeout(() => {
       Toast.show({
         type: 'customWarning',

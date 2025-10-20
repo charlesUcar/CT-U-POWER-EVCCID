@@ -25,8 +25,12 @@
       }
     },
     "production": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://app-upower-vinevccid.azurewebsites.net",
+        "EXPO_PUBLIC_API_URL": "https://app-upower-testing-vinevccid.azurewebsites.net",
         "EXPO_PUBLIC_APP_ENV": "production"
       }
     }

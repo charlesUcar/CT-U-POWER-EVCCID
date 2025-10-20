@@ -30,7 +30,9 @@ export default {
     },
     permissions: ['android.permission.CAMERA'],
     package: IS_DEV ? 'com.upower.evccid.development' : 'com.upower.evccid',
-    googleServicesFile: './google-services.json',
+    googleServicesFile: IS_DEV
+      ? './google-services-dev.json'
+      : './google-services-prod.json',
   },
   web: {
     favicon: './assets/favicon.png',
@@ -44,14 +46,15 @@ export default {
   },
   owner: 'charlesucar',
   plugins: [
+    'expo-asset',
+    'expo-font',
     [
       'react-native-vision-camera',
       {
+        cameraPermissionText: '$(PRODUCT_NAME) needs access to your Camera.',
         enableCodeScanner: true,
       },
     ],
-    '@react-native-firebase/app',
-    '@react-native-firebase/crashlytics',
     [
       'expo-build-properties',
       {
