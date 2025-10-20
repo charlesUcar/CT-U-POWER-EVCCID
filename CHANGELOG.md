@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.3.3] -2025-10-20
+
+### Changed
+
+- 升級 Expo SDK 從 52 到 54
+
+### Fixed
+
+- 修改 VIN 格式驗證條件，超過 17 碼的 VIN 會被截取前 17 碼
+- 微調按鈕樣式
+
 ## [1.3.2] -2025-7-2
 
 ### Changed
