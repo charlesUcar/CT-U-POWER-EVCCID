@@ -293,7 +293,7 @@ function HomeScreen({ navigation, route }) {
     <View style={styles.container}>
       <View style={styles.topHeaderContainer}>
         <View style={styles.topHeaderActionBox}>
-          <Text style={styles.topHeaderText}>搜尋 </Text>
+          <Text style={styles.topHeaderText}> 搜尋 </Text>
           <TouchableOpacity
             style={[styles.topHeaderActionBtn, styles.todayBtn]}
             onPress={() => {
@@ -413,6 +413,33 @@ function HomeScreen({ navigation, route }) {
           </View>
         )}
       </View>
+      {/* <View style={styles.testBtnArea}>
+        <TouchableOpacity
+          onPress={() => {
+            setGlobalBackgroundColor('#2C333F');
+            navigation.push('PlugIn', { vin: '12345678901234567' });
+          }}
+        >
+          <View>
+            <Text>Plugin</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setGlobalBackgroundColor('#2C333F');
+            navigation.push('FinalConfirm', {
+              vin: '12345678901234567',
+              vehicleId: '12345678901234567',
+              evccId: '12345678901234567',
+              identifier: '12345678901234567',
+            });
+          }}
+        >
+          <View>
+            <Text>FinalConfirm</Text>
+          </View>
+        </TouchableOpacity>
+      </View> */}
       <View style={styles.createActionArea}>
         <TouchableOpacity
           style={styles.createActionBtnBox}

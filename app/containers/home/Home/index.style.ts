@@ -188,6 +188,12 @@ const styles = StyleSheet.create({
     // right: 0,
     // backgroundColor: "green",
   },
+  testBtnArea:{
+    position: 'absolute',
+    bottom: 100,
+    left: 50,
+    right: 50,
+  },
   createActionArea: {
     flex: 0,
     justifyContent: 'center',

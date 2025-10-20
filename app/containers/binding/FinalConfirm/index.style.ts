@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   cancleBtnContainer: {
     width: '100%',
-    marginTop: 32,
+    marginTop: 16,
     flex: 0,
     justifyContent: 'center',
     alignItems: 'center',
@@ -111,6 +111,8 @@ const styles = StyleSheet.create({
     // backgroundColor: "red",
   },
   cancleBtnText: {
+    padding: 10,
+    // backgroundColor: "red",
     color: '#fff',
   },
   modalContainer: {

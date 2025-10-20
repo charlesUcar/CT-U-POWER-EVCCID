@@ -50,13 +50,14 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "100%",
-    height: 40,
+    height: 50,
     // borderColor: "transparent",
     borderBottomWidth: 1,
     borderBottomColor: "#2C333F",
     // paddingHorizontal: 10,
     fontSize: 20,
     fontWeight: "600",
+    color: 'black'
   },
   inputError: {
     borderColor: "red", // 驗證錯誤時顯示紅色邊框
