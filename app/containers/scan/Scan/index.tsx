@@ -59,7 +59,6 @@ function ScanScreen({ navigation }: { navigation: ScanScreenNavigationProp }) {
   // 4. On code scanned, we show an aler to the user
   const onCodeScanned = useCallback(
     (codes: Code[], frame: CodeScannerFrame) => {
-      // console.log(consecutiveScans);
       const now = Date.now();
       if (isFirstScan.current) {
         isFirstScan.current = false;
@@ -71,33 +70,40 @@ function ScanScreen({ navigation }: { navigation: ScanScreenNavigationProp }) {
       }
 
       lastExecutionTime.current = now;
+      const originValue = codes[0]?.value;
+      // console.log('originValue', originValue);
+      let currentValue = '';
+      if (originValue == null) return;
+      if (originValue.length > 17) {
+        currentValue = originValue.substring(0, 17);
+      } else {
+        currentValue = originValue;
+      }
 
-      const value = codes[0]?.value;
-      if (value == null) return;
-      if (value.length !== 17) return;
-
+      // console.log('currentValue', currentValue);
       // 更新連續掃描數組
       setConsecutiveScans((prev) => {
-        const newScans = [...prev, value];
-        // 只保留最後5次的掃描結果
+        const newScans = [...prev, currentValue];
+        // 只保留最後3次的掃描結果
         if (newScans.length > 3) {
           newScans.shift();
         }
         return newScans;
       });
 
+      // console.log('consecutiveScans', consecutiveScans);
+
       // 檢查是否有連續3次相同的值
       if (
         consecutiveScans.length === 3 &&
-        consecutiveScans.every((scan) => scan === value) &&
+        consecutiveScans.every((scan) => scan === currentValue) &&
         isActive &&
-        isValidVin(value)
+        isValidVin(currentValue)
       ) {
         // setIsActive(false);
-        console.log(value);
         setConsecutiveScans([]); // 重置掃描記錄
         navigation.replace('VinConfirm', {
-          vin: value,
+          vin: currentValue,
         });
       }
     },
