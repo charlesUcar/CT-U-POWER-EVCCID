@@ -58,7 +58,6 @@ function DateTimePickerModal({ setModalVisible, setListTimeRange }: Props) {
   };
 
   const showEndDateMode = (currentMode) => {
-    crashlytics().log('android endDate picker open');
     DateTimePickerAndroid.open({
       value: endTime ? endTime : new Date(),
       onChange: onChangeEndDate,

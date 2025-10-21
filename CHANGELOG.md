@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.3.4] -2025-10-21
+
+### Fixed
+
+- 修復環境變數錯誤問題
+
 ## [1.3.3] -2025-10-20
 
 ### Changed
