@@ -49,18 +49,17 @@ export default {
     'expo-asset',
     'expo-font',
     [
-      'react-native-vision-camera',
-      {
-        cameraPermissionText: '$(PRODUCT_NAME) needs access to your Camera.',
-        enableCodeScanner: true,
-      },
-    ],
-    [
       'expo-build-properties',
       {
         ios: {
           useFrameworks: 'static',
         },
+      },
+    ],
+    [
+      'expo-camera',
+      {
+        cameraPermission: 'Allow $(PRODUCT_NAME) to access your camera',
       },
     ],
   ],

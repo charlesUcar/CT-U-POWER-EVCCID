@@ -157,7 +157,7 @@ function LoginScreen({
         </View>
         <KeyboardAvoidingView
           style={styles.formContainer}
-          enabled={Platform.OS === 'ios' ? true : false}
+          enabled={true}
           behavior={'padding'}
           keyboardVerticalOffset={20} // 鍵盤彈出時的垂直偏移量
         >

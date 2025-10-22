@@ -8,13 +8,16 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Button, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import {
-  CameraView,
-  CameraType,
-  useCameraPermissions,
-  BarcodeScanningResult,
-} from 'expo-camera';
+  Camera,
+  Code,
+  CodeScannerFrame,
+  useCameraDevice,
+  useCameraFormat,
+  useCameraPermission,
+  useCodeScanner,
+} from 'react-native-vision-camera';
 import AppContext from '../../../context/AppContext';
 import { useIsForeground } from '../../../hooks/useIsForeground';
 import styles from './index.style';
@@ -30,60 +33,74 @@ type RootStackParamList = {
 type ScanScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 function ScanScreen({ navigation }: { navigation: ScanScreenNavigationProp }) {
-  const [permission, requestPermission] = useCameraPermissions();
+  const { hasPermission, requestPermission } = useCameraPermission();
+  // const appState = useRef(AppState.currentState);
+  // const [appStateVisible, setAppStateVisible] = useState(appState.current);
+  // const [isScanMode, setIsScanMode] = useState<boolean>(true);
+  const [scannedType, setScannedType] = useState<string>('');
+  const [scannedCode, setScannedCode] = useState<string>('');
+  const [consecutiveScans, setConsecutiveScans] = useState<string[]>([]);
+  const isFirstScan = useRef<boolean>(true);
+  const lastExecutionTime = useRef<number>(0);
 
   const { setGlobalBackgroundColor } = useContext(AppContext);
+
+  // 1. Use a simple default back camera
+  const device = useCameraDevice('back');
 
   // 2. Only activate Camera when the app is focused and this screen is currently opened
   const isFocused = useIsFocused();
   const isForeground = useIsForeground();
   const [isActive, setIsActive] = useState<boolean>(isFocused && isForeground);
-  const [consecutiveScans, setConsecutiveScans] = useState<string[]>([]);
-  const isFirstScan = useRef<boolean>(true);
-  const lastExecutionTime = useRef<number>(0);
-  // enable a torch setting
+
+  // 3. (Optional) enable a torch setting
   const [torch, setTorch] = useState(false);
 
-  const onBarcodeScanned = useCallback(
-    (scanningResult: BarcodeScanningResult) => {
+  // 4. On code scanned, we show an aler to the user
+  const onCodeScanned = useCallback(
+    (codes: Code[], frame: CodeScannerFrame) => {
       const now = Date.now();
       if (isFirstScan.current) {
         isFirstScan.current = false;
         lastExecutionTime.current = now;
         return;
       }
-      if (now - lastExecutionTime.current < 100) {
-        return; // 如果距離上次執行不到 100ms，直接返回
+      if (now - lastExecutionTime.current < 200) {
+        return; // 如果距離上次執行不到 200ms，直接返回
       }
 
       lastExecutionTime.current = now;
-
-      const originValue = scanningResult.data;
+      const originValue = codes[0]?.value;
+      // console.log('originValue', originValue);
       let currentValue = '';
+      if (originValue == null) return;
       if (originValue.length > 17) {
         currentValue = originValue.substring(0, 17);
       } else {
         currentValue = originValue;
       }
 
-      console.log('currentValue', currentValue);
+      // console.log('currentValue', currentValue);
       // 更新連續掃描數組
       setConsecutiveScans((prev) => {
         const newScans = [...prev, currentValue];
         // 只保留最後3次的掃描結果
-        if (newScans.length > 2) {
+        if (newScans.length > 3) {
           newScans.shift();
         }
         return newScans;
       });
-      console.log('consecutiveScans', consecutiveScans);
 
+      // console.log('consecutiveScans', consecutiveScans);
+
+      // 檢查是否有連續3次相同的值
       if (
-        consecutiveScans.length === 2 &&
+        consecutiveScans.length === 3 &&
         consecutiveScans.every((scan) => scan === currentValue) &&
         isActive &&
         isValidVin(currentValue)
       ) {
+        // setIsActive(false);
         setConsecutiveScans([]); // 重置掃描記錄
         navigation.replace('VinConfirm', {
           vin: currentValue,
@@ -92,6 +109,20 @@ function ScanScreen({ navigation }: { navigation: ScanScreenNavigationProp }) {
     },
     [isFirstScan, isActive, navigation, consecutiveScans]
   );
+
+  // 5. Initialize the Code Scanner to scan QR codes and Barcodes
+  const codeScanner = useCodeScanner({
+    codeTypes: ['qr', 'code-39'],
+    onCodeScanned: onCodeScanned,
+    regionOfInterest: {
+      x: 0,
+      y: 0,
+      width: 100,
+      height: 100,
+    },
+  });
+
+  const format = useCameraFormat(device, [{ videoResolution: 'max' }]);
 
   const isValidVin = (vin: string) => {
     // 檢查是否有17個字符
@@ -140,20 +171,6 @@ function ScanScreen({ navigation }: { navigation: ScanScreenNavigationProp }) {
     requestPermission();
   }, []);
 
-  if (!permission) {
-    // Camera permissions are still loading.
-    return <View />;
-  }
-
-  if (!permission.granted) {
-    // Camera permissions are not granted yet.
-    return (
-      <View style={styles.withoutPermissionContainer}>
-        <Text style={styles.message}>需要您的相機權限才能使用此功能</Text>
-        <Button onPress={requestPermission} title="授予權限" />
-      </View>
-    );
-  }
   // if (device == null)
   //   return (
   //     <View>
@@ -171,7 +188,7 @@ function ScanScreen({ navigation }: { navigation: ScanScreenNavigationProp }) {
               style={styles.torchIcon}
             >
               <Ionicons
-                name={torch ? 'flash-off' : 'flash'}
+                name={torch ? 'flash' : 'flash-off'}
                 color="white"
                 size={24}
               />
@@ -188,14 +205,17 @@ function ScanScreen({ navigation }: { navigation: ScanScreenNavigationProp }) {
         <Text></Text>
 
         <View style={styles.cameraContainer}>
-          <CameraView
-            active={isActive}
-            style={styles.camera}
-            barcodeScannerSettings={{ barcodeTypes: ['qr', 'code39'] }}
-            onBarcodeScanned={onBarcodeScanned}
-            autofocus="on"
-            enableTorch={torch}
-          />
+          {hasPermission && device != null && (
+            <Camera
+              style={{ width: '100%', height: '100%' }}
+              device={device}
+              format={format}
+              fps={30}
+              codeScanner={codeScanner}
+              torch={torch ? 'on' : 'off'}
+              isActive={isActive}
+            />
+          )}
           <View style={styles.cameraBorderContainer}>
             <View style={styles.cameraBorderBox}>
               <View style={styles.cameraBorderTopLeft}></View>

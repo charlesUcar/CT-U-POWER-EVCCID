@@ -205,6 +205,10 @@ PODS:
     - ExpoModulesCore
   - ExpoBlur (15.0.7):
     - ExpoModulesCore
+  - ExpoCamera (17.0.8):
+    - ExpoModulesCore
+    - ZXingObjC/OneD
+    - ZXingObjC/PDF417
   - ExpoFileSystem (19.0.17):
     - ExpoModulesCore
   - ExpoFont (14.0.9):
@@ -2031,13 +2035,12 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - VisionCamera (4.7.2):
-    - VisionCamera/Core (= 4.7.2)
-    - VisionCamera/React (= 4.7.2)
-  - VisionCamera/Core (4.7.2)
-  - VisionCamera/React (4.7.2):
-    - React-Core
   - Yoga (0.0.0)
+  - ZXingObjC/Core (3.6.9)
+  - ZXingObjC/OneD (3.6.9):
+    - ZXingObjC/Core
+  - ZXingObjC/PDF417 (3.6.9):
+    - ZXingObjC/Core
 
 DEPENDENCIES:
   - "EXConstants (from `../node_modules/.pnpm/expo-constants@18.0.9_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28.0__xlur6sqxeynhcvdekyiuhc7eae/node_modules/expo-constants/ios`)"
@@ -2050,6 +2053,7 @@ DEPENDENCIES:
   - "expo-dev-menu-interface (from `../node_modules/.pnpm/expo-dev-menu-interface@2.0.0_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core_qekydfxp7if2xuc34wtzbh6ep4/node_modules/expo-dev-menu-interface/ios`)"
   - "ExpoAsset (from `../node_modules/.pnpm/expo-asset@12.0.9_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28.0_@typ_6bhzau5dpai7hjlfoq72g4unhq/node_modules/expo-asset/ios`)"
   - "ExpoBlur (from `../node_modules/.pnpm/expo-blur@15.0.7_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28.0_@type_xmmb5iqeyaryisaewkvn4jvul4/node_modules/expo-blur/ios`)"
+  - "ExpoCamera (from `../node_modules/.pnpm/expo-camera@17.0.8_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28.0_@ty_z7c323xznzyg4x26iv2qfcwryq/node_modules/expo-camera/ios`)"
   - "ExpoFileSystem (from `../node_modules/.pnpm/expo-file-system@19.0.17_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28_cbcsa3phcdnbwzfu6w3a3k2uyi/node_modules/expo-file-system/ios`)"
   - "ExpoFont (from `../node_modules/.pnpm/expo-font@14.0.9_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28.0_@type_qlrdgttyyvyol2j62mjn45rpmm/node_modules/expo-font/ios`)"
   - "ExpoKeepAwake (from `../node_modules/.pnpm/expo-keep-awake@15.0.7_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28.0_nxcihujvscykkmjlszo7sfbvva/node_modules/expo-keep-awake/ios`)"
@@ -2127,8 +2131,11 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/.pnpm/@react-native-async-storage+async-storage@2.2.0_react-native@0.81.4_@babel+core@7.28.0_@types_zo2gfzhl3oegdqf2ghsstr5cga/node_modules/@react-native-async-storage/async-storage`)"
   - "RNDateTimePicker (from `../node_modules/.pnpm/@react-native-community+datetimepicker@8.4.4_expo@54.0.13_@babel+core@7.28.0_react-native@0.8_ti7ek7ngotryulb46sxhvrtuau/node_modules/@react-native-community/datetimepicker`)"
   - "RNScreens (from `../node_modules/.pnpm/react-native-screens@4.16.0_react-native@0.81.4_@babel+core@7.28.0_@types+react@19.1.17_react@19.1.0__react@19.1.0/node_modules/react-native-screens`)"
-  - "VisionCamera (from `../node_modules/.pnpm/react-native-vision-camera@4.7.2_react-native@0.81.4_@babel+core@7.28.0_@types+react@19.1.17_react@19.1.0__react@19.1.0/node_modules/react-native-vision-camera`)"
   - "Yoga (from `../node_modules/.pnpm/react-native@0.81.4_@babel+core@7.28.0_@types+react@19.1.17_react@19.1.0/node_modules/react-native/ReactCommon/yoga`)"
+
+SPEC REPOS:
+  trunk:
+    - ZXingObjC
 
 EXTERNAL SOURCES:
   EXConstants:
@@ -2151,6 +2158,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/.pnpm/expo-asset@12.0.9_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28.0_@typ_6bhzau5dpai7hjlfoq72g4unhq/node_modules/expo-asset/ios"
   ExpoBlur:
     :path: "../node_modules/.pnpm/expo-blur@15.0.7_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28.0_@type_xmmb5iqeyaryisaewkvn4jvul4/node_modules/expo-blur/ios"
+  ExpoCamera:
+    :path: "../node_modules/.pnpm/expo-camera@17.0.8_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28.0_@ty_z7c323xznzyg4x26iv2qfcwryq/node_modules/expo-camera/ios"
   ExpoFileSystem:
     :path: "../node_modules/.pnpm/expo-file-system@19.0.17_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28_cbcsa3phcdnbwzfu6w3a3k2uyi/node_modules/expo-file-system/ios"
   ExpoFont:
@@ -2304,8 +2313,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/.pnpm/@react-native-community+datetimepicker@8.4.4_expo@54.0.13_@babel+core@7.28.0_react-native@0.8_ti7ek7ngotryulb46sxhvrtuau/node_modules/@react-native-community/datetimepicker"
   RNScreens:
     :path: "../node_modules/.pnpm/react-native-screens@4.16.0_react-native@0.81.4_@babel+core@7.28.0_@types+react@19.1.17_react@19.1.0__react@19.1.0/node_modules/react-native-screens"
-  VisionCamera:
-    :path: "../node_modules/.pnpm/react-native-vision-camera@4.7.2_react-native@0.81.4_@babel+core@7.28.0_@types+react@19.1.17_react@19.1.0__react@19.1.0/node_modules/react-native-vision-camera"
   Yoga:
     :path: "../node_modules/.pnpm/react-native@0.81.4_@babel+core@7.28.0_@types+react@19.1.17_react@19.1.0/node_modules/react-native/ReactCommon/yoga"
 
@@ -2320,6 +2327,7 @@ SPEC CHECKSUMS:
   expo-dev-menu-interface: 600df12ea01efecdd822daaf13cc0ac091775533
   ExpoAsset: 9ba6fbd677fb8e241a3899ac00fa735bc911eadf
   ExpoBlur: 2dd8f64aa31f5d405652c21d3deb2d2588b1852f
+  ExpoCamera: e75f6807a2c047f3338bbadd101af4c71a1d13a5
   ExpoFileSystem: b79eadbda7b7f285f378f95f959cc9313a1c9c61
   ExpoFont: cf9d90ec1d3b97c4f513211905724c8171f82961
   ExpoKeepAwake: 1a2e820692e933c94a565ec3fbbe38ac31658ffe
@@ -2396,8 +2404,8 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: c8407cc394627a3a4cf56b457d594bfa822b6ab8
   RNDateTimePicker: 3b90b0645499e9ae1a86298f23275a648283d415
   RNScreens: 33bbd1d0f86ed957557620dc94054b71db0a94ee
-  VisionCamera: 30b358b807324c692064f78385e9a732ce1bebfe
   Yoga: 2c1f55d9d91a1cec2fb8cc6dd27da33199ffdb52
+  ZXingObjC: 8898711ab495761b2dbbdec76d90164a6d7e14c5
 
 PODFILE CHECKSUM: d7d1e05bf59266bd7453737af92d17e6e7d084cc
 
