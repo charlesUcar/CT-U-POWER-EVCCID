@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.4.0] -2025-10-22
+
+### Fixed
+
+- 修復下載按鈕點擊後沒有反應問題
+- 修復 Android 版本登入頁面輸入框被鍵盤遮擋問題
+
+### Changed
+
+- 更換相機掃描模組
+- 提升掃描成功率
+
 ## [1.3.4] -2025-10-21
 
 ### Fixed
