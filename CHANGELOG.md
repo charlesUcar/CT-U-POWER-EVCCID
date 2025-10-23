@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.4.1] -2025-10-23
+
+### Fixed
+
+- 修復 IOS 版本日期選擇器顯示錯誤問題
+- 修復修改密碼頁面輸入框被鍵盤遮擋問題
+
 ## [1.4.0] -2025-10-22
 
 ### Fixed
