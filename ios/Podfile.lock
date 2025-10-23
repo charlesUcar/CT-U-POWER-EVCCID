@@ -1966,7 +1966,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - RNDateTimePicker (8.4.4):
+  - RNDateTimePicker (8.4.5):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2129,7 +2129,7 @@ DEPENDENCIES:
   - "ReactCommon/turbomodule/core (from `../node_modules/.pnpm/react-native@0.81.4_@babel+core@7.28.0_@types+react@19.1.17_react@19.1.0/node_modules/react-native/ReactCommon`)"
   - "ReactNativeDependencies (from `../node_modules/.pnpm/react-native@0.81.4_@babel+core@7.28.0_@types+react@19.1.17_react@19.1.0/node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec`)"
   - "RNCAsyncStorage (from `../node_modules/.pnpm/@react-native-async-storage+async-storage@2.2.0_react-native@0.81.4_@babel+core@7.28.0_@types_zo2gfzhl3oegdqf2ghsstr5cga/node_modules/@react-native-async-storage/async-storage`)"
-  - "RNDateTimePicker (from `../node_modules/.pnpm/@react-native-community+datetimepicker@8.4.4_expo@54.0.13_@babel+core@7.28.0_react-native@0.8_ti7ek7ngotryulb46sxhvrtuau/node_modules/@react-native-community/datetimepicker`)"
+  - "RNDateTimePicker (from `../node_modules/.pnpm/@react-native-community+datetimepicker@8.4.5_expo@54.0.13_@babel+core@7.28.0_react-native@0.8_cg6dmnj3k6cltpl53z5tkq62s4/node_modules/@react-native-community/datetimepicker`)"
   - "RNScreens (from `../node_modules/.pnpm/react-native-screens@4.16.0_react-native@0.81.4_@babel+core@7.28.0_@types+react@19.1.17_react@19.1.0__react@19.1.0/node_modules/react-native-screens`)"
   - "Yoga (from `../node_modules/.pnpm/react-native@0.81.4_@babel+core@7.28.0_@types+react@19.1.17_react@19.1.0/node_modules/react-native/ReactCommon/yoga`)"
 
@@ -2310,7 +2310,7 @@ EXTERNAL SOURCES:
   RNCAsyncStorage:
     :path: "../node_modules/.pnpm/@react-native-async-storage+async-storage@2.2.0_react-native@0.81.4_@babel+core@7.28.0_@types_zo2gfzhl3oegdqf2ghsstr5cga/node_modules/@react-native-async-storage/async-storage"
   RNDateTimePicker:
-    :path: "../node_modules/.pnpm/@react-native-community+datetimepicker@8.4.4_expo@54.0.13_@babel+core@7.28.0_react-native@0.8_ti7ek7ngotryulb46sxhvrtuau/node_modules/@react-native-community/datetimepicker"
+    :path: "../node_modules/.pnpm/@react-native-community+datetimepicker@8.4.5_expo@54.0.13_@babel+core@7.28.0_react-native@0.8_cg6dmnj3k6cltpl53z5tkq62s4/node_modules/@react-native-community/datetimepicker"
   RNScreens:
     :path: "../node_modules/.pnpm/react-native-screens@4.16.0_react-native@0.81.4_@babel+core@7.28.0_@types+react@19.1.17_react@19.1.0__react@19.1.0/node_modules/react-native-screens"
   Yoga:
@@ -2402,7 +2402,7 @@ SPEC CHECKSUMS:
   ReactCommon: 149b6c05126f2e99f2ed0d3c63539369546f8cae
   ReactNativeDependencies: ed6d1e64802b150399f04f1d5728ec16b437251e
   RNCAsyncStorage: c8407cc394627a3a4cf56b457d594bfa822b6ab8
-  RNDateTimePicker: 3b90b0645499e9ae1a86298f23275a648283d415
+  RNDateTimePicker: 32e80d76765a37e1641059abfd97b4190a506d69
   RNScreens: 33bbd1d0f86ed957557620dc94054b71db0a94ee
   Yoga: 2c1f55d9d91a1cec2fb8cc6dd27da33199ffdb52
   ZXingObjC: 8898711ab495761b2dbbdec76d90164a6d7e14c5

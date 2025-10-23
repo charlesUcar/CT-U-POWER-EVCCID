@@ -149,7 +149,7 @@ function ChangePasswordScreen({ navigation }) {
         </View>
         <KeyboardAvoidingView
           style={styles.formContainer}
-          enabled={Platform.OS === 'ios' ? true : false}
+          enabled={true}
           behavior={'padding'}
           keyboardVerticalOffset={20} // 鍵盤彈出時的垂直偏移量
         >
@@ -252,6 +252,14 @@ function ChangePasswordScreen({ navigation }) {
             ) : (
               <Text style={styles.submitBtnText}>Confirm Change</Text>
             )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.cancelBtn}
+            onPress={() => {
+              navigation.replace('Home');
+            }}
+          >
+            <Text style={styles.cancelBtnText}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </View>

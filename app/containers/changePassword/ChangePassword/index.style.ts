@@ -1,33 +1,33 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#C1DFE2",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#C1DFE2',
+    alignItems: 'center',
+    justifyContent: 'center',
     gap: 0,
   },
   logoContainer: {
     flex: 0,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
     // backgroundColor: "lightblue",
     marginBottom: 60,
   },
   formContainer: {
     flex: 0,
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: '100%',
     // backgroundColor: "lightgreen",
   },
   userNameContainer: {
     flex: 0,
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    width: "100%",
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    width: '100%',
     // backgroundColor: "lightgreen",
     paddingLeft: 32,
     paddingRight: 32,
@@ -35,9 +35,9 @@ const styles = StyleSheet.create({
   },
   passwordContainer: {
     flex: 0,
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    width: "100%",
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    width: '100%',
     // backgroundColor: "lightgreen",
     paddingLeft: 32,
     paddingRight: 32,
@@ -46,38 +46,50 @@ const styles = StyleSheet.create({
   label: {
     marginBottom: 0, // 調整標籤和輸入框之間的間距
     fontSize: 12,
-    color: "#2C333F",
+    color: '#2C333F',
   },
   input: {
-    width: "100%",
+    width: '100%',
     height: 50,
     // borderColor: "transparent",
     borderBottomWidth: 1,
-    borderBottomColor: "#2C333F",
+    borderBottomColor: '#2C333F',
     // paddingHorizontal: 10,
     fontSize: 20,
-    fontWeight: "600",
+    fontWeight: '600',
+    color: '#2C333F',
   },
   inputError: {
-    borderColor: "red", // 驗證錯誤時顯示紅色邊框
+    borderColor: 'red', // 驗證錯誤時顯示紅色邊框
   },
   logoImage: {
     width: 100,
     height: 100,
-    resizeMode: "cover",
+    resizeMode: 'cover',
   },
   submitBtn: {
-    width: "100%",
+    width: '100%',
     height: 58,
-    backgroundColor: "#00565C",
+    backgroundColor: '#00565C',
     borderRadius: 40,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   submitBtnText: {
-    color: "white",
+    color: 'white',
     fontSize: 15,
-    fontWeight: "bold",
+    fontWeight: 'bold',
+  },
+  cancelBtn: {
+    marginTop: 16,
+    width: '100%',
+    height: 58,
+    borderRadius: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cancelBtnText: {
+    color: 'black',
   },
 });
 

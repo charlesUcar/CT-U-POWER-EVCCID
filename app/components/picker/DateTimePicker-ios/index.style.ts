@@ -52,8 +52,10 @@ const styles = StyleSheet.create({
   dateTextBox: {
     borderBottomWidth: 1,
     borderBottomColor: "#2C333F",
+    // backgroundColor: "lightgreen",
   },
   dateTextView: {
+    opacity: 0,
     minHeight: 48,
     paddingTop: 12,
     paddingBottom: 12,
@@ -63,16 +65,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   dateTimePickerView: {
-    opacity: 0,
+    opacity: 1,
     position: "absolute",
-    left: 0,
-    top: 0,
+    left: -13,
+    top: 6,
     width: '100%',
     height: '100%',
+    // backgroundColor: "lightcoral",
   },
   dateTimePicker: {
     width: "100%",
     height: "100%",
+    // backgroundColor: "lightblue",
   },
   error: {
     borderBottomColor: "#EB4343",
