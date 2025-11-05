@@ -20,6 +20,7 @@ import Loading from '../../../components/animate/Loading';
 import BindingList from '../../../components/binding/BindingList';
 import DateTimePicker from '../../../components/picker/DateTimePicker';
 import DateTimePickerIos from '../../../components/picker/DateTimePicker-ios';
+import UserActionModal from '../../../components/modal/UserActionModal';
 import AppContext from '../../../context/AppContext';
 import Images from '../../../images';
 import { getVehicle } from '../../../services/Api';
@@ -465,53 +466,15 @@ function HomeScreen({ navigation, route }) {
             <Image source={Images.Member} />
           </View>
         </TouchableOpacity>
-        <Modal
-          statusBarTranslucent
-          animationType="slide"
-          transparent={true}
+        <UserActionModal
           visible={userActionModalVisible}
-          onRequestClose={() => {
-            setUserActionModalVisible(false);
+          userName={userName}
+          onClose={() => setUserActionModalVisible(false)}
+          onNavigateToChangePassword={() => {
+            navigation.navigate('ChangePassword');
           }}
-        >
-          <TouchableOpacity
-            style={styles.modalContainer}
-            activeOpacity={1}
-            onPress={() => setUserActionModalVisible(false)}
-          >
-            <View style={styles.modalContent}>
-              <View style={styles.userNameBox}>
-                <Text>Hello, </Text>
-                <Text style={styles.userNameText}>{userName}</Text>
-              </View>
-              <TouchableOpacity
-                style={styles.actionButton}
-                onPress={() => {
-                  // 處理修改密碼邏輯
-                  setUserActionModalVisible(false);
-                  navigation.navigate('ChangePassword'); // 假設有這個頁面
-                }}
-              >
-                <Text style={styles.actionButtonText}>修改密碼</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.actionButton}
-                onPress={() => {
-                  // 處理登出邏輯
-                  handleLogout();
-                }}
-              >
-                <Text style={styles.actionButtonText}>登出</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.cancelButton}
-                onPress={() => setUserActionModalVisible(false)}
-              >
-                <Text style={styles.cancelButtonText}>取消</Text>
-              </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
-        </Modal>
+          onLogout={handleLogout}
+        />
       </View>
       <StatusBar style="dark" />
     </View>

@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     // right: 0,
     // backgroundColor: "green",
   },
-  testBtnArea:{
+  testBtnArea: {
     position: 'absolute',
     bottom: 100,
     left: 50,
@@ -271,49 +271,6 @@ const styles = StyleSheet.create({
   //   fontSize: 20,
   //   fontWeight: "800",
   // },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 20,
-  },
-  actionButton: {
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  actionButtonText: {
-    fontSize: 16,
-    textAlign: 'center',
-    color: '#007D86',
-  },
-  userNameBox: {
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  userNameText: {
-    fontSize: 16,
-    textAlign: 'center',
-    fontWeight: 800,
-    textTransform: 'uppercase',
-  },
-  cancelButton: {
-    marginTop: 10,
-    paddingVertical: 15,
-  },
-  cancelButtonText: {
-    fontSize: 16,
-    textAlign: 'center',
-    color: 'red',
-  },
 });
 
 export default styles;
