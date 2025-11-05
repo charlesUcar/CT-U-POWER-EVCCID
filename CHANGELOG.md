@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.4.2] -2025-11-05
+
+### Added
+
+- 新增版本號顯示功能
+
 ## [1.4.1] -2025-10-23
 
 ### Fixed
