@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "1039853388597",
+    "project_id": "u-power-x-kia",
+    "storage_bucket": "u-power-x-kia.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039853388597:android:a3cf63dd5e151d43c1c27c",
+        "android_client_info": {
+          "package_name": "com.upower.evccid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmVIp3dZwz3YVDxHOWlHYZJSrQ7LNISdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039853388597:android:a962ca35a79d01d4c1c27c",
+        "android_client_info": {
+          "package_name": "com.upower.evccid.development"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmVIp3dZwz3YVDxHOWlHYZJSrQ7LNISdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039853388597:android:6339b2ded4c79455c1c27c",
+        "android_client_info": {
+          "package_name": "com.upower.evccid.staging"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmVIp3dZwz3YVDxHOWlHYZJSrQ7LNISdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

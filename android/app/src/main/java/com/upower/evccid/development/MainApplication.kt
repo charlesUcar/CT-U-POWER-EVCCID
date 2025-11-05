@@ -15,6 +15,7 @@ import com.facebook.react.defaults.DefaultReactNativeHost
 
 import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ReactNativeHostWrapper
+import com.upower.evccid.development.SecurityUtils
 
 class MainApplication : Application(), ReactApplication {
 
@@ -40,6 +41,14 @@ class MainApplication : Application(), ReactApplication {
 
   override fun onCreate() {
     super.onCreate()
+
+    // 執行安全檢查（在應用初始化之前）
+    if (!SecurityUtils.performSecurityChecks(this)) {
+      // 安全檢查失敗，立即退出應用
+      android.os.Process.killProcess(android.os.Process.myPid())
+      System.exit(1)
+      return
+    }
     DefaultNewArchitectureEntryPoint.releaseLevel = try {
       ReleaseLevel.valueOf(BuildConfig.REACT_NATIVE_RELEASE_LEVEL.uppercase())
     } catch (e: IllegalArgumentException) {

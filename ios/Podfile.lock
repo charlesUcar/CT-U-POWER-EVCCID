@@ -1,5 +1,5 @@
 PODS:
-  - EXConstants (18.0.9):
+  - EXConstants (18.0.10):
     - ExpoModulesCore
   - EXJSONUtils (0.15.0)
   - EXManifests (1.0.8):
@@ -2043,7 +2043,7 @@ PODS:
     - ZXingObjC/Core
 
 DEPENDENCIES:
-  - "EXConstants (from `../node_modules/.pnpm/expo-constants@18.0.9_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28.0__xlur6sqxeynhcvdekyiuhc7eae/node_modules/expo-constants/ios`)"
+  - "EXConstants (from `../node_modules/.pnpm/expo-constants@18.0.10_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28.0_pvbqpmbour3f5s2akmflml3k2m/node_modules/expo-constants/ios`)"
   - "EXJSONUtils (from `../node_modules/.pnpm/expo-json-utils@0.15.0/node_modules/expo-json-utils/ios`)"
   - "EXManifests (from `../node_modules/.pnpm/expo-manifests@1.0.8_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28.0_@_t7kildjb46fi44npux7xldnhe4/node_modules/expo-manifests/ios`)"
   - "Expo (from `../node_modules/.pnpm/expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28.0_@types+react@19.1.17_react@19.1.0__react@19.1.0/node_modules/expo`)"
@@ -2139,7 +2139,7 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   EXConstants:
-    :path: "../node_modules/.pnpm/expo-constants@18.0.9_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28.0__xlur6sqxeynhcvdekyiuhc7eae/node_modules/expo-constants/ios"
+    :path: "../node_modules/.pnpm/expo-constants@18.0.10_expo@54.0.13_@babel+core@7.28.0_react-native@0.81.4_@babel+core@7.28.0_pvbqpmbour3f5s2akmflml3k2m/node_modules/expo-constants/ios"
   EXJSONUtils:
     :path: "../node_modules/.pnpm/expo-json-utils@0.15.0/node_modules/expo-json-utils/ios"
   EXManifests:
@@ -2317,7 +2317,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/.pnpm/react-native@0.81.4_@babel+core@7.28.0_@types+react@19.1.17_react@19.1.0/node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  EXConstants: a95804601ee4a6aa7800645f9b070d753b1142b3
+  EXConstants: fd688cef4e401dcf798a021cfb5d87c890c30ba3
   EXJSONUtils: 1d3e4590438c3ee593684186007028a14b3686cd
   EXManifests: 224345a575fca389073c416297b6348163f28d1a
   Expo: cbb1d4e1148cc55a1cc35d8b4f20669518bfa19c

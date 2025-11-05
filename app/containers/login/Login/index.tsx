@@ -19,6 +19,7 @@ import styles from './index.style';
 import { login } from '../../../services/Api';
 import Toast from 'react-native-toast-message';
 import Loading from '../../../components/animate/Loading';
+// import { endpoints } from '../../../services/Api/config';
 
 type RootStackParamList = {
   Home: undefined;
@@ -154,6 +155,10 @@ function LoginScreen({
           >
             Welcome
           </Text>
+          {/* <Text>{endpoints.env}</Text>
+          <Text> {endpoints.upower} </Text>
+          <Text> {endpoints.appVersion} </Text>
+          <Text> {endpoints.androidPackageName} </Text> */}
         </View>
         <KeyboardAvoidingView
           style={styles.formContainer}
