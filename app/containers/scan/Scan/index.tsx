@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Button, Text, TouchableOpacity, View } from 'react-native';
+import { Button, Platform, Text, TouchableOpacity, View } from 'react-native';
 import {
   CameraView,
   CameraType,
@@ -20,6 +20,7 @@ import { useIsForeground } from '../../../hooks/useIsForeground';
 import styles from './index.style';
 import BindingSteps from '../../../components/Steps/BindingSteps';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type RootStackParamList = {
   Home: undefined;
@@ -33,6 +34,9 @@ function ScanScreen({ navigation }: { navigation: ScanScreenNavigationProp }) {
   const [permission, requestPermission] = useCameraPermissions();
 
   const { setGlobalBackgroundColor } = useContext(AppContext);
+
+  // 獲取安全區域的 insets，用於處理導航列遮擋問題
+  const insets = useSafeAreaInsets();
 
   // 2. Only activate Camera when the app is focused and this screen is currently opened
   const isFocused = useIsFocused();
@@ -161,7 +165,7 @@ function ScanScreen({ navigation }: { navigation: ScanScreenNavigationProp }) {
   //     </View>
   //   );
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingBottom: Platform.OS === 'android' ? Math.max(insets.bottom, 24) : 24 }]}>
       <BindingSteps currentStep={1} />
       <View style={styles.mainContainer}>
         <View style={styles.header}>

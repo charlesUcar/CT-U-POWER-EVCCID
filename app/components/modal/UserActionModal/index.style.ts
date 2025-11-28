@@ -10,7 +10,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    padding: 20,
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    // paddingBottom 現在由動態計算決定（在組件中設定）
   },
   versionBox: {
     position: 'absolute',

@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     paddingTop: 8,
-    paddingBottom: 24,
+    // paddingBottom 現在由動態計算決定（在組件中設定）
     // width: "100%",
     // backgroundColor: "red",
     pointerEvents: 'box-none',
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 16,
     paddingTop: 8,
-    paddingBottom: 24,
+    // paddingBottom 現在由動態計算決定（在組件中設定）
     // width: "100%",
     // backgroundColor: "red",
     pointerEvents: 'box-none',

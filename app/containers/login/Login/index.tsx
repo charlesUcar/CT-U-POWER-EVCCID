@@ -77,7 +77,7 @@ function LoginScreen({
         Toast.show({
           type: 'customSuccess',
           text1: '登入成功',
-          position: 'bottom',
+          position: 'top',
         });
         navigation.replace('Home');
       } else {

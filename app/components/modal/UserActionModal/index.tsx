@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import styles from './index.style';
 import { endpoints } from '../../../services/Api/config';
 
@@ -18,6 +19,9 @@ function UserActionModal({
   onNavigateToChangePassword,
   onLogout,
 }: UserActionModalProps) {
+  // 獲取安全區域的 insets，用於處理導航列遮擋問題
+  const insets = useSafeAreaInsets();
+
   const handleChangePassword = () => {
     onClose();
     onNavigateToChangePassword();
@@ -41,7 +45,10 @@ function UserActionModal({
         onPress={onClose}
       >
         <View
-          style={styles.modalContent}
+          style={[
+            styles.modalContent,
+            { paddingBottom: Math.max(insets.bottom, 20) }
+          ]}
           onStartShouldSetResponder={() => true}
         >
           <View style={styles.userNameBox}>

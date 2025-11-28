@@ -18,12 +18,15 @@ export const getLocalToken = async () => {
   try {
     const token = await AsyncStorage.getItem('token');
     if (token) {
-      console.log('Token found:', token);
+      console.log('Token found');
       // 檢查有無過期
       if (checkTokenValid(token)) {
         setUserApiToken(token);
+        console.log('Token is valid');
+
         return true;
       } else {
+        console.log('Token is invalid');
         return false;
       }
     } else {

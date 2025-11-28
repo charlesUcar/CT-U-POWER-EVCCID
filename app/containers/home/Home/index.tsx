@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import * as XLSX from 'xlsx';
 import Loading from '../../../components/animate/Loading';
@@ -57,6 +58,9 @@ function HomeScreen({ navigation, route }) {
 
   // 全域的provider
   const { setGlobalBackgroundColor } = useContext(AppContext);
+
+  // 獲取安全區域的 insets，用於處理導航列遮擋問題
+  const insets = useSafeAreaInsets();
 
   const setListTimeRange = ({
     startTime,
@@ -441,7 +445,15 @@ function HomeScreen({ navigation, route }) {
           </View>
         </TouchableOpacity>
       </View> */}
-      <View style={styles.createActionArea}>
+      <View
+        style={[
+          styles.createActionArea,
+          {
+            paddingBottom:
+              Platform.OS === 'android' ? Math.max(insets.bottom + 12, 24) : 24,
+          },
+        ]}
+      >
         <TouchableOpacity
           style={styles.createActionBtnBox}
           onPress={() => {
@@ -454,7 +466,15 @@ function HomeScreen({ navigation, route }) {
           </View>
         </TouchableOpacity>
       </View>
-      <View style={styles.userActionArea}>
+      <View
+        style={[
+          styles.userActionArea,
+          {
+            paddingBottom:
+              Platform.OS === 'android' ? Math.max(insets.bottom + 12, 24) : 24,
+          },
+        ]}
+      >
         <TouchableOpacity
           style={styles.createActionBtnBox}
           onPress={() => {
