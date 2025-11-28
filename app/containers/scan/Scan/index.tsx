@@ -74,8 +74,8 @@ function ScanScreen({ navigation }: { navigation: ScanScreenNavigationProp }) {
       // 更新連續掃描數組
       setConsecutiveScans((prev) => {
         const newScans = [...prev, currentValue];
-        // 只保留最後3次的掃描結果
-        if (newScans.length > 2) {
+        // 只保留最後5次的掃描結果
+        if (newScans.length > 5) {
           newScans.shift();
         }
         return newScans;
@@ -83,7 +83,7 @@ function ScanScreen({ navigation }: { navigation: ScanScreenNavigationProp }) {
       console.log('consecutiveScans', consecutiveScans);
 
       if (
-        consecutiveScans.length === 2 &&
+        consecutiveScans.length === 5 &&
         consecutiveScans.every((scan) => scan === currentValue) &&
         isActive &&
         isValidVin(currentValue)
