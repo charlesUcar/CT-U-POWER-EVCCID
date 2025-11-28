@@ -13,7 +13,7 @@ export default {
     : IS_STAGING
     ? 'u-power-evccid-staging'
     : 'u-power-evccid',
-  version: '1.4.2',
+  version: '1.4.3',
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'light',
@@ -33,7 +33,7 @@ export default {
       : IS_STAGING
       ? 'com.upower.evccid.staging'
       : 'com.upower.evccid',
-    buildNumber: '1.4.2',
+    buildNumber: '1.4.3',
     googleServicesFile: './GoogleService-Info.plist',
   },
   android: {

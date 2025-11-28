@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.4.3] -2025-11-28
+
+### Added
+
+- 修復 Android 版本導航列遮擋問題
+- 增加相機模組掃描準確度(5 次同結果才會通行)
+
 ## [1.4.2] -2025-11-05
 
 ### Added
