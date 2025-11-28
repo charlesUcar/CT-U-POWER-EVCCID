@@ -8,6 +8,7 @@ on:
       - 'package.json'
       - 'app.config.js'
       - 'CHANGELOG.md'
+  workflow_dispatch:  # 允許手動觸發
 
 jobs:
   create-release:
